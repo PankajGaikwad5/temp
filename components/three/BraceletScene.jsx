@@ -1,7 +1,11 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
-import { Environment, ContactShadows, PerspectiveCamera } from '@react-three/drei';
+import {
+  Environment,
+  ContactShadows,
+  PerspectiveCamera,
+} from '@react-three/drei';
 import BraceletModel from './BraceletModel';
 
 export default function BraceletScene({ rotation, className = '' }) {
@@ -10,10 +14,10 @@ export default function BraceletScene({ rotation, className = '' }) {
       <Canvas
         shadows
         dpr={[1, 2]}
-        gl={{ 
+        gl={{
           antialias: true,
           alpha: true,
-          powerPreference: "high-performance"
+          powerPreference: 'high-performance',
         }}
       >
         <PerspectiveCamera
@@ -23,7 +27,7 @@ export default function BraceletScene({ rotation, className = '' }) {
           near={0.1}
           far={1000}
         />
-        
+
         {/* Lighting setup */}
         <ambientLight intensity={0.4} />
         <directionalLight
@@ -34,13 +38,13 @@ export default function BraceletScene({ rotation, className = '' }) {
           shadow-mapSize-height={2048}
         />
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
-        
+
         {/* Environment for reflections */}
-        <Environment preset="studio" />
-        
+        <Environment files={'./studio_small_09_4k.hdr'} />
+
         {/* The bracelet model */}
         <BraceletModel rotation={rotation} />
-        
+
         {/* Ground shadow */}
         <ContactShadows
           position={[0, -3, 0]}
