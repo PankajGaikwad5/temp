@@ -43,6 +43,7 @@ export default function BraceletModel({
     <group
       ref={groupRef}
       position={position}
+      scale={0.8}
       rotation={[
         THREE.MathUtils.degToRad(rotation[0]),
         THREE.MathUtils.degToRad(rotation[1]),

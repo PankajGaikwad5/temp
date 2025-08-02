@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import BraceletScene from '../../components/three/BraceletScene';
 import ScrollSection from '../../components/ScrollSection';
+import Image from 'next/image';
 
 export default function BraceletPage() {
   const { scrollYProgress } = useScroll();
@@ -34,7 +35,10 @@ export default function BraceletPage() {
   }, [rotationX, rotationY, rotationZ]);
 
   return (
-    <div className='min-h-screen  bg-white'>
+    <div className='min-h-screen  bg-white relative'>
+      <div className='fixed top-0 left-0 flex justify-center w-full mt-4 items-center '>
+        <Image src='./logo.png' width={250} height={250} />
+      </div>
       {/* Fixed 3D Scene */}
       <div className='fixed inset-0 z-10 pointer-events-none'>
         <BraceletScene rotation={rotation} />
@@ -80,9 +84,7 @@ export default function BraceletPage() {
           <ScrollSection className='text-center max-w-4xl' delay={0}>
             <div className='  p-12 rounded-3xl '>
               <h2 className='text-5xl lg:text-7xl font-bold text-[#722F37] mb-8 leading-tight'>
-                <span className='text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500'>
-                  Exquisite
-                </span>
+                <span className=''>Exquisite</span>
                 <br />
                 Craftsmanship
               </h2>
@@ -161,10 +163,8 @@ export default function BraceletPage() {
         <section className='min-h-screen flex items-center justify-center px-8 lg:px-16'>
           <ScrollSection className='text-center max-w-4xl' delay={0}>
             <div className='  p-12 rounded-3xl '>
-              <h2 className='text-6xl lg:text-8xl font-bold text-white mb-8 leading-tight'>
-                <span className='text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500'>
-                  Own
-                </span>
+              <h2 className='text-6xl lg:text-8xl font-bold text-[#722f37] mb-8 leading-tight'>
+                <span className=''>Own</span>
                 <br />
                 <span className='text-4xl lg:text-5xl'>The Extraordinary</span>
               </h2>
