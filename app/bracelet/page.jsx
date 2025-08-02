@@ -34,7 +34,7 @@ export default function BraceletPage() {
   }, [rotationX, rotationY, rotationZ]);
 
   return (
-    <div className='min-h-screen bg-gradient-to-br bg-[#f0ead6]'>
+    <div className='min-h-screen  bg-white'>
       {/* Fixed 3D Scene */}
       <div className='fixed inset-0 z-10 pointer-events-none'>
         <BraceletScene rotation={rotation} />
@@ -99,9 +99,7 @@ export default function BraceletPage() {
           <ScrollSection className='w-1/3 max-w-md' delay={0}>
             <div className='  p-8 rounded-2xl '>
               <h3 className='text-3xl font-bold text-[#722F37] mb-6'>
-                <span className='text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500'>
-                  Sustainable
-                </span>
+                <span className=''>Sustainable</span>
                 <br />
                 Luxury
               </h3>
@@ -131,9 +129,7 @@ export default function BraceletPage() {
           <ScrollSection className='w-1/3 max-w-md' delay={0.2}>
             <div className='  p-8 rounded-2xl '>
               <h3 className='text-3xl font-bold text-[#722F37] mb-6'>
-                <span className='text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-pink-500'>
-                  Lifetime
-                </span>
+                <span className=''>Lifetime</span>
                 <br />
                 Guarantee
               </h3>
