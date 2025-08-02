@@ -35,9 +35,9 @@ export default function BraceletPage() {
   }, [rotationX, rotationY, rotationZ]);
 
   return (
-    <div className='min-h-screen  bg-white relative'>
+    <div className='min-h-screen  bg-[#eeeeee] relative'>
       <div className='fixed top-0 left-0 flex justify-center w-full mt-4 items-center '>
-        <Image src='./logo.png' width={250} height={250} />
+        <Image src='./logo.png' width={200} height={200} />
       </div>
       {/* Fixed 3D Scene */}
       <div className='fixed inset-0 z-10 pointer-events-none'>
