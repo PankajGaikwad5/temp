@@ -48,9 +48,7 @@ export default function BraceletPage() {
             <div className='  p-8 rounded-2xl '>
               <h1 className='text-4xl lg:text-6xl font-bold text-[#722F37] mb-6 leading-tight'>
                 Elegant
-                <span className='block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500'>
-                  Luxury
-                </span>
+                <span className='block '>Luxury</span>
               </h1>
               {/* <p className='text-lg text-[#722F37] leading-relaxed'>
                 Crafted with precision and adorned with the finest materials,
