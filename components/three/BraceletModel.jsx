@@ -6,7 +6,7 @@ import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 export default function BraceletModel({
-  modelPath = '/model.glb', // path to your .glb file
+  modelPath = '/model6.glb', // path to your .glb file
   rotation,
   position = [0, 0, 0],
 }) {
@@ -27,17 +27,17 @@ export default function BraceletModel({
     }
   }, [scene]);
 
-  useFrame((_, delta) => {
-    if (groupRef.current) {
-      // Floating animation
-      floatOffset.current += delta * 2;
-      groupRef.current.position.y =
-        position[1] + Math.sin(floatOffset.current) * 0.2;
+  // useFrame((_, delta) => {
+  //   if (groupRef.current) {
+  //     // Floating animation
+  //     floatOffset.current += delta * 2;
+  //     groupRef.current.position.y =
+  //       position[1] + Math.sin(floatOffset.current) * 0.2;
 
-      // Subtle rotation animation
-      groupRef.current.rotation.y += delta * 0.1;
-    }
-  });
+  //     // Subtle rotation animation
+  //     groupRef.current.rotation.y += delta * 0.1;
+  //   }
+  // });
 
   return (
     <group
