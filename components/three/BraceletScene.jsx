@@ -40,8 +40,8 @@ export default function BraceletScene({ rotation, className = '' }) {
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
 
         {/* Environment for reflections */}
-        {/* <Environment files={'./studio_small_09_4k.hdr'} /> */}
-        <Environment files={'./startup.hdr'} />
+        <Environment files={'./studio_small_09_4k.hdr'} />
+        {/* <Environment files={'./startup.hdr'} /> */}
 
         {/* The bracelet model */}
         <BraceletModel rotation={rotation} />
