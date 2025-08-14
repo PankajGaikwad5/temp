@@ -6,7 +6,7 @@ import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 export default function BraceletModel({
-  modelPath = '/input.glb', // path to your .glb file
+  modelPath = '/bracelet.glb', // path to your .glb file
   rotation,
   position = [0, 0, 0],
 }) {
