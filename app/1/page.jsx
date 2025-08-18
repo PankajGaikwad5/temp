@@ -10,21 +10,21 @@ export default function HomePage() {
   const models = useMemo(
     () => [
       {
-        name: 'Wassup Nigga',
+        name: 'Bracelets',
         subtitle: 'asjgdghd',
         description:
           'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem quae sed maxime ducimus dicta  inventore.',
         path: '/bracelet.glb',
       },
       {
-        name: 'Niegga',
+        name: 'Rings',
         subtitle: 'kdsjfhsf',
         description:
           'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem quae sed maxime ducimus dicta  inventore.',
         path: '/ring.glb',
       },
       {
-        name: 'Bruh',
+        name: 'Pendants',
         subtitle: 'fkjdsbafj',
         description:
           'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem quae sed maxime ducimus dicta  inventore.',
