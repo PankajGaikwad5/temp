@@ -28,7 +28,7 @@ export default function HomePage() {
         subtitle: 'fkjdsbafj',
         description:
           'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem quae sed maxime ducimus dicta  inventore.',
-        path: '/ring2.glb',
+        path: '/pendant.glb',
       },
     ],
     []
