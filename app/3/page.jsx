@@ -48,7 +48,15 @@ export default function JewelryCarousel() {
       <Canvas camera={{ position: [0, 0.5, 10], fov: 45 }}>
         <ambientLight intensity={0.7} />
         <directionalLight position={[5, 5, 5]} intensity={1.2} />
-        <OrbitControls enableZoom={false} enablePan={false} />
+
+        {/* Orbit controls with zoom enabled */}
+        <OrbitControls
+          enablePan={false}
+          enableZoom={true}
+          minDistance={5}
+          maxDistance={15}
+        />
+
         <Environment files={'./final.hdr'} />
 
         {models.map((m, i) => {
