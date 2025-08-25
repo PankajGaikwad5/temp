@@ -45,7 +45,7 @@ export default function JewelryCarousel() {
   return (
     <div className='relative h-screen w-full bg-black text-white'>
       {/* 3D Canvas */}
-      <Canvas camera={{ position: [0, 1.5, 8], fov: 45 }}>
+      <Canvas camera={{ position: [0, 0.5, 8], fov: 45 }}>
         <ambientLight intensity={0.7} />
         <directionalLight position={[5, 5, 5]} intensity={1.2} />
         <OrbitControls enableZoom={false} enablePan={false} />
