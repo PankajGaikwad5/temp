@@ -37,7 +37,7 @@ export default function HomePage() {
   const [frontIndex, setFrontIndex] = useState(0);
 
   return (
-    <main className='relative min-h-screen bg-[#eeeeee]'>
+    <main className='relative min-h-screen max-h-screen overflow-hidden bg-[#eeeeee]'>
       {/* 3D Scene */}
       <div className='fixed inset-0 z-10'>
         <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
@@ -55,7 +55,7 @@ export default function HomePage() {
 
       {/* Overlay UI */}
       <div className='relative z-20 pointer-events-none'>
-        <section className='min-h-screen flex items-end justify-center p-6 sm:p-10'>
+        <section className='min-h-screen max-h-screen overflow-hidden flex items-end justify-center p-6 sm:p-10'>
           <OverlayInfo
             key={frontIndex}
             item={models[frontIndex]}
