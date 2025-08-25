@@ -18,9 +18,9 @@ function JewelryModel({ url, position, isActive }) {
       // Scale up the active model
       ref.current.scale.lerp(
         new THREE.Vector3(
-          isActive ? 0.6 : 0.4,
-          isActive ? 0.6 : 0.4,
-          isActive ? 0.6 : 0.4
+          isActive ? 0.4 : 0.2,
+          isActive ? 0.4 : 0.2,
+          isActive ? 0.4 : 0.2
         ),
         0.1
       );
@@ -32,7 +32,7 @@ function JewelryModel({ url, position, isActive }) {
 
 export default function JewelryCarousel() {
   const models = [
-    { url: '/bracelet.glb', name: 'Bracelet' },
+    { url: '/bracelet3.glb', name: 'Bracelet' },
     { url: '/pendant.glb', name: 'Pendant' },
     { url: '/ring.glb', name: 'Ring' },
   ];
@@ -45,7 +45,7 @@ export default function JewelryCarousel() {
   return (
     <div className='relative h-screen w-full bg-black text-white'>
       {/* 3D Canvas */}
-      <Canvas camera={{ position: [0, 0.8, 8], fov: 45 }}>
+      <Canvas camera={{ position: [0, 0.5, 10], fov: 45 }}>
         <ambientLight intensity={0.7} />
         <directionalLight position={[5, 5, 5]} intensity={1.2} />
         <OrbitControls enableZoom={false} enablePan={false} />
