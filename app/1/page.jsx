@@ -4,6 +4,8 @@ import ModelCarouselScene from '@/components/ModelCarouselScene';
 import OverlayInfo from '@/components/OverlayInfo';
 import { useState, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
+import FloatingAstronauts from '../../components/FloatingModel';
+import { Poppins, Montserrat } from 'next/font/google';
 
 export default function HomePage() {
   // Provide data for each model (name, copy, and model path)
@@ -50,6 +52,14 @@ export default function HomePage() {
             bounceSpeed={1.2}
             radius={4.2}
           />
+          {/* Add the floating models */}
+          {/* <group name='background-layer'>
+            <FloatingAstronauts
+              astronautModelPath='/yoda.glb'
+              count={200}
+              scale={0.06}
+            />
+          </group> */}
         </Canvas>
       </div>
 
