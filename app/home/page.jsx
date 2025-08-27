@@ -1,0 +1,86 @@
+'use client';
+
+import ModelCarouselScene from '@/components/ModelCarouselScene';
+import OverlayInfo from '@/components/OverlayInfo';
+import { useState, useMemo } from 'react';
+import { Canvas } from '@react-three/fiber';
+import FloatingAstronauts from '../../components/FloatingModel';
+import { Poppins, Montserrat } from 'next/font/google';
+import Image from 'next/image';
+
+export default function HomePage() {
+  // Provide data for each model (name, copy, and model path)
+  const models = useMemo(
+    () => [
+      {
+        name: 'Bracelets',
+        subtitle: 'asjgdghd',
+        description:
+          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem quae sed maxime ducimus dicta  inventore.',
+        path: '/bracelet.glb',
+      },
+      {
+        name: 'Rings',
+        subtitle: 'kdsjfhsf',
+        description:
+          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem quae sed maxime ducimus dicta  inventore.',
+        path: '/ring.glb',
+      },
+      {
+        name: 'Pendants',
+        subtitle: 'fkjdsbafj',
+        description:
+          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem quae sed maxime ducimus dicta  inventore.',
+        path: '/pendant.glb',
+      },
+    ],
+    []
+  );
+
+  const [frontIndex, setFrontIndex] = useState(0);
+
+  return (
+    <main className='relative min-h-screen max-h-screen overflow-hidden bg-[#eeeeee]'>
+      {/* 3D Scene */}
+      <div className='w-full flex justify-center items-center pt-12'>
+        <Image src='./logo4.png' width={200} height={200} />
+      </div>
+      <div className='fixed inset-0 z-10'>
+        <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+          <ModelCarouselScene
+            models={models}
+            onFrontChange={(idx) => setFrontIndex(idx)}
+            // tune durations/feel here if you like:
+            autoAdvanceInterval={4500}
+            bounceAmplitude={0.12}
+            bounceSpeed={1.2}
+            radius={4.2}
+          />
+          {/* Add the floating models */}
+          {/* <group name='background-layer'>
+            <FloatingAstronauts
+              astronautModelPath='/yoda.glb'
+              count={200}
+              scale={0.06}
+            />
+          </group> */}
+        </Canvas>
+      </div>
+
+      {/* Overlay UI */}
+      <div className='relative z-20 pointer-events-none'>
+        <section className='min-h-screen max-h-screen overflow-hidden flex items-end justify-center p-6 sm:p-10'>
+          <OverlayInfo
+            key={frontIndex}
+            item={models[frontIndex]}
+            index={frontIndex}
+            total={models.length}
+          />
+        </section>
+
+        {/* Spacer so you can scroll if needed (optional) */}
+        <div className='h-[30vh]' />
+      </div>
+    </main>
+  );
+}

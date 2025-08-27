@@ -5,6 +5,7 @@ import {
   Environment,
   PerspectiveCamera,
   ContactShadows,
+  OrbitControls,
 } from '@react-three/drei';
 import { useRef, useEffect, useMemo, useState } from 'react';
 import ThreeModel from './ThreeModel';
@@ -199,6 +200,7 @@ export default function ModelCarouselScene({
       <ambientLight intensity={0.45} />
       <directionalLight position={[6, 10, 6]} intensity={0.95} castShadow />
       <Environment files='/final.hdr' />
+      <OrbitControls />
 
       <group ref={groupRef}>
         {models.map((m, i) => (
