@@ -147,27 +147,27 @@ export default function ModelCarouselScene({
   }, [baseAngles]);
 
   // Optional: wheel (scroll) rotates and then snaps after a short debounce
-  useEffect(() => {
-    const onWheel = (e) => {
-      if (!groupRef.current) return;
-      // Rotate proportionally to wheel delta
-      groupRef.current.rotation.y += e.deltaY * 0.002;
-      lastInteractAtRef.current = performance.now();
-      targetAngleRef.current = null; // cancel any ongoing snap while user scrolls
+  // useEffect(() => {
+  //   const onWheel = (e) => {
+  //     if (!groupRef.current) return;
+  //     // Rotate proportionally to wheel delta
+  //     groupRef.current.rotation.y += e.deltaY * 0.002;
+  //     lastInteractAtRef.current = performance.now();
+  //     targetAngleRef.current = null; // cancel any ongoing snap while user scrolls
 
-      // Debounce → snap shortly after scrolling stops
-      if (wheelSnapTimerRef.current) clearTimeout(wheelSnapTimerRef.current);
-      wheelSnapTimerRef.current = setTimeout(() => {
-        snapToNearest();
-      }, 180);
-    };
+  //     // Debounce → snap shortly after scrolling stops
+  //     if (wheelSnapTimerRef.current) clearTimeout(wheelSnapTimerRef.current);
+  //     wheelSnapTimerRef.current = setTimeout(() => {
+  //       snapToNearest();
+  //     }, 180);
+  //   };
 
-    window.addEventListener('wheel', onWheel, { passive: true });
-    return () => {
-      window.removeEventListener('wheel', onWheel);
-      if (wheelSnapTimerRef.current) clearTimeout(wheelSnapTimerRef.current);
-    };
-  }, []);
+  //   window.addEventListener('wheel', onWheel, { passive: true });
+  //   return () => {
+  //     window.removeEventListener('wheel', onWheel);
+  //     if (wheelSnapTimerRef.current) clearTimeout(wheelSnapTimerRef.current);
+  //   };
+  // }, []);
 
   // Animate snapping & update "front" text
   useFrame((_, dt) => {
