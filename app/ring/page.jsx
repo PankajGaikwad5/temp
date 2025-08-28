@@ -5,6 +5,7 @@ import {
   ContactShadows,
   PerspectiveCamera,
   OrbitControls,
+  TrackballControls,
 } from '@react-three/drei';
 // import BraceletModel from './BraceletModel';
 import { useState, useEffect } from 'react';
@@ -90,11 +91,16 @@ export default function Page() {
           <Environment files={'./final.hdr'} />
           {/* <Environment files={'./studio_small_05_4k.hdr'} /> */}
           {/* <Environment files={'./startup.hdr'} /> */}
-          <OrbitControls />
-
+          {/* <OrbitControls />
+           */}
+          <TrackballControls
+            rotateSpeed={3}
+            zoomSpeed={2}
+            panSpeed={1}
+            staticMoving={true}
+          />
           {/* The bracelet model */}
           <BraceletModel />
-
           {/* Ground shadow */}
           <ContactShadows
             position={[0, -3, 0]}
