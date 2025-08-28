@@ -54,10 +54,10 @@ function BraceletModel({
   return <group ref={groupRef} position={position} scale={0.8} />;
 }
 
-export default function Page({ rotation, className = '' }) {
+export default function Page() {
   return (
     <div className='min-h-screen h-screen w-full bg-[#eeeeee] relative'>
-      <div className={`w-full h-full ${className}`}>
+      <div className={`w-full h-full `}>
         <Canvas
           shadows
           dpr={[1, 2]}
@@ -93,7 +93,7 @@ export default function Page({ rotation, className = '' }) {
           <OrbitControls />
 
           {/* The bracelet model */}
-          <BraceletModel rotation={rotation} />
+          <BraceletModel />
 
           {/* Ground shadow */}
           <ContactShadows
