@@ -54,7 +54,7 @@ function BraceletModel({
   return <group ref={groupRef} position={position} scale={0.8} />;
 }
 
-export default function BraceletPage({ rotation, className = '' }) {
+export default function Page({ rotation, className = '' }) {
   return (
     <div className='min-h-screen h-screen w-full bg-[#eeeeee] relative'>
       <div className={`w-full h-full ${className}`}>
