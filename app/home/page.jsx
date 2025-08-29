@@ -4,33 +4,34 @@ import ModelCarouselScene from '@/components/ModelCarouselScene';
 import OverlayInfo from '@/components/OverlayInfo';
 import { useState, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
-import FloatingAstronauts from '../../components/FloatingModel';
-import { Poppins, Montserrat } from 'next/font/google';
 import Image from 'next/image';
+import { Poppins, Montserrat } from 'next/font/google';
+
+const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
+const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600'] });
 
 export default function HomePage() {
-  // Provide data for each model (name, copy, and model path)
   const models = useMemo(
     () => [
       {
         name: 'Bracelets',
-        subtitle: 'asjgdghd',
+        subtitle: 'Elegance on your wrist',
         description:
-          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem quae sed maxime ducimus dicta  inventore.',
+          'Crafted with precision and passion, our bracelets are timeless pieces that define your elegance.',
         path: '/bracelet.glb',
       },
       {
         name: 'Rings',
-        subtitle: 'kdsjfhsf',
+        subtitle: 'A circle of sophistication',
         description:
-          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem quae sed maxime ducimus dicta  inventore.',
+          'From subtle bands to bold statements, our rings celebrate every story and style.',
         path: '/ring.glb',
       },
       {
         name: 'Pendants',
-        subtitle: 'fkjdsbafj',
+        subtitle: 'Where detail meets desire',
         description:
-          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem quae sed maxime ducimus dicta  inventore.',
+          'Pendants that speak your soul—delicate, unique, and perfectly you.',
         path: '/pendant.glb',
       },
     ],
@@ -40,47 +41,73 @@ export default function HomePage() {
   const [frontIndex, setFrontIndex] = useState(0);
 
   return (
-    <main className='relative min-h-screen max-h-screen overflow-hidden bg-[#eeeeee]'>
-      {/* 3D Scene */}
-      <div className='w-full flex justify-center items-center pt-12'>
-        <Image src='./logo4.png' width={200} height={200} />
-      </div>
-      <div className='fixed inset-0 z-10'>
-        <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+    <main className='relative min-h-screen w-full bg-gradient-to-b from-[#f7f5f2] to-[#e9e6e0] overflow-hidden text-gray-900'>
+      {/* Header */}
+      <header className='fixed top-0 left-0 w-full z-50 bg-white/20 backdrop-blur-lg border-b border-white/30 px-8 py-5 flex items-center justify-between'>
+        <div className='flex items-center gap-5'>
+          <Image src='/logo4.png' alt='The Vault Logo' width={70} height={70} />
+          <h1
+            className={`${poppins.className} text-2xl font-bold tracking-wide text-[#5a4631]`}
+          >
+            The Vault{' '}
+            <span className='font-light text-gray-700'>by Karan Desai</span>
+          </h1>
+        </div>
+        <nav
+          className={`${montserrat.className} hidden md:flex gap-12 text-sm text-gray-600 tracking-wide`}
+        >
+          <a href='#bracelets' className='hover:text-[#5a4631] transition'>
+            Bracelets
+          </a>
+          <a href='#rings' className='hover:text-[#5a4631] transition'>
+            Rings
+          </a>
+          <a href='#pendants' className='hover:text-[#5a4631] transition'>
+            Pendants
+          </a>
+        </nav>
+      </header>
+      <div className='h-[88px]' /> {/* header spacer */}
+      {/* Fullscreen 3D Carousel */}
+      <section className='relative w-full h-[calc(100vh-88px)] '>
+        <Canvas
+          camera={{ position: [0, 0, 6], fov: 45 }}
+          style={{ width: '100%', height: '100%' }}
+        >
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[5, 5, 5]} intensity={0.8} />
           <ModelCarouselScene
             models={models}
-            onFrontChange={(idx) => setFrontIndex(idx)}
-            // tune durations/feel here if you like:
-            autoAdvanceInterval={4500}
-            bounceAmplitude={0.12}
-            bounceSpeed={1.2}
-            radius={4.2}
+            onFrontChange={setFrontIndex}
+            autoAdvanceInterval={5000}
+            bounceAmplitude={0.15}
+            bounceSpeed={1.3}
+            radius={5}
           />
-          {/* Add the floating models */}
-          {/* <group name='background-layer'>
-            <FloatingAstronauts
-              astronautModelPath='/yoda.glb'
-              count={200}
-              scale={0.06}
-            />
-          </group> */}
         </Canvas>
-      </div>
 
-      {/* Overlay UI */}
-      <div className='relative z-20 pointer-events-none'>
-        <section className='min-h-screen max-h-screen overflow-hidden flex items-end justify-center p-6 sm:p-10'>
-          <OverlayInfo
-            key={frontIndex}
-            item={models[frontIndex]}
-            index={frontIndex}
-            total={models.length}
-          />
-        </section>
-
-        {/* Spacer so you can scroll if needed (optional) */}
-        <div className='h-[30vh]' />
-      </div>
+        {/* Overlay Info - bottom-left, subtle but readable */}
+        <div className='absolute bottom-10 left-10 bg-white/90 backdrop-blur-md rounded-lg px-8 py-6 max-w-lg shadow-lg'>
+          <h2
+            className={`${montserrat.className} text-3xl font-semibold text-[#5a4631] mb-1`}
+          >
+            {models[frontIndex].name}
+          </h2>
+          <h3
+            className={`${poppins.className} text-md font-medium text-[#7c6a4b] mb-4`}
+          >
+            {models[frontIndex].subtitle}
+          </h3>
+          <p className={`${poppins.className} text-sm text-gray-700`}>
+            {models[frontIndex].description}
+          </p>
+        </div>
+      </section>
+      {/* Footer */}
+      <footer className='py-8 text-center absolute bottom-0 left-0 flex justify-center items-center w-full text-gray-600 text-sm select-none'>
+        &copy; {new Date().getFullYear()} The Vault by Karan Desai. All rights
+        reserved.
+      </footer>
     </main>
   );
 }

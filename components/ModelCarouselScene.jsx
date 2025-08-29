@@ -196,7 +196,7 @@ export default function ModelCarouselScene({
 
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={45} />
+      <PerspectiveCamera makeDefault position={[0, 0.2, 8]} fov={45} />
       <ambientLight intensity={0.45} />
       <directionalLight position={[6, 10, 6]} intensity={0.95} castShadow />
       <Environment files='/final.hdr' />
