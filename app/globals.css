@@ -44,6 +44,7 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -76,7 +77,90 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Aurora background */
+/* .aurora {
+  background: conic-gradient(from 180deg at 50% 50%, #fceabb, #f8b500, #cbb4d4, #e0c3fc, #fceabb);
+  animation: auroraMove 15s linear infinite;
+} */
+
+@keyframes auroraMove {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+/* Twinkle stars */
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+/* subtle vignette for light theme */
+.vignette {
+  background: radial-gradient(80% 60% at 50% 40%, rgba(0, 0, 0, 0.02), transparent 30%),
+    radial-gradient(50% 40% at 20% 80%, rgba(90, 70, 49, 0.01), transparent 30%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* watermark (very subtle) */
+.watermark {
+  opacity: 0.05;
+}
+
+/* small helpers (dots + buttons are inline-tailwind, but here's fallback) */
+
+.product-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.product-image img {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.1);
 }

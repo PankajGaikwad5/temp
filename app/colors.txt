@@ -1,0 +1,1 @@
+bg-gradient-to-r from-[#5a4631] to-[#d3b287] - gold gradient

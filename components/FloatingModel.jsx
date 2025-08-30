@@ -152,7 +152,7 @@ function FloatingAstronaut({ modelPath, scale = 0.05 }) {
 }
 
 export default function FloatingAstronauts({
-  astronautModelPath = '/astronaut.glb',
+  astronautModelPath = '/yoda.glb',
   count = 5,
   scale = 0.05,
 }) {

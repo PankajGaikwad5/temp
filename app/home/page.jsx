@@ -1,11 +1,11 @@
 'use client';
 
+import { useEffect, useRef, useState, useMemo } from 'react';
 import ModelCarouselScene from '@/components/ModelCarouselScene';
-import OverlayInfo from '@/components/OverlayInfo';
-import { useState, useMemo } from 'react';
-import { Canvas } from '@react-three/fiber';
+import FloatingAstronauts from '../../components/FloatingModel';
 import Image from 'next/image';
 import { Poppins, Montserrat } from 'next/font/google';
+import { Canvas } from '@react-three/fiber';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600'] });
@@ -19,6 +19,7 @@ export default function HomePage() {
         description:
           'Crafted with precision and passion, our bracelets are timeless pieces that define your elegance.',
         path: '/bracelet.glb',
+        link: '/products/bracelets',
       },
       {
         name: 'Rings',
@@ -26,6 +27,7 @@ export default function HomePage() {
         description:
           'From subtle bands to bold statements, our rings celebrate every story and style.',
         path: '/ring.glb',
+        link: '/products/rings',
       },
       {
         name: 'Pendants',
@@ -33,28 +35,72 @@ export default function HomePage() {
         description:
           'Pendants that speak your soul—delicate, unique, and perfectly you.',
         path: '/pendant.glb',
+        link: '/products/pendants',
       },
     ],
     []
   );
 
-  const [frontIndex, setFrontIndex] = useState(0);
+  // selectedIndex is the single source of truth for which model is front
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const lastInteractionRef = useRef(Date.now());
+
+  // Autoplay config
+  const AUTO_PLAY_DELAY = 3000; // ms after last interaction before autoplay resumes
+  const AUTO_PLAY_INTERVAL = 5000; // ms between auto advances
+
+  // Autoplay: parent drives selectedIndex
+  useEffect(() => {
+    const id = setInterval(() => {
+      const now = Date.now();
+      if (now - lastInteractionRef.current < AUTO_PLAY_DELAY) return;
+      setSelectedIndex((s) => (s + 1) % models.length);
+    }, AUTO_PLAY_INTERVAL);
+
+    return () => clearInterval(id);
+  }, [models.length]);
+
+  // Called by ModelCarouselScene when user drags & snaps (keeps parent synced)
+  const handleFrontChange = (idx) => {
+    // update parent selection and record interaction to pause autoplay briefly
+    lastInteractionRef.current = Date.now();
+    setSelectedIndex(idx);
+  };
+
+  // Controls click handlers (Prev / Next / Dots)
+  const goPrev = () => {
+    lastInteractionRef.current = Date.now();
+    setSelectedIndex((s) => (s - 1 + models.length) % models.length);
+  };
+  const goNext = () => {
+    lastInteractionRef.current = Date.now();
+    setSelectedIndex((s) => (s + 1) % models.length);
+  };
+  const goTo = (i) => {
+    lastInteractionRef.current = Date.now();
+    setSelectedIndex(i);
+  };
 
   return (
-    <main className='relative min-h-screen w-full bg-gradient-to-b from-[#f7f5f2] to-[#e9e6e0] overflow-hidden text-gray-900'>
+    <main className='relative min-h-screen w-full bg-[#eeeeee] overflow-hidden text-gray-900'>
       {/* Header */}
-      <header className='fixed top-0 left-0 w-full z-50 bg-white/20 backdrop-blur-lg border-b border-white/30 px-8 py-5 flex items-center justify-between'>
-        <div className='flex items-center gap-5'>
-          <Image src='/logo4.png' alt='The Vault Logo' width={70} height={70} />
-          <h1
-            className={`${poppins.className} text-2xl font-bold tracking-wide text-[#5a4631]`}
-          >
-            The Vault{' '}
-            <span className='font-light text-gray-700'>by Karan Desai</span>
-          </h1>
+      <header className='fixed top-4 left-0 w-full z-50 bg-transparent px-8 py-5 flex justify-between'>
+        <div className='flex opacity-0 items-center gap-4'>
+          <Image src='/logo4.png' alt='logo' width={64} height={64} />
+          <div>
+            <h1
+              className={`${poppins.className} text-xl font-bold text-[#5a4631]`}
+            >
+              The Vault
+            </h1>
+            <div className='text-xs text-gray-600'>by Karan Desai</div>
+          </div>
         </div>
+
+        <Image src='./logo4.png' width={400} height={400} alt='big logo' />
+
         <nav
-          className={`${montserrat.className} hidden md:flex gap-12 text-sm text-gray-600 tracking-wide`}
+          className={`${montserrat.className} hidden md:flex gap-10 text-sm text-gray-600`}
         >
           <a href='#bracelets' className='hover:text-[#5a4631] transition'>
             Bracelets
@@ -67,40 +113,132 @@ export default function HomePage() {
           </a>
         </nav>
       </header>
-      <div className='h-[88px]' /> {/* header spacer */}
-      {/* Fullscreen 3D Carousel */}
-      <section className='relative w-full h-[calc(100vh-88px)] '>
+      <div className='' /> {/* header spacer */}
+      {/* 3D Canvas */}
+      <section className='relative w-full h-screen '>
+        {/* <ModelCarouselScene
+          models={models}
+          onFrontChange={handleFrontChange}
+          selectedIndex={selectedIndex}
+          autoAdvanceInterval={5000}
+          bounceAmplitude={0.15}
+          bounceSpeed={1.3}
+          radius={5}
+        />
+        <Canvas className='w-full h-screen'>
+          <FloatingAstronauts
+            astronautModelPath='yoda.glb'
+            count={100}
+            scale={0.06}
+          />
+        </Canvas> */}
         <Canvas
           camera={{ position: [0, 0, 6], fov: 45 }}
           style={{ width: '100%', height: '100%' }}
         >
-          <ambientLight intensity={0.6} />
-          <directionalLight position={[5, 5, 5]} intensity={0.8} />
+          {' '}
           <ModelCarouselScene
             models={models}
-            onFrontChange={setFrontIndex}
+            onFrontChange={handleFrontChange}
+            selectedIndex={selectedIndex}
             autoAdvanceInterval={5000}
             bounceAmplitude={0.15}
             bounceSpeed={1.3}
             radius={5}
-          />
+          />{' '}
+          <FloatingAstronauts
+            astronautModelPath='yoda.glb'
+            count={100}
+            scale={0.06}
+          />{' '}
         </Canvas>
+        {/* Optional floating models/atmosphere inside Canvas are handled in ModelCarouselScene */}
+        {/* Info card (bottom-left) */}
+        <div className='absolute bottom-10 left-10 z-50'>
+          <div className='bg-white/95 backdrop-blur-sm rounded-3xl px-8 py-6 max-w-lg shadow-lg transform transition hover:-translate-y-1'>
+            <h2
+              className={`${montserrat.className} text-3xl font-semibold text-[#5a4631] mb-1`}
+            >
+              {models[selectedIndex].name}
+            </h2>
+            <h3
+              className={`${poppins.className} text-md font-medium text-[#7c6a4b] mb-4`}
+            >
+              {models[selectedIndex].subtitle}
+            </h3>
+            <p className={`${poppins.className} text-sm text-gray-700`}>
+              {models[selectedIndex].description}
+            </p>
+          </div>
+        </div>
 
-        {/* Overlay Info - bottom-left, subtle but readable */}
-        <div className='absolute bottom-10 left-10 bg-white/90 backdrop-blur-md rounded-lg px-8 py-6 max-w-lg shadow-lg'>
-          <h2
-            className={`${montserrat.className} text-3xl font-semibold text-[#5a4631] mb-1`}
+        {/* Controls (bottom-right) */}
+        <div className='absolute right-10 bottom-10 z-50 flex flex-col items-end gap-3'>
+          <div className='bg-white/95 rounded-2xl p-3 shadow-lg flex items-center gap-3'>
+            <button
+              aria-label='previous'
+              onClick={goPrev}
+              className='p-2 rounded-full hover:bg-gray-100 transition'
+            >
+              <svg
+                width='20'
+                height='20'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='#5a4631'
+                strokeWidth='2'
+              >
+                <path
+                  d='M15 18l-6-6 6-6'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                />
+              </svg>
+            </button>
+
+            <div className='flex items-center gap-2'>
+              {models.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => goTo(i)}
+                  className={`w-3 h-3 rounded-full transition-transform ${
+                    i === selectedIndex
+                      ? 'transform scale-110 bg-[#5a4631]'
+                      : 'bg-gray-300'
+                  }`}
+                  aria-label={`show ${i}`}
+                />
+              ))}
+            </div>
+
+            <button
+              aria-label='next'
+              onClick={goNext}
+              className='p-2 rounded-full hover:bg-gray-100 transition'
+            >
+              <svg
+                width='20'
+                height='20'
+                viewBox='0 0 24 24'
+                fill='none'
+                stroke='#5a4631'
+                strokeWidth='2'
+              >
+                <path
+                  d='M9 6l6 6-6 6'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                />
+              </svg>
+            </button>
+          </div>
+
+          <a
+            href={models[selectedIndex].link}
+            className='bg-[#5a4631] text-white rounded-full px-4 py-2 text-sm font-medium shadow-sm hover:opacity-95 transition'
           >
-            {models[frontIndex].name}
-          </h2>
-          <h3
-            className={`${poppins.className} text-md font-medium text-[#7c6a4b] mb-4`}
-          >
-            {models[frontIndex].subtitle}
-          </h3>
-          <p className={`${poppins.className} text-sm text-gray-700`}>
-            {models[frontIndex].description}
-          </p>
+            Shop {models[selectedIndex].name}
+          </a>
         </div>
       </section>
       {/* Footer */}

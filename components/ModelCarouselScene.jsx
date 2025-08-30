@@ -1,132 +1,126 @@
 'use client';
 
-import { useFrame } from '@react-three/fiber';
+import { useEffect, useRef, useMemo, useState } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import {
   Environment,
   PerspectiveCamera,
   ContactShadows,
   OrbitControls,
 } from '@react-three/drei';
-import { useRef, useEffect, useMemo, useState } from 'react';
+import * as THREE from 'three';
+import gsap from 'gsap';
 import ThreeModel from './ThreeModel';
+import { useRouter } from 'next/navigation';
 
-// Math helpers
+// Helpers
 const TAU = Math.PI * 2;
 const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 function damp(current, target, lambda, dt) {
   return current + (target - current) * (1 - Math.exp(-lambda * dt));
 }
-// Choose the 2π-equivalent of targetBase that is closest to `current`
 function nearestEquivalentAngle(current, targetBase) {
   const k = Math.round((current - targetBase) / TAU);
   return targetBase + k * TAU;
 }
 
-export default function ModelCarouselScene({
-  models = [],
-  onFrontChange = () => {},
-  radius = 1,
-  bounceAmplitude = 0.001,
-  bounceSpeed = 0.001,
-  autoAdvanceInterval = 5000, // snaps every 5s by default
-  snapDuration = 6, // higher = snappier (damping lambda)
-  pauseAfterInteractMs = 3000, // pause autoplay for a bit after user action
+function SceneInner({
+  models,
+  selectedIndex,
+  onFrontChange,
+  radius,
+  bounceAmplitude,
+  bounceSpeed,
+  snapDuration,
+  pauseAfterInteractMs,
 }) {
   const groupRef = useRef();
   const draggingRef = useRef(false);
   const lastXRef = useRef(0);
-  const targetAngleRef = useRef(null); // when snapping (auto or manual), holds target angle
+  const targetAngleRef = useRef(null);
   const lastInteractAtRef = useRef(0);
-  const wheelSnapTimerRef = useRef(null);
+  const torusRefs = useRef([]);
+  const router = useRouter();
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const { camera } = useThree();
+  const [currentIndex, setCurrentIndex] = useState(selectedIndex ?? 0);
 
-  // 3 models around a circle
+  // make baseAngles dynamic based on models length
   const baseAngles = useMemo(
-    () => [0, (2 * Math.PI) / 3, (4 * Math.PI) / 3],
-    []
+    () => models.map((_, i) => (i * 2 * Math.PI) / models.length),
+    [models.length]
   );
 
-  // Which is closest to front (angle ~ 0 after group rotation)
-  const detectFrontIndex = (groupRotY) => {
-    let best = 0;
-    let bestDist = Infinity;
-    for (let i = 0; i < baseAngles.length; i++) {
-      const dist = Math.abs(wrap(baseAngles[i] + groupRotY));
-      if (dist < bestDist) {
-        bestDist = dist;
-        best = i;
-      }
-    }
-    return best;
-  };
-
-  // Helper: snap current rotation to nearest model position
-  const snapToNearest = () => {
-    if (!groupRef.current) return;
-    const y = groupRef.current.rotation.y;
-
-    let bestTarget = null;
-    let bestDist = Infinity;
-
-    for (let i = 0; i < baseAngles.length; i++) {
-      const targetBase = -baseAngles[i]; // angle to bring model i to front
-      const candidate = nearestEquivalentAngle(y, targetBase);
-      const dist = Math.abs(wrap(candidate - y));
-      if (dist < bestDist) {
-        bestDist = dist;
-        bestTarget = candidate;
-      }
-    }
-
-    if (bestTarget !== null) {
-      targetAngleRef.current = bestTarget;
-    }
-  };
-
-  // Autoplay: every N ms, snap to the NEXT model (no continuous drift)
+  // GSAP camera intro (preserved)
   useEffect(() => {
-    const id = setInterval(() => {
-      const now = performance.now();
-      if (now - lastInteractAtRef.current < pauseAfterInteractMs) return;
-      if (!groupRef.current || draggingRef.current || models.length === 0)
-        return;
+    gsap.fromTo(
+      camera.position,
+      { z: 30, y: 5 },
+      { z: 8.5, y: 0.2, duration: 2.0, ease: 'power3.out' }
+    );
+  }, [camera]);
 
-      const y = groupRef.current.rotation.y;
-      const front = detectFrontIndex(y);
-      const nextIndex = (front + 1) % models.length;
+  // When parent updates selectedIndex, set target angle (parent is source of truth)
+  useEffect(() => {
+    if (selectedIndex === null || !groupRef.current) return;
+    const y = groupRef.current.rotation.y;
+    const targetBase =
+      -baseAngles[Math.max(0, Math.min(selectedIndex, models.length - 1))];
+    // choose nearest equivalent so rotation is smooth and continuous
+    const target = nearestEquivalentAngle(y, targetBase);
+    targetAngleRef.current = target;
+    lastInteractAtRef.current = performance.now();
+    // update internal currentIndex immediately to avoid flicker in UI
+    setCurrentIndex(selectedIndex);
+    // notify parent (if needed)
+    if (onFrontChange) onFrontChange(selectedIndex);
+  }, [selectedIndex, baseAngles, models.length, onFrontChange]);
 
-      const targetBase = -baseAngles[nextIndex];
-      const target = nearestEquivalentAngle(y, targetBase);
-      targetAngleRef.current = target;
-    }, autoAdvanceInterval);
-
-    return () => clearInterval(id);
-  }, [autoAdvanceInterval, baseAngles, models.length, pauseAfterInteractMs]);
-
-  // Pointer controls: free drag; on release → snap to nearest
+  // Pointer drag handlers (user can drag to rotate)
   useEffect(() => {
     const onDown = (e) => {
       draggingRef.current = true;
       lastXRef.current = 'touches' in e ? e.touches[0].clientX : e.clientX;
       lastInteractAtRef.current = performance.now();
-      targetAngleRef.current = null; // cancel any ongoing snap while dragging
+      targetAngleRef.current = null; // cancel auto snap while dragging
     };
-
     const onMove = (e) => {
       if (!draggingRef.current || !groupRef.current) return;
       const x = 'touches' in e ? e.touches[0].clientX : e.clientX;
       const deltaX = x - lastXRef.current;
       lastXRef.current = x;
-      groupRef.current.rotation.y += deltaX * 0.005; // free spin, no limits
+      // rotate group according to pointer delta
+      groupRef.current.rotation.y += deltaX * 0.005;
     };
-
     const onUp = () => {
-      if (!draggingRef.current) return;
+      if (!draggingRef.current || !groupRef.current) {
+        draggingRef.current = false;
+        return;
+      }
       draggingRef.current = false;
       lastInteractAtRef.current = performance.now();
-      // ✅ Snap to nearest after manual interaction ends
-      snapToNearest();
+
+      // Snap to nearest base angle
+      const y = groupRef.current.rotation.y;
+      let bestTarget = null;
+      let bestDist = Infinity;
+      let bestIdx = 0;
+      for (let i = 0; i < baseAngles.length; i++) {
+        const targetBase = -baseAngles[i];
+        const candidate = nearestEquivalentAngle(y, targetBase);
+        const dist = Math.abs(wrap(candidate - y));
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestTarget = candidate;
+          bestIdx = i;
+        }
+      }
+      if (bestTarget !== null) {
+        targetAngleRef.current = bestTarget;
+        // update parent with snapped index
+        setCurrentIndex(bestIdx);
+        if (onFrontChange) onFrontChange(bestIdx);
+      }
     };
 
     window.addEventListener('mousedown', onDown);
@@ -135,7 +129,6 @@ export default function ModelCarouselScene({
     window.addEventListener('touchstart', onDown, { passive: true });
     window.addEventListener('touchmove', onMove, { passive: true });
     window.addEventListener('touchend', onUp);
-
     return () => {
       window.removeEventListener('mousedown', onDown);
       window.removeEventListener('mousemove', onMove);
@@ -144,76 +137,70 @@ export default function ModelCarouselScene({
       window.removeEventListener('touchmove', onMove);
       window.removeEventListener('touchend', onUp);
     };
-  }, [baseAngles]);
+  }, [baseAngles, onFrontChange]);
 
-  // Optional: wheel (scroll) rotates and then snaps after a short debounce
-  // useEffect(() => {
-  //   const onWheel = (e) => {
-  //     if (!groupRef.current) return;
-  //     // Rotate proportionally to wheel delta
-  //     groupRef.current.rotation.y += e.deltaY * 0.002;
-  //     lastInteractAtRef.current = performance.now();
-  //     targetAngleRef.current = null; // cancel any ongoing snap while user scrolls
-
-  //     // Debounce → snap shortly after scrolling stops
-  //     if (wheelSnapTimerRef.current) clearTimeout(wheelSnapTimerRef.current);
-  //     wheelSnapTimerRef.current = setTimeout(() => {
-  //       snapToNearest();
-  //     }, 180);
-  //   };
-
-  //   window.addEventListener('wheel', onWheel, { passive: true });
-  //   return () => {
-  //     window.removeEventListener('wheel', onWheel);
-  //     if (wheelSnapTimerRef.current) clearTimeout(wheelSnapTimerRef.current);
-  //   };
-  // }, []);
-
-  // Animate snapping & update "front" text
+  // Autoplay inside scene is disabled — parent handles autoplay. (We only respect pauseAfterInteractMs for anything local)
+  // Animation loop: snapping and small torus rotation
   useFrame((_, dt) => {
     if (!groupRef.current) return;
 
-    // If we have a snap target (auto or manual), damp toward it
+    // Snapping animation if targetAngleRef is set
     if (typeof targetAngleRef.current === 'number') {
       const y = groupRef.current.rotation.y;
       const target = targetAngleRef.current;
       groupRef.current.rotation.y = damp(y, target, snapDuration, dt);
-
-      // close enough — finish snap
+      // finish snapping if close enough
       if (Math.abs(wrap(groupRef.current.rotation.y - target)) < 0.001) {
         groupRef.current.rotation.y = target;
         targetAngleRef.current = null;
       }
     }
 
-    // Update which model is front (affects overlay text)
-    const idx = detectFrontIndex(groupRef.current.rotation.y);
-    if (idx !== currentIndex) {
-      setCurrentIndex(idx);
-      onFrontChange(idx);
+    // rotate torus accents lightly if any (kept for future accents)
+    if (torusRefs.current && torusRefs.current.length) {
+      for (let i = 0; i < torusRefs.current.length; i++) {
+        const t = torusRefs.current[i];
+        if (t) {
+          t.rotation.z += dt * 0.2 * (0.6 + i * 0.1);
+        }
+      }
     }
   });
 
   return (
     <>
       <PerspectiveCamera makeDefault position={[0, 0.2, 8]} fov={45} />
+      {/* Lighting */}
       <ambientLight intensity={0.45} />
       <directionalLight position={[6, 10, 6]} intensity={0.95} castShadow />
       <Environment files='/final.hdr' />
-      <OrbitControls />
 
+      <OrbitControls enableRotate={false} enablePan={false} />
+
+      {/* group with models placed on a circle */}
       <group ref={groupRef}>
-        {models.map((m, i) => (
-          <ThreeModel
-            key={i}
-            modelPath={m.path}
-            baseAngle={baseAngles[i]}
-            radius={radius}
-            bounceAmplitude={bounceAmplitude}
-            bounceSpeed={bounceSpeed}
-            phaseOffset={i * 1.33}
-          />
-        ))}
+        {models.map((m, i) => {
+          const x = Math.sin(baseAngles[i]) * radius;
+          const z = Math.cos(baseAngles[i]) * radius;
+          const isActive = i === currentIndex;
+          return (
+            <group key={i} position={[x, 0, z]}>
+              <ThreeModel
+                modelPath={m.path}
+                baseAngle={baseAngles[i]}
+                radius={0.2}
+                bounceAmplitude={bounceAmplitude}
+                bounceSpeed={bounceSpeed}
+                phaseOffset={i * 1.33}
+                isActive={isActive}
+                onClick={() => {
+                  // user clicked model -> navigate (keep parent controlling which is front)
+                  if (m.link) router.push(m.link);
+                }}
+              />
+            </group>
+          );
+        })}
       </group>
 
       <ContactShadows
@@ -224,5 +211,38 @@ export default function ModelCarouselScene({
         far={4}
       />
     </>
+  );
+}
+
+export default function ModelCarouselScene({
+  models = [],
+  onFrontChange = () => {},
+  selectedIndex = 0,
+  radius = 1,
+  bounceAmplitude = 0.001,
+  bounceSpeed = 0.001,
+  autoAdvanceInterval = 5000,
+  snapDuration = 6,
+  pauseAfterInteractMs = 3000,
+}) {
+  // Render the Canvas and inner scene
+  return (
+    // <Canvas
+    //   camera={{ position: [0, 0, 6], fov: 45 }}
+    //   style={{ width: '100%', height: '100%' }}
+    // >
+    <group>
+      <SceneInner
+        models={models}
+        selectedIndex={selectedIndex}
+        onFrontChange={onFrontChange}
+        radius={radius}
+        bounceAmplitude={bounceAmplitude}
+        bounceSpeed={bounceSpeed}
+        snapDuration={snapDuration}
+        pauseAfterInteractMs={pauseAfterInteractMs}
+      />
+    </group>
+    // </Canvas>
   );
 }
