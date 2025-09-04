@@ -18,7 +18,7 @@ export default function HomePage() {
         subtitle: 'Elegance on your wrist',
         description:
           'Crafted with precision and passion, our bracelets are timeless pieces that define your elegance.',
-        path: '/bracelet.glb',
+        path: '/optimized/bracelet.glb',
         link: '/products/bracelets',
       },
       {
@@ -26,7 +26,7 @@ export default function HomePage() {
         subtitle: 'A circle of sophistication',
         description:
           'From subtle bands to bold statements, our rings celebrate every story and style.',
-        path: '/ring.glb',
+        path: '/optimized/ring.glb',
         link: '/products/rings',
       },
       {
@@ -34,7 +34,7 @@ export default function HomePage() {
         subtitle: 'Where detail meets desire',
         description:
           'Pendants that speak your soul—delicate, unique, and perfectly you.',
-        path: '/pendant.glb',
+        path: '/optimized/pendant.glb',
         link: '/products/pendants',
       },
     ],
@@ -147,7 +147,7 @@ export default function HomePage() {
             radius={5}
           />{' '}
           <FloatingAstronauts
-            astronautModelPath='yoda.glb'
+            astronautModelPath='optimizedyoda.glb'
             count={100}
             scale={0.06}
           />{' '}

@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@gltf-transform/core": "^4.2.1",
+    "@gltf-transform/extensions": "^4.2.1",
+    "@gltf-transform/functions": "^4.2.1",
     "@hookform/resolvers": "^3.9.0",
     "@next/font": "^14.2.15",
     "@next/swc-wasm-nodejs": "13.5.1",

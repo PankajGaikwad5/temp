@@ -14,16 +14,45 @@ const cormorant = Cormorant_Garamond({
 });
 
 const category = {
-  name: 'Bracelets',
+  name: 'Rings',
   description: 'Discover timeless elegance crafted by master artisans.',
 };
 
 const products = [
   {
     id: 1,
-    name: 'Golden Elegance Bracelet',
+    name: 'Ring 01 ',
+    price: '$99',
     description: 'A timeless piece of elegance.',
-    modelPath: '/optimized/bracelet.glb',
+    modelPath: '/rings/optimized1.glb', // Path to your 3D model
+  },
+  {
+    id: 2,
+    name: 'Ring 02 ',
+    price: '$99',
+    description: 'A timeless piece of elegance.',
+    modelPath: '/rings/optimized2.glb', // Path to your 3D model
+  },
+  {
+    id: 3,
+    name: 'Ring 03 ',
+    price: '$99',
+    description: 'A timeless piece of elegance.',
+    modelPath: '/rings/optimized3.glb', // Path to your 3D model
+  },
+  {
+    id: 4,
+    name: 'Ring 04 ',
+    price: '$99',
+    description: 'A timeless piece of elegance.',
+    modelPath: '/rings/optimized4.glb', // Path to your 3D model
+  },
+  {
+    id: 5,
+    name: 'Ring 05 ',
+    price: '$99',
+    description: 'A timeless piece of elegance.',
+    modelPath: '/rings/optimized5.glb', // Path to your 3D model
   },
 ];
 
@@ -61,21 +90,21 @@ export default function CategoryPage() {
       {/* Hero Section */}
       <section
         className='relative w-full h-screen flex items-center justify-center bg-fixed bg-center bg-cover'
-        style={{ backgroundImage: "url('../bg.png')" }}
+        style={{ backgroundImage: "url('../ringbg.png')" }}
       >
         {/* Glassmorphism Overlay */}
-        <div className='absolute inset-0 bg-white/10 backdrop-blur-sm border border-white/20 shadow-inner' />
+        <div className='absolute inset-0 bg-black/10 backdrop-blur-sm border border-white/20 shadow-inner' />
 
         {/* Content */}
         <div className='relative z-10 text-center max-w-3xl px-6'>
           <h1
-            className={`${cormorant.className} text-6xl md:text-7xl font-bold tracking-[0.08em] bg-gradient-to-r from-[#d4af37] via-[#c5a572] to-[#d4af37] bg-clip-text text-transparent animate-shimmer`}
+            className={`${cormorant.className} text-6xl md:text-7xl font-bold tracking-[0.08em] bg-gradient-to-r from-[#c5ab57] via-[#bebebd] to-[#c9a636] bg-clip-text text-transparent animate-shimmer`}
           >
             {category.name}
           </h1>
-          <div className='mt-6 h-[3px] w-28 mx-auto bg-gradient-to-r from-[#d4af37] to-[#c5a572] rounded-full' />
+          <div className='mt-2 h-[3px] w-28 mx-auto bg-gradient-to-r from-[#d4af37] to-[#c5a572] rounded-full' />
           <p
-            className={`${inter.className} mt-8 text-lg md:text-xl text-gray-800 leading-relaxed`}
+            className={`${inter.className} mt-8 text-lg md:text-xl text-gray-300 leading-relaxed`}
           >
             {category.description}
           </p>
@@ -90,21 +119,23 @@ export default function CategoryPage() {
           Our Exclusive Collection
         </h2>
 
-        <div className='max-w-7xl mx-auto'>
+        <div className='max-w-7xl 2xl:max-w-none mx-auto px-6'>
           <div
-            className='grid gap-14 justify-center 
-                  grid-cols-[repeat(auto-fit,minmax(320px,1fr))]'
+            className='grid gap-5 justify-center'
+            style={{
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            }}
           >
             {products.map((product) => (
               <div
                 key={product.id}
                 className='relative bg-white rounded-3xl shadow-md hover:shadow-xl 
                    transition-all cursor-pointer overflow-hidden border border-[#f2ebe2]
-                   group max-w-lg mx-auto' // <-- added max width + centering
+                   group'
                 onClick={() => setActiveProduct(product)}
               >
                 {/* 3D Model */}
-                <div className='w-full h-[280px] bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.03] transition-transform duration-300'>
+                <div className='w-full h-[260px] bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.03] transition-transform duration-300'>
                   <Canvas
                     camera={{ position: [0, 1, 5], fov: 40 }}
                     className='w-full h-full'
@@ -157,6 +188,7 @@ export default function CategoryPage() {
 function ModelRenderer({ modelPath }) {
   const { scene } = useGLTF(modelPath);
   const model = scene.clone(true);
+  model.scale.set(6, 6, 6);
 
   model.traverse((child) => {
     if (child.isMesh) {

@@ -5,17 +5,35 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import BraceletScene from '../../components/three/BraceletScene';
 import ScrollSection from '../../components/ScrollSection';
 import Image from 'next/image';
+import { Inter, Cormorant_Garamond } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'], weight: ['400', '500'] });
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+});
+
+// Gallery images
+const galleryImages = ['/bg.png', '/ringbg.png', '/ringbg.png', 'bg.png'];
 
 export default function BraceletPage() {
   const { scrollYProgress } = useScroll();
 
   // Transform scroll progress to rotation values
-  const rotationX = useTransform(scrollYProgress, [0, 0.5], [-29, 33]);
-  const rotationY = useTransform(scrollYProgress, [0, 0.5], [35, -32]);
-  const rotationZ = useTransform(scrollYProgress, [0, 0.5], [-18, 19]);
+  const rotationX = useTransform(scrollYProgress, [0, 0.7], [-29, 33]);
+  const rotationY = useTransform(scrollYProgress, [0, 0.7], [35, -32]);
+  const rotationZ = useTransform(scrollYProgress, [0, 0.7], [-18, 19]);
 
   const [rotation, setRotation] = useState([-29, 35, -18]);
 
+  // fullscreen state for 3D viewer
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // image modal state
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
+
+  // update rotation from scroll
   useEffect(() => {
     const unsubscribeX = rotationX.onChange((latest) => {
       setRotation((prev) => [latest, prev[1], prev[2]]);
@@ -34,45 +52,86 @@ export default function BraceletPage() {
     };
   }, [rotationX, rotationY, rotationZ]);
 
+  // Close fullscreen on Escape
+  useEffect(() => {
+    if (!isFullscreen) return;
+    const handleKey = (e) => {
+      if (e.key === 'Escape') setIsFullscreen(false);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [isFullscreen]);
+
+  // Close image modal / navigate with arrows
+  useEffect(() => {
+    if (!imageModalOpen) return;
+    const handleKey = (e) => {
+      if (e.key === 'Escape') setImageModalOpen(false);
+      if (e.key === 'ArrowRight')
+        setCurrentImage((prev) => (prev + 1) % galleryImages.length);
+      if (e.key === 'ArrowLeft')
+        setCurrentImage(
+          (prev) => (prev - 1 + galleryImages.length) % galleryImages.length
+        );
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [imageModalOpen]);
+
   return (
-    <div className='min-h-screen  bg-[#eeeeee] relative'>
+    <div className='min-h-screen bg-[#eeeeee] relative'>
+      <header className='fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-[#eee] px-10 py-5 flex justify-between items-center shadow-sm'>
+        <div className='flex items-center gap-3'>
+          <Image src='/logo4.png' alt='logo' width={45} height={45} />
+          <h1
+            className={`${cormorant.className} text-2xl font-bold tracking-wide text-[#2a1d12]`}
+          >
+            The Vault
+          </h1>
+        </div>
+
+        <nav
+          className={`${inter.className} hidden md:flex gap-10 text-sm text-[#2a1d12]`}
+        >
+          <a href='#bracelets' className='hover:text-[#c5a572] transition'>
+            Bracelets
+          </a>
+          <a href='#rings' className='hover:text-[#c5a572] transition'>
+            Rings
+          </a>
+          <a href='#pendants' className='hover:text-[#c5a572] transition'>
+            Pendants
+          </a>
+        </nav>
+      </header>
       <div className='w-full flex justify-center items-center pt-6'>
-        <Image src='./logo.png' width={180} height={180} />
+        <Image src='/logo.png' width={180} height={180} alt='logo' priority />
       </div>
-      {/* <div className='fixed top-0 left-0 flex justify-center w-full mt-4 items-center '> */}
-      {/* </div> */}
+
       {/* Fixed 3D Scene */}
-      <div className='fixed inset-0 z-10 pointer-events-none'>
-        <BraceletScene rotation={rotation} />
-      </div>
+      {!isFullscreen && (
+        <div className='fixed inset-0 z-10 pointer-events-none'>
+          <BraceletScene rotation={rotation} />
+        </div>
+      )}
 
       {/* Scrollable Content */}
       <div className='relative z-20 pointer-events-auto'>
         {/* Hero Section */}
         <section className='min-h-screen flex items-center justify-between px-8 lg:px-16'>
           <ScrollSection className='w-1/3 max-w-md' delay={0}>
-            <div className='  p-8 rounded-2xl '>
+            <div className='p-8 rounded-2xl'>
               <h1 className='text-4xl lg:text-6xl font-bold text-[#722F37] mb-6 leading-tight'>
                 Elegant
                 <span className='block '>Luxury</span>
               </h1>
-              {/* <p className='text-lg text-[#722F37] leading-relaxed'>
-                Crafted with precision and adorned with the finest materials,
-                this bracelet represents the pinnacle of jewelry artistry.
-              </p> */}
             </div>
           </ScrollSection>
 
           <div className='w-1/3'></div>
 
           <ScrollSection className='w-1/3 max-w-md' delay={0.2}>
-            <div className='  p-8 rounded-2xl '>
-              {/* <h2 className='text-3xl lg:text-4xl font-bold text-[#722F37] mb-6'>
-                Premium
-                <span className='block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500'>
-                  Materials
-                </span>
-              </h2> */}
+            <div className='p-8 rounded-2xl'>
               <p className='text-lg text-[#722F37] leading-relaxed'>
                 18k gold plating with hand-set gemstones, each piece tells a
                 story of timeless elegance and sophisticated design.
@@ -84,7 +143,7 @@ export default function BraceletPage() {
         {/* Transition Section */}
         <section className='min-h-screen flex items-center justify-center px-8 lg:px-16'>
           <ScrollSection className='text-center max-w-4xl' delay={0}>
-            <div className='  p-12 rounded-3xl '>
+            <div className='p-12 rounded-3xl'>
               <h2 className='text-5xl lg:text-7xl font-bold text-[#722F37] mb-8 leading-tight'>
                 <span className=''>Exquisite</span>
                 <br />
@@ -101,7 +160,7 @@ export default function BraceletPage() {
         {/* Features Section */}
         <section className='min-h-screen flex items-center justify-between px-8 lg:px-16'>
           <ScrollSection className='w-1/3 max-w-md' delay={0}>
-            <div className='  p-8 rounded-2xl '>
+            <div className='p-8 rounded-2xl'>
               <h3 className='text-3xl font-bold text-[#722F37] mb-6'>
                 <span className=''>Sustainable</span>
                 <br />
@@ -131,7 +190,7 @@ export default function BraceletPage() {
           <div className='w-1/3'></div>
 
           <ScrollSection className='w-1/3 max-w-md' delay={0.2}>
-            <div className='  p-8 rounded-2xl '>
+            <div className='p-8 rounded-2xl'>
               <h3 className='text-3xl font-bold text-[#722F37] mb-6'>
                 <span className=''>Lifetime</span>
                 <br />
@@ -161,34 +220,137 @@ export default function BraceletPage() {
           </ScrollSection>
         </section>
 
-        {/* Call to Action Section */}
-        <section className='min-h-screen flex items-center justify-center px-8 lg:px-16'>
-          <ScrollSection className='text-center max-w-4xl' delay={0}>
-            <div className='  p-12 rounded-3xl '>
-              <h2 className='text-6xl lg:text-8xl font-bold text-[#722f37] mb-8 leading-tight'>
-                <span className=''>Own</span>
-                <br />
-                <span className='text-4xl lg:text-5xl'>The Extraordinary</span>
-              </h2>
-              <p className='text-xl text-[#722F37] leading-relaxed mb-12 max-w-2xl mx-auto'>
-                Limited edition. Hand-crafted. Uniquely yours. Each piece is
-                individually numbered and comes with a certificate of
-                authenticity.
+        {/* ---------------------------
+    Product Gallery Section
+   --------------------------- */}
+        <section className='px-8 lg:px-16 py-16 bg-white'>
+          <h2 className='text-4xl font-bold text-[#722F37] mb-8 text-center'>
+            Product Gallery
+          </h2>
+
+          <div className='grid md:grid-cols-2 gap-6 max-w-6xl mx-auto'>
+            {/* Large 3D Viewer (left side) */}
+            <div className='bg-[#f9f9f9] rounded-2xl shadow-md p-4 flex flex-col justify-center'>
+              <div className='relative aspect-square rounded-xl overflow-hidden'>
+                <BraceletScene
+                  rotation={[0, 0, 0]}
+                  interactive={true}
+                  className='pointer-events-auto w-full h-full'
+                />
+                <button
+                  onClick={() => setIsFullscreen(true)}
+                  className='absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-semibold text-[#722F37] shadow hover:bg-white'
+                >
+                  Fullscreen
+                </button>
+              </div>
+              <p className='mt-3 text-sm text-[#722F37]/80 text-center'>
+                Drag to rotate • Scroll to zoom
               </p>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className='bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold py-4 px-12 rounded-full text-xl transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/25'
-              >
-                Reserve Yours Today
-              </motion.button>
             </div>
-          </ScrollSection>
+
+            {/* 2x2 grid of images (right side) */}
+            <div className='grid grid-cols-2 grid-rows-2 gap-4'>
+              {galleryImages.map((src, idx) => (
+                <div
+                  key={idx}
+                  className='bg-[#f9f9f9] rounded-2xl shadow-md p-4 cursor-pointer'
+                  onClick={() => {
+                    setCurrentImage(idx);
+                    setImageModalOpen(true);
+                  }}
+                >
+                  <div className='relative aspect-square rounded-xl overflow-hidden'>
+                    <Image
+                      src={src}
+                      alt={`bracelet ${idx + 1}`}
+                      fill
+                      className='object-cover transition-transform duration-300 hover:scale-105'
+                      sizes='(max-width: 768px) 100vw, 50vw'
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* Footer spacing */}
-        <div className='h-32'></div>
+        <div className='h-32' />
       </div>
+
+      {/* Image Modal */}
+      {imageModalOpen && (
+        <div className='fixed inset-0 z-[200] bg-black/90 flex items-center justify-center'>
+          {/* Close */}
+          <button
+            onClick={() => setImageModalOpen(false)}
+            aria-label='Close image viewer'
+            className='absolute top-6 right-6 z-[210] bg-white/10 text-white rounded-full p-3 hover:bg-white/20'
+          >
+            <span style={{ fontSize: 22, lineHeight: 1 }}>×</span>
+          </button>
+
+          {/* Prev */}
+          <button
+            onClick={() =>
+              setCurrentImage(
+                (prev) =>
+                  (prev - 1 + galleryImages.length) % galleryImages.length
+              )
+            }
+            className='absolute left-4 md:left-12 text-white text-3xl font-bold z-[210] p-2'
+          >
+            ‹
+          </button>
+
+          {/* Next */}
+          <button
+            onClick={() =>
+              setCurrentImage((prev) => (prev + 1) % galleryImages.length)
+            }
+            className='absolute right-4 md:right-12 text-white text-3xl font-bold z-[210] p-2'
+          >
+            ›
+          </button>
+
+          {/* Image */}
+          <div className='relative w-[90%] md:w-[60%] h-[70%]'>
+            <Image
+              src={galleryImages[currentImage]}
+              alt='bracelet modal view'
+              fill
+              className='object-contain'
+              sizes='100vw'
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Fullscreen 3D Viewer */}
+      {isFullscreen && (
+        <div
+          className='fixed inset-0 z-[100] bg-black/95 flex items-center justify-center'
+          role='dialog'
+          aria-modal='true'
+        >
+          <button
+            onClick={() => setIsFullscreen(false)}
+            aria-label='Close fullscreen viewer'
+            className='absolute top-6 right-6 z-[110] bg-white/10 text-white rounded-full p-3 hover:bg-white/20 focus:outline-none'
+          >
+            <span style={{ fontSize: 18, lineHeight: 1 }}>×</span>
+          </button>
+
+          <div className='w-full h-full'>
+            <BraceletScene
+              rotation={[0, 0, 0]}
+              interactive={true}
+              className='pointer-events-auto w-full h-full'
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -5,15 +5,24 @@ import {
   Environment,
   ContactShadows,
   PerspectiveCamera,
+  OrbitControls,
 } from '@react-three/drei';
 import BraceletModel from './BraceletModel';
 
-export default function BraceletScene({ rotation, className = '' }) {
+export default function BraceletScene({
+  rotation = [0, 0, 0],
+  className = '',
+  interactive = false,
+  enableZoom = true,
+  hdr = '/final.hdr',
+  model = '/optimized/bracelet.glb',
+}) {
   return (
     <div className={`w-full h-full ${className}`}>
       <Canvas
         shadows
         dpr={[1, 2]}
+        style={{ width: '100%', height: '100%' }}
         gl={{
           antialias: true,
           alpha: true,
@@ -28,24 +37,16 @@ export default function BraceletScene({ rotation, className = '' }) {
           far={1000}
         />
 
-        {/* Lighting setup */}
+        {/* Lighting */}
         <ambientLight intensity={0.4} />
-        <directionalLight
-          position={[10, 10, 5]}
-          intensity={1}
-          castShadow
-          shadow-mapSize-width={2048}
-          shadow-mapSize-height={2048}
-        />
+        <directionalLight position={[10, 10, 5]} intensity={1} />
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
 
-        {/* Environment for reflections */}
-        <Environment files={'./final.hdr'} />
-        {/* <Environment files={'./studio_small_05_4k.hdr'} /> */}
-        {/* <Environment files={'./startup.hdr'} /> */}
+        {/* Environment */}
+        <Environment files={hdr} />
 
-        {/* The bracelet model */}
-        <BraceletModel rotation={rotation} />
+        {/* Model */}
+        <BraceletModel modelPath={model} rotation={rotation} />
 
         {/* Ground shadow */}
         <ContactShadows
@@ -55,6 +56,19 @@ export default function BraceletScene({ rotation, className = '' }) {
           blur={2}
           far={4}
         />
+
+        {/* OrbitControls for interactive instances */}
+        {interactive && (
+          <OrbitControls
+            enablePan={false}
+            enableZoom={enableZoom}
+            minDistance={3}
+            maxDistance={20}
+            enableDamping
+            dampingFactor={0.08}
+            rotateSpeed={0.6}
+          />
+        )}
       </Canvas>
     </div>
   );
