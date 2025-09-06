@@ -175,7 +175,7 @@ function SceneInner({
       <directionalLight position={[6, 10, 6]} intensity={0.95} castShadow />
       <Environment files='/final.hdr' />
 
-      <OrbitControls enableRotate={false} enablePan={false} />
+      <OrbitControls enableRotate={false} enablePan={false} maxDistance={20} />
 
       {/* group with models placed on a circle */}
       <group ref={groupRef}>

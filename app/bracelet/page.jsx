@@ -276,7 +276,14 @@ export default function BraceletPage() {
         </section>
 
         {/* Footer spacing */}
-        <div className='h-32' />
+        {/* <div className='h-32' /> */}
+        {/* Footer */}
+        <footer className='py-10 text-center text-sm text-gray-500 border-t border-[#eee] bg-[#fdfcf9]'>
+          <p>
+            &copy; {new Date().getFullYear()} The Vault by Karan Desai. All
+            rights reserved.
+          </p>
+        </footer>
       </div>
 
       {/* Image Modal */}
