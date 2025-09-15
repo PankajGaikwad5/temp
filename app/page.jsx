@@ -102,13 +102,19 @@ export default function HomePage() {
         <nav
           className={`${montserrat.className} hidden md:flex gap-10 text-sm text-gray-600`}
         >
-          <a href='#bracelets' className='hover:text-[#5a4631] transition'>
+          <a
+            href='/products/bracelets'
+            className='hover:text-[#5a4631] transition'
+          >
             Bracelets
           </a>
-          <a href='#rings' className='hover:text-[#5a4631] transition'>
+          <a href='/products/rings' className='hover:text-[#5a4631] transition'>
             Rings
           </a>
-          <a href='#pendants' className='hover:text-[#5a4631] transition'>
+          <a
+            href='/products/pendants'
+            className='hover:text-[#5a4631] transition'
+          >
             Pendants
           </a>
         </nav>
