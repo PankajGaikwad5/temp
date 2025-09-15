@@ -1,49 +1,48 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useRef, useEffect, useState } from 'react';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 export default function BraceletModel({
-  modelPath = '/optimized/bracelet.glb', // path to your .glb file
-  rotation,
+  modelPath = '/optimized/bracelet.glb',
+  rotation = [0, 0, 0],
   position = [0, 0, 0],
 }) {
   const groupRef = useRef(null);
-  const floatOffset = useRef(0);
   const { scene } = useGLTF(modelPath);
+  const [scale, setScale] = useState(1);
 
   useEffect(() => {
-    if (groupRef.current && scene) {
-      // Clear any existing children
-      while (groupRef.current.children.length > 0) {
-        groupRef.current.remove(groupRef.current.children[0]);
-      }
+    if (!scene || !groupRef.current) return;
 
-      // Clone and add model to group
-      const modelClone = scene.clone();
-      groupRef.current.add(modelClone);
+    // Clear previous children
+    while (groupRef.current.children.length > 0) {
+      groupRef.current.remove(groupRef.current.children[0]);
     }
+
+    const modelClone = scene.clone();
+
+    // Compute bounding box
+    const box = new THREE.Box3().setFromObject(modelClone);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const maxDim = Math.max(size.x, size.y, size.z);
+
+    // Desired target size in units
+    const targetSize = 3;
+    const calculatedScale = targetSize / maxDim;
+
+    setScale(calculatedScale);
+
+    groupRef.current.add(modelClone);
   }, [scene]);
-
-  // useFrame((_, delta) => {
-  //   if (groupRef.current) {
-  //     // Floating animation
-  //     floatOffset.current += delta * 2;
-  //     groupRef.current.position.y =
-  //       position[1] + Math.sin(floatOffset.current) * 0.2;
-
-  //     // Subtle rotation animation
-  //     groupRef.current.rotation.y += delta * 0.1;
-  //   }
-  // });
 
   return (
     <group
       ref={groupRef}
       position={position}
-      scale={0.8}
+      scale={scale}
       rotation={[
         THREE.MathUtils.degToRad(rotation[0]),
         THREE.MathUtils.degToRad(rotation[1]),

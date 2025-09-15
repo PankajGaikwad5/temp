@@ -8,6 +8,7 @@ import {
   Montserrat,
 } from 'next/font/google';
 import Image from 'next/image';
+import Navbar from '@/components/Navbar';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500'] });
 const cormorant = Cormorant_Garamond({
@@ -23,30 +24,7 @@ export default function CataloguePage() {
   return (
     <div className='flex flex-col min-h-screen bg-[#eeeeee]'>
       {/* Header */}
-      <header className='fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-[#eee] px-10 py-5 flex justify-between items-center shadow-sm'>
-        <div className='flex items-center gap-3'>
-          <Image src='/logo4.png' alt='logo' width={45} height={45} />
-          <h1
-            className={`${cormorant.className} text-2xl font-bold tracking-wide text-[#2a1d12]`}
-          >
-            The Vault
-          </h1>
-        </div>
-
-        <nav
-          className={`${inter.className} hidden md:flex gap-10 text-sm text-[#2a1d12]`}
-        >
-          <a href='#bracelets' className='hover:text-[#c5a572] transition'>
-            Bracelets
-          </a>
-          <a href='#rings' className='hover:text-[#c5a572] transition'>
-            Rings
-          </a>
-          <a href='#pendants' className='hover:text-[#c5a572] transition'>
-            Pendants
-          </a>
-        </nav>
-      </header>
+      <Navbar />
 
       {/* Spacer for header */}
       <div className='h-24' />

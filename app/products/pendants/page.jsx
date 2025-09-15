@@ -2,185 +2,299 @@
 
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, useGLTF } from '@react-three/drei';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { Poppins, Montserrat } from 'next/font/google';
+import { Inter, Cormorant_Garamond } from 'next/font/google';
+import Navbar from '@/components/Navbar';
 
-const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
-const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600'] });
+const inter = Inter({ subsets: ['latin'], weight: ['400', '500'] });
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+});
 
 const category = {
   name: 'Pendants',
-  description: 'Explore our exclusive collection of fine Pendants.',
+  description: 'Discover timeless elegance crafted by master artisans.',
 };
 
 const products = [
   {
-    id: 1,
-    name: 'Pendant 01 ',
-    price: '$99',
-    description: 'A timeless piece of elegance.',
-    modelPath: '/pendants/optimized5.glb', // Path to your 3D model
+    id: '7',
+    title: 'pendant 1',
+    model: '/newpendants/optimized1.glb',
+    group: 'pendants',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
   },
   {
-    id: 2,
-    name: 'Pendant 02 ',
-    price: '$99',
-    description: 'A timeless piece of elegance.',
-    modelPath: '/pendants/optimized2.glb', // Path to your 3D model
+    id: '8',
+    title: 'pendant 2',
+    model: '/newpendants/optimized2.glb',
+    group: 'pendants',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
   },
   {
-    id: 3,
-    name: 'Pendant03 ',
-    price: '$99',
-    description: 'A timeless piece of elegance.',
-    modelPath: '/pendants/optimized3.glb', // Path to your 3D model
+    id: '9',
+    title: 'pendant 3',
+    model: '/newpendants/optimized3.glb',
+    group: 'pendants',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
   },
   {
-    id: 4,
-    name: 'Pendant 04 ',
-    price: '$99',
-    description: 'A timeless piece of elegance.',
-    modelPath: '/pendants/optimized4.glb', // Path to your 3D model
+    id: '10',
+    title: 'pendant 4',
+    model: '/newpendants/optimized4.glb',
+    group: 'pendants',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
+  },
+  {
+    id: '11',
+    title: 'pendant 5',
+    model: '/newpendants/optimized5.glb',
+    group: 'pendants',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
+  },
+  {
+    id: '12',
+    title: 'pendant 6',
+    model: '/newpendants/optimized6.glb',
+    group: 'pendants',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
+  },
+  {
+    id: '13',
+    title: 'pendant 7',
+    model: '/newpendants/optimized7.glb',
+    group: 'pendants',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
+  },
+  {
+    id: '14',
+    title: 'pendant 8',
+    model: '/newpendants/optimized8.glb',
+    group: 'pendants',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
   },
 ];
 
 export default function CategoryPage() {
   const [activeProduct, setActiveProduct] = useState(products[0]);
 
-  const handleProductSelect = (product) => {
-    setActiveProduct(product);
-  };
-
   return (
-    <main className='min-h-screen w-full bg-[#f3f3f3] relative'>
-      {/* Hero Section with Image Background */}
-      <header className='fixed top-4 left-0 w-full z-50 bg-transparent px-8 py-5 flex justify-between'>
-        <div className='flex opacity-0 items-center gap-4'>
-          <Image src='/logo4.png' alt='logo' width={64} height={64} />
-          <div>
-            <h1
-              className={`${poppins.className} text-xl font-bold text-[#5a4631]`}
-            >
-              The Vault
-            </h1>
-            <div className='text-xs text-gray-600'>by Karan Desai</div>
-          </div>
-        </div>
+    <main className='min-h-screen w-full bg-[#fdfcf9] relative'>
+      {/* Header */}
+      <Navbar />
 
-        <Image
-          src='./logo4.png'
-          width={400}
-          height={400}
-          alt='big logo'
-          className='opacity-0'
-        />
-
-        <nav
-          className={`${montserrat.className} hidden md:flex gap-10 text-sm text-gray-200`}
-        >
-          <a href='#bracelets' className='hover:text-[#5a4631] transition'>
-            Bracelets
-          </a>
-          <a href='#rings' className='hover:text-[#5a4631] transition'>
-            Rings
-          </a>
-          <a href='#pendants' className='hover:text-[#5a4631] transition'>
-            Pendants
-          </a>
-        </nav>
-      </header>
+      {/* Hero Section */}
       <section
-        className='relative w-full h-[600px] bg-cover bg-center'
-        style={{
-          backgroundImage: "url('../bracelet/b1.png')", // Add your background image path here
-        }}
+        className='relative w-full h-screen flex items-center justify-center bg-fixed bg-center bg-cover'
+        style={{ backgroundImage: "url('../ringbg.png')" }}
       >
-        <div className='absolute inset-0 flex flex-col items-center justify-center text-white'>
-          <h1 className={`${poppins.className} text-5xl font-bold`}>
+        {/* Glassmorphism Overlay */}
+        <div className='absolute inset-0 bg-black/10 backdrop-blur-sm border border-white/20 shadow-inner' />
+
+        {/* Content */}
+        <div className='relative z-10 text-center max-w-3xl px-6'>
+          <h1
+            className={`${cormorant.className} text-6xl md:text-7xl font-bold tracking-[0.08em] bg-gradient-to-r from-[#c5ab57] via-[#bebebd] to-[#c9a636] bg-clip-text text-transparent animate-shimmer`}
+          >
             {category.name}
           </h1>
-          <p className={`${poppins.className} text-lg font-medium mt-4`}>
+          <div className='mt-2 h-[3px] w-28 mx-auto bg-gradient-to-r from-[#d4af37] to-[#c5a572] rounded-full' />
+          <p
+            className={`${inter.className} mt-8 text-lg md:text-xl text-gray-300 leading-relaxed`}
+          >
             {category.description}
           </p>
         </div>
       </section>
 
       {/* Product Grid */}
-      <section className='py-16 px-8'>
+      <section className='py-24 px-10'>
         <h2
-          className={`${poppins.className} text-3xl font-semibold text-[#4e3a27] mb-8`}
+          className={`${cormorant.className} text-4xl font-semibold text-center text-[#2a1d12] mb-16`}
         >
           Our Exclusive Collection
         </h2>
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10'>
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className='relative bg-white p-4 rounded-2xl shadow-lg overflow-hidden transition-all hover:scale-105 hover:shadow-2xl cursor-pointer border border-[#e0e0e0]'
-              onClick={() => handleProductSelect(product)}
-              // style={{ height: '600px' }} // Increased height for better proportions
-            >
-              {/* 3D Model */}
+
+        <div className='max-w-7xl 2xl:max-w-none mx-auto px-6'>
+          <div
+            className='grid gap-5 justify-center'
+            style={{
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            }}
+          >
+            {products.map((product) => (
               <div
-                className='w-full h-[250px] mb-4 bg-[#eeeeee] rounded-xl overflow-hidden' // Model background color
+                key={product.id}
+                className='relative bg-white rounded-3xl shadow-md hover:shadow-xl 
+                   transition-all cursor-pointer overflow-hidden border border-[#f2ebe2]
+                   group'
+                onClick={() => setActiveProduct(product)}
               >
-                <Canvas
-                  camera={{ position: [0, 1, 5], fov: 5 }}
-                  className='w-full h-full'
-                >
-                  <ambientLight intensity={0.4} />
-                  <directionalLight position={[10, 10, 5]} intensity={1} />
-                  <OrbitControls enableRotate={true} enableZoom={true} />
-                  <Environment files='../final.hdr' />
-                  <ModelRenderer modelPath={product.modelPath} />
-                </Canvas>
-              </div>
-
-              {/* Product Details */}
-              <div className='flex justify-between items-center'>
-                <div className='text-start flex justify-start items-start flex-col'>
-                  <h3
-                    className={`${poppins.className} text-lg font-semibold text-[#4e3a27]`}
+                {/* 3D Model */}
+                <div className='w-full h-[260px] bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.03] transition-transform duration-300'>
+                  <Canvas
+                    camera={{ position: [0, 1, 5], fov: 70 }}
+                    className='w-full h-full'
                   >
-                    {product.name}
-                  </h3>
-                  <p className={`${poppins.className} text-sm text-gray-600`}>
-                    {product.description}
-                  </p>
-                  {/* <span className='text-xl font-semibold text-[#4e3a27]'>
-                    {product.price}
-                  </span> */}
+                    <ambientLight intensity={0.6} />
+                    <directionalLight position={[10, 10, 5]} intensity={1} />
+                    <OrbitControls enableRotate />
+                    <Environment files='../final.hdr' />
+                    <ModelRenderer modelPath={product.model} />
+                  </Canvas>
                 </div>
 
-                {/* "View Product" Button */}
-                <div className='mt-4 text-center'>
-                  <button className='bg-[#eeeeee] text-black py-2 px-6 rounded-md font-medium shadow-md transition-all hover:bg-[#cecece]'>
-                    View Product
-                  </button>
+                {/* Product Info */}
+                <div className='p-6 text-center'>
+                  <h3
+                    className={`${cormorant.className} text-xl capitalize font-semibold text-[#2a1d12]`}
+                  >
+                    {product.title}
+                  </h3>
+                  <p
+                    className={`${inter.className} mt-2 text-sm text-gray-500`}
+                  >
+                    A timeless piece of ellegance
+                  </p>
+                  <a href={`/productdetail/${product.id}`}>
+                    <button
+                      className='mt-5 px-6 py-2 border border-[#d4af37] text-[#2a1d12] rounded-full text-sm font-medium 
+                    hover:bg-[#d4af37] hover:text-white transition-all'
+                    >
+                      View Product
+                    </button>
+                  </a>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className='py-8 text-center text-sm text-gray-600'>
-        &copy; {new Date().getFullYear()} The Vault by Karan Desai. All rights
-        reserved.
+      <footer className='py-10 text-center text-sm text-gray-500 border-t border-[#eee] bg-[#fdfcf9]'>
+        <p>
+          &copy; {new Date().getFullYear()} The Vault by Karan Desai. All rights
+          reserved.
+        </p>
       </footer>
     </main>
   );
 }
 
-// Direct model rendering using useGLTF hook
+// Model Renderer
 function ModelRenderer({ modelPath }) {
   const { scene } = useGLTF(modelPath);
-
-  // Clone the model and add shadows to meshes
   const model = scene.clone(true);
+  model.scale.set(1, 1, 1);
+
   model.traverse((child) => {
     if (child.isMesh) {
       child.castShadow = true;
@@ -198,14 +312,9 @@ function ModelRenderer({ modelPath }) {
     }
   });
 
-  return (
-    <group>
-      <primitive object={model} />
-    </group>
-  );
+  return <primitive object={model} />;
 }
 
-// Preloading GLB models (to avoid loading lag)
 useGLTF.preload('/bracelet2.glb');
 useGLTF.preload('/ring.glb');
 useGLTF.preload('/pendant2.glb');

@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, useGLTF } from '@react-three/drei';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Navbar from '@/components/Navbar';
 
 import { Inter, Cormorant_Garamond } from 'next/font/google';
 
@@ -20,10 +21,24 @@ const category = {
 
 const products = [
   {
-    id: 1,
-    name: 'Golden Elegance Bracelet',
-    description: 'A timeless piece of elegance.',
-    modelPath: '/optimized/bracelet.glb',
+    id: '1',
+    title: 'bracelet',
+    model: '/optimized/bracelet.glb',
+    group: 'bracelet',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
   },
 ];
 
@@ -33,49 +48,26 @@ export default function CategoryPage() {
   return (
     <main className='min-h-screen w-full bg-[#fdfcf9] relative'>
       {/* Header */}
-      <header className='fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-[#eee] px-10 py-5 flex justify-between items-center shadow-sm'>
-        <div className='flex items-center gap-3'>
-          <Image src='/logo4.png' alt='logo' width={45} height={45} />
-          <h1
-            className={`${cormorant.className} text-2xl font-bold tracking-wide text-[#2a1d12]`}
-          >
-            The Vault
-          </h1>
-        </div>
-
-        <nav
-          className={`${inter.className} hidden md:flex gap-10 text-sm text-[#2a1d12]`}
-        >
-          <a href='#bracelets' className='hover:text-[#c5a572] transition'>
-            Bracelets
-          </a>
-          <a href='#rings' className='hover:text-[#c5a572] transition'>
-            Rings
-          </a>
-          <a href='#pendants' className='hover:text-[#c5a572] transition'>
-            Pendants
-          </a>
-        </nav>
-      </header>
+      <Navbar />
 
       {/* Hero Section */}
       <section
         className='relative w-full h-screen flex items-center justify-center bg-fixed bg-center bg-cover'
-        style={{ backgroundImage: "url('../bg.png')" }}
+        style={{ backgroundImage: "url('../ringbg.png')" }}
       >
         {/* Glassmorphism Overlay */}
-        <div className='absolute inset-0 bg-white/10 backdrop-blur-sm border border-white/20 shadow-inner' />
+        <div className='absolute inset-0 bg-black/10 backdrop-blur-sm border border-white/20 shadow-inner' />
 
         {/* Content */}
         <div className='relative z-10 text-center max-w-3xl px-6'>
           <h1
-            className={`${cormorant.className} text-6xl md:text-7xl font-bold tracking-[0.08em] bg-gradient-to-r from-[#d4af37] via-[#c5a572] to-[#d4af37] bg-clip-text text-transparent animate-shimmer`}
+            className={`${cormorant.className} text-6xl md:text-7xl font-bold tracking-[0.08em] bg-gradient-to-r from-[#c5ab57] via-[#bebebd] to-[#c9a636] bg-clip-text text-transparent animate-shimmer`}
           >
             {category.name}
           </h1>
-          <div className='mt-6 h-[3px] w-28 mx-auto bg-gradient-to-r from-[#d4af37] to-[#c5a572] rounded-full' />
+          <div className='mt-2 h-[3px] w-28 mx-auto bg-gradient-to-r from-[#d4af37] to-[#c5a572] rounded-full' />
           <p
-            className={`${inter.className} mt-8 text-lg md:text-xl text-gray-800 leading-relaxed`}
+            className={`${inter.className} mt-8 text-lg md:text-xl text-gray-300 leading-relaxed`}
           >
             {category.description}
           </p>
@@ -90,21 +82,23 @@ export default function CategoryPage() {
           Our Exclusive Collection
         </h2>
 
-        <div className='max-w-7xl mx-auto'>
+        <div className='max-w-xl  mx-auto px-6'>
           <div
-            className='grid gap-14 justify-center 
-                  grid-cols-[repeat(auto-fit,minmax(320px,1fr))]'
+            className='grid gap-5 justify-center'
+            style={{
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            }}
           >
             {products.map((product) => (
               <div
                 key={product.id}
                 className='relative bg-white rounded-3xl shadow-md hover:shadow-xl 
                    transition-all cursor-pointer overflow-hidden border border-[#f2ebe2]
-                   group max-w-lg mx-auto' // <-- added max width + centering
+                   group'
                 onClick={() => setActiveProduct(product)}
               >
                 {/* 3D Model */}
-                <div className='w-full h-[280px] bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.03] transition-transform duration-300'>
+                <div className='w-full h-[260px] bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.03] transition-transform duration-300'>
                   <Canvas
                     camera={{ position: [0, 1, 5], fov: 40 }}
                     className='w-full h-full'
@@ -113,28 +107,30 @@ export default function CategoryPage() {
                     <directionalLight position={[10, 10, 5]} intensity={1} />
                     <OrbitControls enableRotate />
                     <Environment files='../final.hdr' />
-                    <ModelRenderer modelPath={product.modelPath} />
+                    <ModelRenderer modelPath={product.model} />
                   </Canvas>
                 </div>
 
                 {/* Product Info */}
                 <div className='p-6 text-center'>
                   <h3
-                    className={`${cormorant.className} text-xl font-semibold text-[#2a1d12]`}
+                    className={`${cormorant.className} text-xl capitalize font-semibold text-[#2a1d12]`}
                   >
-                    {product.name}
+                    {product.title}
                   </h3>
                   <p
                     className={`${inter.className} mt-2 text-sm text-gray-500`}
                   >
-                    {product.description}
+                    A timeless piece of ellegance
                   </p>
-                  <button
-                    className='mt-5 px-6 py-2 border border-[#d4af37] text-[#2a1d12] rounded-full text-sm font-medium 
-                       hover:bg-[#d4af37] hover:text-white transition-all'
-                  >
-                    View Product
-                  </button>
+                  <a href={`/productdetail/${product.id}`}>
+                    <button
+                      className='mt-5 px-6 py-2 border border-[#d4af37] text-[#2a1d12] rounded-full text-sm font-medium 
+                    hover:bg-[#d4af37] hover:text-white transition-all'
+                    >
+                      View Product
+                    </button>
+                  </a>
                 </div>
               </div>
             ))}
@@ -157,6 +153,7 @@ export default function CategoryPage() {
 function ModelRenderer({ modelPath }) {
   const { scene } = useGLTF(modelPath);
   const model = scene.clone(true);
+  model.scale.set(1, 1, 1);
 
   model.traverse((child) => {
     if (child.isMesh) {

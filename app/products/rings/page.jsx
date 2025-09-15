@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { Inter, Cormorant_Garamond } from 'next/font/google';
+import Navbar from '@/components/Navbar';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500'] });
 const cormorant = Cormorant_Garamond({
@@ -20,39 +21,104 @@ const category = {
 
 const products = [
   {
-    id: 1,
-    name: 'Ring 01 ',
-    price: '$99',
-    description: 'A timeless piece of elegance.',
-    modelPath: '/rings/optimized1.glb', // Path to your 3D model
+    id: '2',
+    title: 'ring 1',
+    model: '/rings/optimized1.glb',
+    group: 'rings',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
   },
   {
-    id: 2,
-    name: 'Ring 02 ',
-    price: '$99',
-    description: 'A timeless piece of elegance.',
-    modelPath: '/rings/optimized2.glb', // Path to your 3D model
+    id: '3',
+    title: 'ring 2',
+    model: '/rings/optimized2.glb',
+    group: 'rings',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
   },
   {
-    id: 3,
-    name: 'Ring 03 ',
-    price: '$99',
-    description: 'A timeless piece of elegance.',
-    modelPath: '/rings/optimized3.glb', // Path to your 3D model
+    id: '4',
+    title: 'ring 3',
+    model: '/rings/optimized3.glb',
+    group: 'rings',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
   },
   {
-    id: 4,
-    name: 'Ring 04 ',
-    price: '$99',
-    description: 'A timeless piece of elegance.',
-    modelPath: '/rings/optimized4.glb', // Path to your 3D model
+    id: '5',
+    title: 'ring 4',
+    model: '/rings/optimized4.glb',
+    group: 'rings',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
   },
   {
-    id: 5,
-    name: 'Ring 05 ',
-    price: '$99',
-    description: 'A timeless piece of elegance.',
-    modelPath: '/rings/optimized5.glb', // Path to your 3D model
+    id: '6',
+    title: 'ring 5',
+    model: '/rings/optimized5.glb',
+    group: 'rings',
+    img: [
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+      {
+        url: '/bg.png',
+      },
+      {
+        url: '/ringbg.png',
+      },
+    ],
   },
 ];
 
@@ -62,30 +128,7 @@ export default function CategoryPage() {
   return (
     <main className='min-h-screen w-full bg-[#fdfcf9] relative'>
       {/* Header */}
-      <header className='fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-[#eee] px-10 py-5 flex justify-between items-center shadow-sm'>
-        <div className='flex items-center gap-3'>
-          <Image src='/logo4.png' alt='logo' width={45} height={45} />
-          <h1
-            className={`${cormorant.className} text-2xl font-bold tracking-wide text-[#2a1d12]`}
-          >
-            The Vault
-          </h1>
-        </div>
-
-        <nav
-          className={`${inter.className} hidden md:flex gap-10 text-sm text-[#2a1d12]`}
-        >
-          <a href='#bracelets' className='hover:text-[#c5a572] transition'>
-            Bracelets
-          </a>
-          <a href='#rings' className='hover:text-[#c5a572] transition'>
-            Rings
-          </a>
-          <a href='#pendants' className='hover:text-[#c5a572] transition'>
-            Pendants
-          </a>
-        </nav>
-      </header>
+      <Navbar />
 
       {/* Hero Section */}
       <section
@@ -144,28 +187,30 @@ export default function CategoryPage() {
                     <directionalLight position={[10, 10, 5]} intensity={1} />
                     <OrbitControls enableRotate />
                     <Environment files='../final.hdr' />
-                    <ModelRenderer modelPath={product.modelPath} />
+                    <ModelRenderer modelPath={product.model} />
                   </Canvas>
                 </div>
 
                 {/* Product Info */}
                 <div className='p-6 text-center'>
                   <h3
-                    className={`${cormorant.className} text-xl font-semibold text-[#2a1d12]`}
+                    className={`${cormorant.className} text-xl capitalize font-semibold text-[#2a1d12]`}
                   >
-                    {product.name}
+                    {product.title}
                   </h3>
                   <p
                     className={`${inter.className} mt-2 text-sm text-gray-500`}
                   >
-                    {product.description}
+                    A timeless piece of ellegance
                   </p>
-                  <button
-                    className='mt-5 px-6 py-2 border border-[#d4af37] text-[#2a1d12] rounded-full text-sm font-medium 
-                       hover:bg-[#d4af37] hover:text-white transition-all'
-                  >
-                    View Product
-                  </button>
+                  <a href={`/productdetail/${product.id}`}>
+                    <button
+                      className='mt-5 px-6 py-2 border border-[#d4af37] text-[#2a1d12] rounded-full text-sm font-medium 
+                    hover:bg-[#d4af37] hover:text-white transition-all'
+                    >
+                      View Product
+                    </button>
+                  </a>
                 </div>
               </div>
             ))}

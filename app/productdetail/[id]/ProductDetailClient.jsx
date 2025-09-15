@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import BraceletScene from '../../components/three/BraceletScene';
-import ScrollSection from '../../components/ScrollSection';
+import { useScroll, useTransform } from 'framer-motion';
+import BraceletScene from '@/components/three/BraceletScene';
+import ScrollSection from '@/components/ScrollSection';
 import Image from 'next/image';
 import { Inter, Cormorant_Garamond } from 'next/font/google';
+import Navbar from '@/components/Navbar';
+import SizeGuide from '@/components/SizeGuide';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500'] });
 const cormorant = Cormorant_Garamond({
@@ -13,25 +15,22 @@ const cormorant = Cormorant_Garamond({
   weight: ['400', '600', '700'],
 });
 
-// Gallery images
-const galleryImages = ['/bg.png', '/ringbg.png', '/ringbg.png', 'bg.png'];
-
-export default function BraceletPage() {
+export default function ProductDetailClient({ product }) {
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const { scrollYProgress } = useScroll();
 
-  // Transform scroll progress to rotation values
   const rotationX = useTransform(scrollYProgress, [0, 0.7], [-29, 33]);
   const rotationY = useTransform(scrollYProgress, [0, 0.7], [35, -32]);
   const rotationZ = useTransform(scrollYProgress, [0, 0.7], [-18, 19]);
 
   const [rotation, setRotation] = useState([-29, 35, -18]);
-
-  // fullscreen state for 3D viewer
   const [isFullscreen, setIsFullscreen] = useState(false);
-
-  // image modal state
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
+
+  // use product images
+  const galleryImages = product.img.map((i) => i.url);
+  const modelPath = product.model;
 
   // update rotation from scroll
   useEffect(() => {
@@ -76,34 +75,14 @@ export default function BraceletPage() {
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [imageModalOpen]);
+  }, [imageModalOpen, galleryImages.length]);
 
   return (
     <div className='min-h-screen bg-[#eeeeee] relative'>
-      <header className='fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-[#eee] px-10 py-5 flex justify-between items-center shadow-sm'>
-        <div className='flex items-center gap-3'>
-          <Image src='/logo4.png' alt='logo' width={45} height={45} />
-          <h1
-            className={`${cormorant.className} text-2xl font-bold tracking-wide text-[#2a1d12]`}
-          >
-            The Vault
-          </h1>
-        </div>
+      {/* Header */}
+      <Navbar />
 
-        <nav
-          className={`${inter.className} hidden md:flex gap-10 text-sm text-[#2a1d12]`}
-        >
-          <a href='#bracelets' className='hover:text-[#c5a572] transition'>
-            Bracelets
-          </a>
-          <a href='#rings' className='hover:text-[#c5a572] transition'>
-            Rings
-          </a>
-          <a href='#pendants' className='hover:text-[#c5a572] transition'>
-            Pendants
-          </a>
-        </nav>
-      </header>
+      {/* Logo */}
       <div className='w-full flex justify-center items-center pt-6'>
         <Image src='/logo.png' width={180} height={180} alt='logo' priority />
       </div>
@@ -111,10 +90,7 @@ export default function BraceletPage() {
       {/* Fixed 3D Scene */}
       {!isFullscreen && (
         <div className='fixed inset-0 z-10 pointer-events-none'>
-          <BraceletScene
-            rotation={rotation}
-            model='/newpendants/optimized1.glb'
-          />
+          <BraceletScene rotation={rotation} model={modelPath} />
         </div>
       )}
 
@@ -126,13 +102,11 @@ export default function BraceletPage() {
             <div className='p-8 rounded-2xl'>
               <h1 className='text-4xl lg:text-6xl font-bold text-[#722F37] mb-6 leading-tight'>
                 Elegant
-                <span className='block '>Luxury</span>
+                <span className='block'>Luxury</span>
               </h1>
             </div>
           </ScrollSection>
-
           <div className='w-1/3'></div>
-
           <ScrollSection className='w-1/3 max-w-md' delay={0.2}>
             <div className='p-8 rounded-2xl'>
               <p className='text-lg text-[#722F37] leading-relaxed'>
@@ -148,7 +122,7 @@ export default function BraceletPage() {
           <ScrollSection className='text-center max-w-4xl' delay={0}>
             <div className='p-12 rounded-3xl'>
               <h2 className='text-5xl lg:text-7xl font-bold text-[#722F37] mb-8 leading-tight'>
-                <span className=''>Exquisite</span>
+                Exquisite
                 <br />
                 Craftsmanship
               </h2>
@@ -165,7 +139,7 @@ export default function BraceletPage() {
           <ScrollSection className='w-1/3 max-w-md' delay={0}>
             <div className='p-8 rounded-2xl'>
               <h3 className='text-3xl font-bold text-[#722F37] mb-6'>
-                <span className=''>Sustainable</span>
+                Sustainable
                 <br />
                 Luxury
               </h3>
@@ -195,7 +169,7 @@ export default function BraceletPage() {
           <ScrollSection className='w-1/3 max-w-md' delay={0.2}>
             <div className='p-8 rounded-2xl'>
               <h3 className='text-3xl font-bold text-[#722F37] mb-6'>
-                <span className=''>Lifetime</span>
+                Lifetime
                 <br />
                 Guarantee
               </h3>
@@ -223,16 +197,13 @@ export default function BraceletPage() {
           </ScrollSection>
         </section>
 
-        {/* ---------------------------
-    Product Gallery Section
-   --------------------------- */}
+        {/* Product Gallery Section */}
         <section className='px-8 lg:px-16 py-16 bg-white'>
           <h2 className='text-4xl font-bold text-[#722F37] mb-8 text-center'>
             Product Gallery
           </h2>
-
           <div className='grid md:grid-cols-2 gap-6 max-w-6xl mx-auto'>
-            {/* Large 3D Viewer (left side) */}
+            {/* Large 3D Viewer */}
             <div className='bg-[#f9f9f9] rounded-2xl shadow-md p-4 flex flex-col justify-center'>
               <div className='relative aspect-square rounded-xl overflow-hidden'>
                 <BraceletScene
@@ -252,7 +223,7 @@ export default function BraceletPage() {
               </p>
             </div>
 
-            {/* 2x2 grid of images (right side) */}
+            {/* 2x2 Images */}
             <div className='grid grid-cols-2 grid-rows-2 gap-4'>
               {galleryImages.map((src, idx) => (
                 <div
@@ -266,7 +237,7 @@ export default function BraceletPage() {
                   <div className='relative aspect-square rounded-xl overflow-hidden'>
                     <Image
                       src={src}
-                      alt={`bracelet ${idx + 1}`}
+                      alt={`product ${idx + 1}`}
                       fill
                       className='object-cover transition-transform duration-300 hover:scale-105'
                       sizes='(max-width: 768px) 100vw, 50vw'
@@ -276,10 +247,32 @@ export default function BraceletPage() {
               ))}
             </div>
           </div>
+          <div className='flex justify-center mt-8'>
+            <button
+              onClick={() => setSizeGuideOpen(true)}
+              className='bg-[#722F37] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#581f26] transition'
+            >
+              Find Your Size
+            </button>
+          </div>
+
+          {/* Size Guide Modal */}
+          {sizeGuideOpen && (
+            <div className='fixed inset-0 z-[300] bg-black/70 flex items-center justify-center'>
+              <div className='bg-white w-[90%] md:w-[60%] max-h-[80%] overflow-auto rounded-3xl p-8 relative'>
+                <button
+                  onClick={() => setSizeGuideOpen(false)}
+                  className='absolute top-4 right-4 text-gray-600 text-2xl font-bold hover:text-gray-800'
+                >
+                  ×
+                </button>
+
+                <SizeGuide product={product} />
+              </div>
+            </div>
+          )}
         </section>
 
-        {/* Footer spacing */}
-        {/* <div className='h-32' /> */}
         {/* Footer */}
         <footer className='py-10 text-center text-sm text-gray-500 border-t border-[#eee] bg-[#fdfcf9]'>
           <p>
@@ -292,7 +285,6 @@ export default function BraceletPage() {
       {/* Image Modal */}
       {imageModalOpen && (
         <div className='fixed inset-0 z-[200] bg-black/90 flex items-center justify-center'>
-          {/* Close */}
           <button
             onClick={() => setImageModalOpen(false)}
             aria-label='Close image viewer'
@@ -301,7 +293,6 @@ export default function BraceletPage() {
             <span style={{ fontSize: 22, lineHeight: 1 }}>×</span>
           </button>
 
-          {/* Prev */}
           <button
             onClick={() =>
               setCurrentImage(
@@ -314,7 +305,6 @@ export default function BraceletPage() {
             ‹
           </button>
 
-          {/* Next */}
           <button
             onClick={() =>
               setCurrentImage((prev) => (prev + 1) % galleryImages.length)
@@ -324,11 +314,10 @@ export default function BraceletPage() {
             ›
           </button>
 
-          {/* Image */}
           <div className='relative w-[90%] md:w-[60%] h-[70%]'>
             <Image
               src={galleryImages[currentImage]}
-              alt='bracelet modal view'
+              alt='product modal view'
               fill
               className='object-contain'
               sizes='100vw'

@@ -34,7 +34,7 @@ export default function HomePage() {
         subtitle: 'Where detail meets desire',
         description:
           'Pendants that speak your soul—delicate, unique, and perfectly you.',
-        path: '/optimized/pendant.glb',
+        path: '/p.glb',
         link: '/products/pendants',
       },
     ],

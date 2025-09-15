@@ -109,30 +109,7 @@ export default function ContactPage() {
   return (
     <div className='bg-[#fefefe] text-gray-900 min-h-screen'>
       {/* Header */}
-      <header className='fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-[#eee] px-10 py-5 flex justify-between items-center shadow-sm'>
-        <div className='flex items-center gap-3'>
-          <Image src='/logo4.png' alt='logo' width={45} height={45} />
-          <h1
-            className={`${cormorant.className} text-2xl font-bold tracking-wide text-[#2a1d12]`}
-          >
-            The Vault
-          </h1>
-        </div>
-
-        <nav
-          className={`${inter.className} hidden md:flex gap-10 text-sm text-[#2a1d12]`}
-        >
-          <a href='#bracelets' className='hover:text-[#c5a572] transition'>
-            Bracelets
-          </a>
-          <a href='#rings' className='hover:text-[#c5a572] transition'>
-            Rings
-          </a>
-          <a href='#pendants' className='hover:text-[#c5a572] transition'>
-            Pendants
-          </a>
-        </nav>
-      </header>
+      <Navbar />
 
       {/* Hero */}
       <section className='relative h-screen overflow-hidden'>
