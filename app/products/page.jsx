@@ -66,8 +66,8 @@ export default function ProductsPage() {
 
         <div className='max-w-7xl mx-auto'>
           <div
-            className='grid gap-8 
-                 grid-cols-[repeat(auto-fit,minmax(260px,1fr))]'
+            className='grid gap-4 
+                 grid-cols-[repeat(auto-fit,minmax(300px,1fr))]'
           >
             {data.map((product) => (
               <div
@@ -106,18 +106,18 @@ export default function ProductsPage() {
                 {/* Product Info */}
                 <div className='p-5 text-center'>
                   <h3
-                    className={`${cormorant.className} text-lg font-semibold text-[#2a1d12]`}
+                    className={`${cormorant.className} text-2xl font-semibold text-[#2a1d12] capitalize`}
                   >
                     {product.title}
                   </h3>
                   <p
-                    className={`${inter.className} mt-1 text-sm text-gray-500`}
+                    className={`${inter.className} mt-1 text-lg text-sm text-gray-500`}
                   >
                     Crafted with elegance and precision.
                   </p>
                   <a href={`productdetail/${product.id}`}>
                     <button
-                      className='mt-4 px-5 py-2 border border-[#d4af37] text-[#2a1d12] rounded-full text-sm font-medium 
+                      className='mt-4 px-5 py-2 border border-[#d4af37] text-[#2a1d12] rounded-full text-sm md:text-lg font-medium 
                     hover:bg-[#d4af37] hover:text-white transition-all'
                     >
                       View Product
