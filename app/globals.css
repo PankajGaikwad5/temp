@@ -196,3 +196,21 @@
   background-size: 200% auto;
   animation: shimmer 4s linear infinite;
 }
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/centurygothic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/centurygothic_bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* body {
+  font-family: "Century Gothic", sans-serif;
+} */

@@ -82,11 +82,6 @@ export default function ProductDetailClient({ product }) {
       {/* Header */}
       <Navbar />
 
-      {/* Logo */}
-      <div className='w-full flex justify-center items-center pt-6'>
-        <Image src='/logo.png' width={180} height={180} alt='logo' priority />
-      </div>
-
       {/* Fixed 3D Scene */}
       {!isFullscreen && (
         <div className='fixed inset-0 z-10 pointer-events-none'>
@@ -95,21 +90,24 @@ export default function ProductDetailClient({ product }) {
       )}
 
       {/* Scrollable Content */}
-      <div className='relative z-20 pointer-events-auto'>
+      <div className='relative z-20 pointer-events-auto pt-24 md:pt-0'>
         {/* Hero Section */}
-        <section className='min-h-screen flex items-center justify-between px-8 lg:px-16'>
-          <ScrollSection className='w-1/3 max-w-md' delay={0}>
-            <div className='p-8 rounded-2xl'>
-              <h1 className='text-4xl lg:text-6xl font-bold text-[#722F37] mb-6 leading-tight'>
+        <section className='min-h-screen flex flex-col md:flex-row items-center justify-between px-4 md:px-8 lg:px-16'>
+          <ScrollSection
+            className='w-full md:w-1/3 max-w-md mb-8 md:mb-0'
+            delay={0}
+          >
+            <div className='p-6 md:p-8 rounded-2xl text-center md:text-left'>
+              <h1 className='text-3xl md:text-4xl lg:text-6xl font-bold text-[#722F37] mb-4 md:mb-6 leading-tight'>
                 Elegant
                 <span className='block'>Luxury</span>
               </h1>
             </div>
           </ScrollSection>
-          <div className='w-1/3'></div>
-          <ScrollSection className='w-1/3 max-w-md' delay={0.2}>
-            <div className='p-8 rounded-2xl'>
-              <p className='text-lg text-[#722F37] leading-relaxed'>
+          <div className='w-full md:w-1/3'></div>
+          <ScrollSection className='w-full md:w-1/3 max-w-md' delay={0.2}>
+            <div className='p-6 md:p-8 rounded-2xl text-center md:text-left'>
+              <p className='text-base md:text-lg text-[#722F37] leading-relaxed'>
                 18k gold plating with hand-set gemstones, each piece tells a
                 story of timeless elegance and sophisticated design.
               </p>
@@ -118,15 +116,15 @@ export default function ProductDetailClient({ product }) {
         </section>
 
         {/* Transition Section */}
-        <section className='min-h-screen flex items-center justify-center px-8 lg:px-16'>
+        <section className='min-h-screen flex items-center justify-center px-4 md:px-8 lg:px-16'>
           <ScrollSection className='text-center max-w-4xl' delay={0}>
-            <div className='p-12 rounded-3xl'>
-              <h2 className='text-5xl lg:text-7xl font-bold text-[#722F37] mb-8 leading-tight'>
+            <div className='p-8 md:p-12 rounded-3xl'>
+              <h2 className='text-3xl md:text-5xl lg:text-7xl font-bold text-[#722F37] mb-6 md:mb-8 leading-tight'>
                 Exquisite
                 <br />
                 Craftsmanship
               </h2>
-              <p className='text-xl text-[#722F37] leading-relaxed max-w-2xl mx-auto'>
+              <p className='text-lg md:text-xl text-[#722F37] leading-relaxed max-w-2xl mx-auto'>
                 Every curve, every detail, meticulously designed to capture
                 light and attention. This isn't just jewelry—it's wearable art.
               </p>
@@ -135,28 +133,28 @@ export default function ProductDetailClient({ product }) {
         </section>
 
         {/* Features Section */}
-        <section className='min-h-screen flex items-center justify-between px-8 lg:px-16'>
-          <ScrollSection className='w-1/3 max-w-md' delay={0}>
-            <div className='p-8 rounded-2xl'>
-              <h3 className='text-3xl font-bold text-[#722F37] mb-6'>
+        <section className='min-h-screen flex flex-col md:flex-row items-center justify-between px-4 md:px-8 lg:px-16 space-y-8 md:space-y-0'>
+          <ScrollSection className='w-full md:w-1/3 max-w-md' delay={0}>
+            <div className='p-6 md:p-8 rounded-2xl text-center md:text-left'>
+              <h3 className='text-2xl md:text-3xl font-bold text-[#722F37] mb-4 md:mb-6'>
                 Sustainable
                 <br />
                 Luxury
               </h3>
-              <p className='text-lg text-[#722F37] leading-relaxed mb-6'>
+              <p className='text-base md:text-lg text-[#722F37] leading-relaxed mb-4 md:mb-6'>
                 Ethically sourced materials and responsible manufacturing
                 processes ensure beauty without compromise.
               </p>
-              <ul className='space-y-3 text-[#722F37]'>
-                <li className='flex items-center'>
+              <ul className='space-y-2 md:space-y-3 text-[#722F37]'>
+                <li className='flex items-center justify-center md:justify-start'>
                   <span className='w-2 h-2 bg-green-400 rounded-full mr-3'></span>
                   Conflict-free gemstones
                 </li>
-                <li className='flex items-center'>
+                <li className='flex items-center justify-center md:justify-start'>
                   <span className='w-2 h-2 bg-green-400 rounded-full mr-3'></span>
                   Recycled precious metals
                 </li>
-                <li className='flex items-center'>
+                <li className='flex items-center justify-center md:justify-start'>
                   <span className='w-2 h-2 bg-green-400 rounded-full mr-3'></span>
                   Carbon-neutral shipping
                 </li>
@@ -164,20 +162,20 @@ export default function ProductDetailClient({ product }) {
             </div>
           </ScrollSection>
 
-          <div className='w-1/3'></div>
+          <div className='hidden md:block w-1/3'></div>
 
-          <ScrollSection className='w-1/3 max-w-md' delay={0.2}>
-            <div className='p-8 rounded-2xl'>
-              <h3 className='text-3xl font-bold text-[#722F37] mb-6'>
+          <ScrollSection className='w-full md:w-1/3 max-w-md' delay={0.2}>
+            <div className='p-6 md:p-8 rounded-2xl text-center md:text-left'>
+              <h3 className='text-2xl md:text-3xl font-bold text-[#722F37] mb-4 md:mb-6'>
                 Lifetime
                 <br />
                 Guarantee
               </h3>
-              <p className='text-lg text-[#722F37] leading-relaxed mb-6'>
+              <p className='text-base md:text-lg text-[#722F37] leading-relaxed mb-4 md:mb-6'>
                 We stand behind our craftsmanship with comprehensive lifetime
                 warranty and expert maintenance services.
               </p>
-              <div className='space-y-4'>
+              <div className='space-y-3 md:space-y-4'>
                 <div className='flex items-center justify-between text-sm'>
                   <span className='text-gray-400'>Warranty Coverage</span>
                   <span className='text-[#722F37] font-semibold'>Lifetime</span>
@@ -198,37 +196,38 @@ export default function ProductDetailClient({ product }) {
         </section>
 
         {/* Product Gallery Section */}
-        <section className='px-8 lg:px-16 py-16 bg-white'>
-          <h2 className='text-4xl font-bold text-[#722F37] mb-8 text-center'>
+        <section className='px-4 md:px-8 lg:px-16 py-12 md:py-16 bg-white'>
+          <h2 className='text-3xl md:text-4xl font-bold text-[#722F37] mb-6 md:mb-8 text-center'>
             Product Gallery
           </h2>
-          <div className='grid md:grid-cols-2 gap-6 max-w-6xl mx-auto'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-6xl mx-auto'>
             {/* Large 3D Viewer */}
-            <div className='bg-[#f9f9f9] rounded-2xl shadow-md p-4 flex flex-col justify-center'>
+            <div className='bg-[#f9f9f9] rounded-2xl shadow-md p-3 md:p-4 flex flex-col justify-center'>
               <div className='relative aspect-square rounded-xl overflow-hidden'>
                 <BraceletScene
                   rotation={[0, 0, 0]}
                   interactive={true}
+                  model={modelPath}
                   className='pointer-events-auto w-full h-full'
                 />
                 <button
                   onClick={() => setIsFullscreen(true)}
-                  className='absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-semibold text-[#722F37] shadow hover:bg-white'
+                  className='absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs md:text-sm font-semibold text-[#722F37] shadow hover:bg-white'
                 >
                   Fullscreen
                 </button>
               </div>
-              <p className='mt-3 text-sm text-[#722F37]/80 text-center'>
+              <p className='mt-3 text-xs md:text-sm text-[#722F37]/80 text-center'>
                 Drag to rotate • Scroll to zoom
               </p>
             </div>
 
             {/* 2x2 Images */}
-            <div className='grid grid-cols-2 grid-rows-2 gap-4'>
+            <div className='grid grid-cols-2 grid-rows-2 gap-3 md:gap-4'>
               {galleryImages.map((src, idx) => (
                 <div
                   key={idx}
-                  className='bg-[#f9f9f9] rounded-2xl shadow-md p-4 cursor-pointer'
+                  className='bg-[#f9f9f9] rounded-2xl shadow-md p-3 md:p-4 cursor-pointer'
                   onClick={() => {
                     setCurrentImage(idx);
                     setImageModalOpen(true);
@@ -240,17 +239,17 @@ export default function ProductDetailClient({ product }) {
                       alt={`product ${idx + 1}`}
                       fill
                       className='object-cover transition-transform duration-300 hover:scale-105'
-                      sizes='(max-width: 768px) 100vw, 50vw'
+                      sizes='(max-width: 768px) 50vw, 25vw'
                     />
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className='flex justify-center mt-8'>
+          <div className='flex justify-center mt-6 md:mt-8'>
             <button
               onClick={() => setSizeGuideOpen(true)}
-              className='bg-[#722F37] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#581f26] transition'
+              className='bg-[#722F37] text-white px-5 md:px-6 py-2 md:py-3 rounded-full font-semibold hover:bg-[#581f26] transition text-sm md:text-base'
             >
               Find Your Size
             </button>
@@ -258,11 +257,11 @@ export default function ProductDetailClient({ product }) {
 
           {/* Size Guide Modal */}
           {sizeGuideOpen && (
-            <div className='fixed inset-0 z-[300] bg-black/70 flex items-center justify-center'>
-              <div className='bg-white w-[90%] md:w-[60%] max-h-[80%] overflow-auto rounded-3xl p-8 relative'>
+            <div className='fixed inset-0 z-[300] bg-black/70 flex items-center justify-center p-4'>
+              <div className='bg-white w-full max-w-4xl max-h-[90vh] md:w-[90%] md:max-h-[80%] overflow-auto rounded-3xl p-6 md:p-8 relative'>
                 <button
                   onClick={() => setSizeGuideOpen(false)}
-                  className='absolute top-4 right-4 text-gray-600 text-2xl font-bold hover:text-gray-800'
+                  className='absolute top-4 right-4 text-gray-600 text-xl md:text-2xl font-bold hover:text-gray-800'
                 >
                   ×
                 </button>
@@ -274,7 +273,7 @@ export default function ProductDetailClient({ product }) {
         </section>
 
         {/* Footer */}
-        <footer className='py-10 text-center text-sm text-gray-500 border-t border-[#eee] bg-[#fdfcf9]'>
+        <footer className='py-8 md:py-10 text-center text-xs md:text-sm text-gray-500 border-t border-[#eee] bg-[#fdfcf9]'>
           <p>
             &copy; {new Date().getFullYear()} The Vault by Karan Desai. All
             rights reserved.
@@ -288,9 +287,14 @@ export default function ProductDetailClient({ product }) {
           <button
             onClick={() => setImageModalOpen(false)}
             aria-label='Close image viewer'
-            className='absolute top-6 right-6 z-[210] bg-white/10 text-white rounded-full p-3 hover:bg-white/20'
+            className='absolute top-4 md:top-6 right-4 md:right-6 z-[210] bg-white/10 text-white rounded-full p-2 md:p-3 hover:bg-white/20'
           >
-            <span style={{ fontSize: 22, lineHeight: 1 }}>×</span>
+            <span
+              style={{ fontSize: 18, lineHeight: 1 }}
+              className='md:text-[22px]'
+            >
+              ×
+            </span>
           </button>
 
           <button
@@ -300,7 +304,7 @@ export default function ProductDetailClient({ product }) {
                   (prev - 1 + galleryImages.length) % galleryImages.length
               )
             }
-            className='absolute left-4 md:left-12 text-white text-3xl font-bold z-[210] p-2'
+            className='absolute left-2 md:left-4 lg:left-12 text-white text-2xl md:text-3xl font-bold z-[210] p-2'
           >
             ‹
           </button>
@@ -309,12 +313,12 @@ export default function ProductDetailClient({ product }) {
             onClick={() =>
               setCurrentImage((prev) => (prev + 1) % galleryImages.length)
             }
-            className='absolute right-4 md:right-12 text-white text-3xl font-bold z-[210] p-2'
+            className='absolute right-2 md:right-4 lg:right-12 text-white text-2xl md:text-3xl font-bold z-[210] p-2'
           >
             ›
           </button>
 
-          <div className='relative w-[90%] md:w-[60%] h-[70%]'>
+          <div className='relative w-[95%] md:w-[90%] lg:w-[60%] h-[70%]'>
             <Image
               src={galleryImages[currentImage]}
               alt='product modal view'
@@ -329,22 +333,28 @@ export default function ProductDetailClient({ product }) {
       {/* Fullscreen 3D Viewer */}
       {isFullscreen && (
         <div
-          className='fixed inset-0 z-[100] bg-black/95 flex items-center justify-center'
+          className='fixed inset-0 z-[100] bg-transparent flex items-center justify-center backdrop-blur-3xl'
           role='dialog'
           aria-modal='true'
         >
           <button
             onClick={() => setIsFullscreen(false)}
             aria-label='Close fullscreen viewer'
-            className='absolute top-6 right-6 z-[110] bg-white/10 text-white rounded-full p-3 hover:bg-white/20 focus:outline-none'
+            className='absolute top-4 md:top-6 right-4 md:right-6 z-[110] bg-black/10 text-black rounded-full p-2 md:p-3 hover:bg-black/20 focus:outline-none'
           >
-            <span style={{ fontSize: 18, lineHeight: 1 }}>×</span>
+            <span
+              style={{ fontSize: 16, lineHeight: 1 }}
+              className='md:text-[18px]'
+            >
+              ×
+            </span>
           </button>
 
           <div className='w-full h-full'>
             <BraceletScene
               rotation={[0, 0, 0]}
               interactive={true}
+              model={modelPath}
               className='pointer-events-auto w-full h-full'
             />
           </div>

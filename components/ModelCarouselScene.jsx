@@ -33,6 +33,7 @@ function SceneInner({
   bounceSpeed,
   snapDuration,
   pauseAfterInteractMs,
+  scale,
 }) {
   const groupRef = useRef();
   const draggingRef = useRef(false);
@@ -177,8 +178,8 @@ function SceneInner({
 
       <OrbitControls enableRotate={false} enablePan={false} maxDistance={20} />
 
-      {/* group with models placed on a circle */}
-      <group ref={groupRef}>
+      {/* group with models placed on a circle - now with scale support */}
+      <group ref={groupRef} scale={scale}>
         {models.map((m, i) => {
           const x = Math.sin(baseAngles[i]) * radius;
           const z = Math.cos(baseAngles[i]) * radius;
@@ -224,13 +225,10 @@ export default function ModelCarouselScene({
   autoAdvanceInterval = 5000,
   snapDuration = 6,
   pauseAfterInteractMs = 3000,
+  scale = 1,
 }) {
   // Render the Canvas and inner scene
   return (
-    // <Canvas
-    //   camera={{ position: [0, 0, 6], fov: 45 }}
-    //   style={{ width: '100%', height: '100%' }}
-    // >
     <group>
       <SceneInner
         models={models}
@@ -241,8 +239,8 @@ export default function ModelCarouselScene({
         bounceSpeed={bounceSpeed}
         snapDuration={snapDuration}
         pauseAfterInteractMs={pauseAfterInteractMs}
+        scale={scale}
       />
     </group>
-    // </Canvas>
   );
 }

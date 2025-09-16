@@ -41,15 +41,21 @@ export default function HomePage() {
     []
   );
 
-  // selectedIndex is the single source of truth for which model is front
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const lastInteractionRef = useRef(Date.now());
 
-  // Autoplay config
-  const AUTO_PLAY_DELAY = 3000; // ms after last interaction before autoplay resumes
-  const AUTO_PLAY_INTERVAL = 5000; // ms between auto advances
+  const AUTO_PLAY_DELAY = 3000;
+  const AUTO_PLAY_INTERVAL = 5000;
 
-  // Autoplay: parent drives selectedIndex
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   useEffect(() => {
     const id = setInterval(() => {
       const now = Date.now();
@@ -60,14 +66,11 @@ export default function HomePage() {
     return () => clearInterval(id);
   }, [models.length]);
 
-  // Called by ModelCarouselScene when user drags & snaps (keeps parent synced)
   const handleFrontChange = (idx) => {
-    // update parent selection and record interaction to pause autoplay briefly
     lastInteractionRef.current = Date.now();
     setSelectedIndex(idx);
   };
 
-  // Controls click handlers (Prev / Next / Dots)
   const goPrev = () => {
     lastInteractionRef.current = Date.now();
     setSelectedIndex((s) => (s - 1 + models.length) % models.length);
@@ -84,7 +87,8 @@ export default function HomePage() {
   return (
     <main className='relative min-h-screen w-full bg-[#eeeeee] overflow-hidden text-gray-900'>
       {/* Header */}
-      <header className='fixed top-4 left-0 w-full z-50 bg-transparent px-8 py-5 flex justify-between'>
+      <header className='fixed top-0 left-0 w-full z-50 bg-transparent px-6 sm:px-8 py-4 flex justify-between items-start'>
+        {/* Left hidden logo text */}
         <div className='flex opacity-0 items-center gap-4'>
           <Image src='/logo4.png' alt='logo' width={64} height={64} />
           <div>
@@ -97,10 +101,18 @@ export default function HomePage() {
           </div>
         </div>
 
-        <Image src='./logo4.png' width={300} height={300} alt='big logo' />
+        {/* Center big logo */}
+        <Image
+          src='/logo4.png'
+          width={300}
+          height={300}
+          alt='big logo'
+          className='w-[200px] sm:w-[260px] md:w-[300px] h-auto lg:ml-40'
+        />
 
+        {/* Desktop nav */}
         <nav
-          className={`${montserrat.className} hidden md:flex gap-10 text-sm text-gray-600`}
+          className={`${montserrat.className} hidden md:flex gap-10 text-sm text-gray-600 pt-6`}
         >
           <a
             href='/products/bracelets'
@@ -117,32 +129,100 @@ export default function HomePage() {
           >
             Pendants
           </a>
+          <a
+            href='/products/catalogue'
+            className='hover:text-[#5a4631] transition'
+          >
+            Catalogue
+          </a>
+          <a
+            href='/products/about-us'
+            className='hover:text-[#5a4631] transition'
+          >
+            About
+          </a>
+          <a
+            href='/products/contact-us'
+            className='hover:text-[#5a4631] transition'
+          >
+            Contact Us
+          </a>
         </nav>
+
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setMobileNavOpen(true)}
+          className='md:hidden flex flex-col gap-1.5 focus:outline-none'
+        >
+          <span className='block w-6 h-0.5 bg-[#5a4631]'></span>
+          <span className='block w-6 h-0.5 bg-[#5a4631]'></span>
+          <span className='block w-6 h-0.5 bg-[#5a4631]'></span>
+        </button>
+
+        {/* Mobile nav drawer */}
+        {mobileNavOpen && (
+          <div className='fixed inset-0 bg-black/40 z-50'>
+            <div className='absolute top-0 right-0 w-3/4 max-w-xs h-full bg-white shadow-lg flex flex-col p-6'>
+              <button
+                onClick={() => setMobileNavOpen(false)}
+                className='self-end mb-6 text-gray-600 hover:text-[#5a4631]'
+              >
+                ✕
+              </button>
+              <nav
+                className={`${montserrat.className} flex flex-col gap-6 text-lg text-gray-700`}
+              >
+                <a
+                  href='/products/bracelets'
+                  onClick={() => setMobileNavOpen(false)}
+                >
+                  Bracelets
+                </a>
+                <a
+                  href='/products/rings'
+                  onClick={() => setMobileNavOpen(false)}
+                >
+                  Rings
+                </a>
+                <a
+                  href='/products/pendants'
+                  onClick={() => setMobileNavOpen(false)}
+                >
+                  Pendants
+                </a>
+                <a
+                  href='/products/catalogue'
+                  className='hover:text-[#5a4631] transition'
+                >
+                  Catalogue
+                </a>
+                <a href='/products' className='hover:text-[#5a4631] transition'>
+                  Collection
+                </a>
+                <a
+                  href='/products/about-us'
+                  className='hover:text-[#5a4631] transition'
+                >
+                  About
+                </a>
+                <a
+                  href='/products/contact-us'
+                  className='hover:text-[#5a4631] transition'
+                >
+                  Contact Us
+                </a>
+              </nav>
+            </div>
+          </div>
+        )}
       </header>
-      <div className='' /> {/* header spacer */}
+
       {/* 3D Canvas */}
-      <section className='relative w-full h-screen '>
-        {/* <ModelCarouselScene
-          models={models}
-          onFrontChange={handleFrontChange}
-          selectedIndex={selectedIndex}
-          autoAdvanceInterval={5000}
-          bounceAmplitude={0.15}
-          bounceSpeed={1.3}
-          radius={5}
-        />
-        <Canvas className='w-full h-screen'>
-          <FloatingAstronauts
-            astronautModelPath='yoda.glb'
-            count={100}
-            scale={0.06}
-          />
-        </Canvas> */}
+      <section className='relative w-full h-screen pt-20'>
         <Canvas
           camera={{ position: [0, 0, 6], fov: 45 }}
           style={{ width: '100%', height: '100%' }}
         >
-          {' '}
           <ModelCarouselScene
             models={models}
             onFrontChange={handleFrontChange}
@@ -150,25 +230,26 @@ export default function HomePage() {
             autoAdvanceInterval={5000}
             bounceAmplitude={0.15}
             bounceSpeed={1.3}
-            radius={5}
-          />{' '}
+            radius={isMobile ? 3 : 5}
+            scale={isMobile ? 0.5 : 1}
+          />
           <FloatingAstronauts
             astronautModelPath='optimizedyoda.glb'
-            count={100}
-            scale={0.06}
-          />{' '}
+            count={50}
+            scale={0.05}
+          />
         </Canvas>
-        {/* Optional floating models/atmosphere inside Canvas are handled in ModelCarouselScene */}
-        {/* Info card (bottom-left) */}
-        <div className='absolute bottom-10 left-10 z-50'>
-          <div className='bg-white/95 backdrop-blur-sm rounded-3xl px-8 py-6 max-w-lg shadow-lg transform transition hover:-translate-y-1'>
+
+        {/* Info card */}
+        <div className='absolute bottom-8 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-10 z-20 max-w-[90%] min-w-[90%] md:min-w-min md:max-w-lg'>
+          <div className='bg-white/95 backdrop-blur-sm rounded-2xl px-6 py-5 sm:px-8 sm:py-6 shadow-xl'>
             <h2
-              className={`${montserrat.className} text-3xl font-semibold text-[#5a4631] mb-1`}
+              className={`${montserrat.className} text-2xl sm:text-3xl font-semibold text-[#5a4631] mb-2`}
             >
               {models[selectedIndex].name}
             </h2>
             <h3
-              className={`${poppins.className} text-md font-medium text-[#7c6a4b] mb-4`}
+              className={`${poppins.className} text-sm sm:text-md font-medium text-[#7c6a4b] mb-3`}
             >
               {models[selectedIndex].subtitle}
             </h3>
@@ -178,9 +259,9 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Controls (bottom-right) */}
-        <div className='absolute right-10 bottom-10 z-50 flex flex-col items-end gap-3'>
-          <div className='bg-white/95 rounded-2xl p-3 shadow-lg flex items-center gap-3'>
+        {/* Controls */}
+        <div className='hidden md:flex right-1/2 translate-x-1/2 sm:translate-x-0 sm:right-10 bottom-8 z-50 absolute flex-col items-center sm:items-end gap-4'>
+          <div className='bg-white/95 rounded-2xl px-3 py-2 sm:px-4 sm:py-3 shadow-lg flex items-center gap-2 sm:gap-3'>
             <button
               aria-label='previous'
               onClick={goPrev}
@@ -209,7 +290,7 @@ export default function HomePage() {
                   onClick={() => goTo(i)}
                   className={`w-3 h-3 rounded-full transition-transform ${
                     i === selectedIndex
-                      ? 'transform scale-110 bg-[#5a4631]'
+                      ? 'scale-125 bg-[#5a4631]'
                       : 'bg-gray-300'
                   }`}
                   aria-label={`show ${i}`}
@@ -241,14 +322,15 @@ export default function HomePage() {
 
           <a
             href={models[selectedIndex].link}
-            className='bg-[#5a4631] text-white rounded-full px-4 py-2 text-sm font-medium shadow-sm hover:opacity-95 transition'
+            className='bg-[#5a4631] text-white rounded-full px-5 py-2 text-sm font-medium shadow-md hover:opacity-95 transition'
           >
             Shop {models[selectedIndex].name}
           </a>
         </div>
       </section>
+
       {/* Footer */}
-      <footer className='py-8 text-center absolute bottom-0 left-0 flex justify-center items-center w-full text-gray-600 text-sm select-none'>
+      <footer className='py-8 text-center mt-20 w-full text-gray-600 text-sm select-none'>
         &copy; {new Date().getFullYear()} The Vault by Karan Desai. All rights
         reserved.
       </footer>
