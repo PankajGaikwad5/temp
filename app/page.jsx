@@ -129,11 +129,9 @@ export default function HomePage() {
           >
             Pendants
           </a>
-          <a
-            href='/products/catalogue'
-            className='hover:text-[#5a4631] transition'
-          >
-            Catalogue
+
+          <a href='/products' className='hover:text-[#5a4631] transition'>
+            Collection
           </a>
           <a
             href='/products/about-us'

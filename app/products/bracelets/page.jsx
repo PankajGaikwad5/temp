@@ -24,6 +24,7 @@ const products = [
     id: '1',
     title: 'bracelet',
     model: '/optimized/bracelet.glb',
+    thumbnail: '/thumbnails/b1.png',
     group: 'bracelet',
     img: [
       {
@@ -44,6 +45,17 @@ const products = [
 
 export default function CategoryPage() {
   const [activeProduct, setActiveProduct] = useState(products[0]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <main className='min-h-screen w-full bg-[#fdfcf9] relative'>
@@ -98,17 +110,29 @@ export default function CategoryPage() {
                 onClick={() => setActiveProduct(product)}
               >
                 {/* 3D Model */}
-                <div className='w-full h-[260px] bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.03] transition-transform duration-300'>
-                  <Canvas
-                    camera={{ position: [0, 1, 5], fov: 40 }}
-                    className='w-full h-full'
-                  >
-                    <ambientLight intensity={0.6} />
-                    <directionalLight position={[10, 10, 5]} intensity={1} />
-                    <OrbitControls enableRotate />
-                    <Environment files='../final.hdr' />
-                    <ModelRenderer modelPath={product.model} />
-                  </Canvas>
+                <div className='w-full aspect-square bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-300'>
+                  {isMobile ? (
+                    // Auto thumbnail (using product.model name as fallback src)
+                    <Image
+                      src={`${product.thumbnail}`}
+                      alt={product.title}
+                      width={400}
+                      height={400}
+                      className='object-contain'
+                    />
+                  ) : (
+                    <Canvas
+                      frameloop='demand'
+                      camera={{ position: [0, 0, 4], fov: 85 }}
+                      className='w-full h-full'
+                    >
+                      <ambientLight intensity={0.6} />
+                      <directionalLight position={[10, 10, 5]} intensity={1} />
+                      <OrbitControls enableRotate />
+                      <Environment files='../final.hdr' />
+                      <ModelRenderer modelPath={product.model} />
+                    </Canvas>
+                  )}
                 </div>
 
                 {/* Product Info */}

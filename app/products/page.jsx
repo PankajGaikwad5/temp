@@ -1,8 +1,8 @@
 'use client';
 
-import { Canvas, useThree } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, useGLTF } from '@react-three/drei';
-import { useState, useRef, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { data } from '@/components/data';
 import * as THREE from 'three';
@@ -16,11 +16,19 @@ const cormorant = Cormorant_Garamond({
   weight: ['400', '600', '700'],
 });
 
-// -------------------
-// Main Page
-// -------------------
 export default function ProductsPage() {
   const [activeProduct, setActiveProduct] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <main className='min-h-screen w-full bg-[#fdfcf9] relative'>
@@ -57,18 +65,42 @@ export default function ProductsPage() {
         </h2>
 
         <div className='max-w-7xl mx-auto'>
-          <div className='grid gap-8 grid-cols-[repeat(auto-fit,minmax(260px,1fr))]'>
+          <div
+            className='grid gap-8 
+                 grid-cols-[repeat(auto-fit,minmax(260px,1fr))]'
+          >
             {data.map((product) => (
               <div
                 key={product.id}
                 className='relative bg-white rounded-2xl shadow-md hover:shadow-xl 
-                  transition-all cursor-pointer overflow-hidden border border-[#f2ebe2]
-                  group'
+             transition-all cursor-pointer overflow-hidden border border-[#f2ebe2]
+             group'
                 onClick={() => setActiveProduct(product)}
               >
-                {/* 3D Model */}
+                {/* If mobile → show static image, else show 3D model */}
                 <div className='w-full aspect-square bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-300'>
-                  <OnDemandCanvas modelPath={product.model} />
+                  {isMobile ? (
+                    // Auto thumbnail (using product.model name as fallback src)
+                    <Image
+                      src={`${product.thumbnail}`}
+                      alt={product.title}
+                      width={400}
+                      height={400}
+                      className='object-contain'
+                    />
+                  ) : (
+                    <Canvas
+                      frameloop='demand'
+                      camera={{ position: [0, 0, 4], fov: 35 }}
+                      className='w-full h-full'
+                    >
+                      <ambientLight intensity={0.6} />
+                      <directionalLight position={[10, 10, 5]} intensity={1} />
+                      <OrbitControls enableRotate />
+                      <Environment files='../final.hdr' />
+                      <ModelRenderer modelPath={product.model} />
+                    </Canvas>
+                  )}
                 </div>
 
                 {/* Product Info */}
@@ -86,7 +118,7 @@ export default function ProductsPage() {
                   <a href={`productdetail/${product.id}`}>
                     <button
                       className='mt-4 px-5 py-2 border border-[#d4af37] text-[#2a1d12] rounded-full text-sm font-medium 
-                        hover:bg-[#d4af37] hover:text-white transition-all'
+                    hover:bg-[#d4af37] hover:text-white transition-all'
                     >
                       View Product
                     </button>
@@ -110,41 +142,6 @@ export default function ProductsPage() {
 }
 
 // -------------------
-// On-Demand Canvas
-// -------------------
-function OnDemandCanvas({ modelPath }) {
-  return (
-    <Canvas
-      frameloop='demand'
-      camera={{ position: [0, 0, 4], fov: 35 }}
-      className='w-full h-full'
-      onCreated={({ gl }) => {
-        gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // control GPU load
-      }}
-    >
-      <Suspense fallback={null}>
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[10, 10, 5]} intensity={1} />
-        <Controls />
-        <Environment files='../final.hdr' />
-        <ModelRenderer modelPath={modelPath} />
-      </Suspense>
-    </Canvas>
-  );
-}
-
-function Controls() {
-  const { invalidate } = useThree();
-  return (
-    <OrbitControls
-      enableRotate
-      enableZoom={false}
-      onChange={() => invalidate()} // ✅ properly invalidates on interaction
-    />
-  );
-}
-
-// -------------------
 // Model Renderer
 // -------------------
 function ModelRenderer({ modelPath }) {
@@ -157,7 +154,7 @@ function ModelRenderer({ modelPath }) {
   const center = box.getCenter(new THREE.Vector3());
 
   model.position.sub(center); // center model
-  const scaleFactor = 2.5 / size;
+  const scaleFactor = 2.5 / size; // adjust "2.5" to make models larger/smaller
   model.scale.setScalar(scaleFactor);
 
   model.traverse((child) => {

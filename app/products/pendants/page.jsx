@@ -24,6 +24,7 @@ const products = [
     id: '7',
     title: 'pendant 1',
     model: '/newpendants/optimized1.glb',
+    thumbnail: '/thumbnails/p1.png',
     group: 'pendants',
     img: [
       {
@@ -44,6 +45,7 @@ const products = [
     id: '8',
     title: 'pendant 2',
     model: '/newpendants/optimized2.glb',
+    thumbnail: '/thumbnails/p2.png',
     group: 'pendants',
     img: [
       {
@@ -64,6 +66,7 @@ const products = [
     id: '9',
     title: 'pendant 3',
     model: '/newpendants/optimized3.glb',
+    thumbnail: '/thumbnails/p3.png',
     group: 'pendants',
     img: [
       {
@@ -84,6 +87,7 @@ const products = [
     id: '10',
     title: 'pendant 4',
     model: '/newpendants/optimized4.glb',
+    thumbnail: '/thumbnails/p4.png',
     group: 'pendants',
     img: [
       {
@@ -104,6 +108,7 @@ const products = [
     id: '11',
     title: 'pendant 5',
     model: '/newpendants/optimized5.glb',
+    thumbnail: '/thumbnails/p5.png',
     group: 'pendants',
     img: [
       {
@@ -124,6 +129,7 @@ const products = [
     id: '12',
     title: 'pendant 6',
     model: '/newpendants/optimized6.glb',
+    thumbnail: '/thumbnails/p6.png',
     group: 'pendants',
     img: [
       {
@@ -144,6 +150,7 @@ const products = [
     id: '13',
     title: 'pendant 7',
     model: '/newpendants/optimized7.glb',
+    thumbnail: '/thumbnails/p7.png',
     group: 'pendants',
     img: [
       {
@@ -164,6 +171,7 @@ const products = [
     id: '14',
     title: 'pendant 8',
     model: '/newpendants/optimized8.glb',
+    thumbnail: '/thumbnails/p8.png',
     group: 'pendants',
     img: [
       {
@@ -184,6 +192,17 @@ const products = [
 
 export default function CategoryPage() {
   const [activeProduct, setActiveProduct] = useState(products[0]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <main className='min-h-screen w-full bg-[#fdfcf9] relative'>
@@ -238,17 +257,29 @@ export default function CategoryPage() {
                 onClick={() => setActiveProduct(product)}
               >
                 {/* 3D Model */}
-                <div className='w-full h-[260px] bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.03] transition-transform duration-300'>
-                  <Canvas
-                    camera={{ position: [0, 1, 5], fov: 70 }}
-                    className='w-full h-full'
-                  >
-                    <ambientLight intensity={0.6} />
-                    <directionalLight position={[10, 10, 5]} intensity={1} />
-                    <OrbitControls enableRotate />
-                    <Environment files='../final.hdr' />
-                    <ModelRenderer modelPath={product.model} />
-                  </Canvas>
+                <div className='w-full aspect-square bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-300'>
+                  {isMobile ? (
+                    // Auto thumbnail (using product.model name as fallback src)
+                    <Image
+                      src={`${product.thumbnail}`}
+                      alt={product.title}
+                      width={400}
+                      height={400}
+                      className='object-contain'
+                    />
+                  ) : (
+                    <Canvas
+                      frameloop='demand'
+                      camera={{ position: [0, 0, 4], fov: 90 }}
+                      className='w-full h-full'
+                    >
+                      <ambientLight intensity={0.6} />
+                      <directionalLight position={[10, 10, 5]} intensity={1} />
+                      <OrbitControls enableRotate />
+                      <Environment files='../final.hdr' />
+                      <ModelRenderer modelPath={product.model} />
+                    </Canvas>
+                  )}
                 </div>
 
                 {/* Product Info */}
@@ -315,6 +346,6 @@ function ModelRenderer({ modelPath }) {
   return <primitive object={model} />;
 }
 
-useGLTF.preload('/bracelet2.glb');
-useGLTF.preload('/ring.glb');
-useGLTF.preload('/pendant2.glb');
+// useGLTF.preload('/bracelet2.glb');
+// useGLTF.preload('/ring.glb');
+// useGLTF.preload('/pendant2.glb');

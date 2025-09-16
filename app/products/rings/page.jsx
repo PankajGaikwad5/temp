@@ -25,6 +25,7 @@ const products = [
     id: '2',
     title: 'ring 1',
     model: '/rings/optimized1.glb',
+    thumbnail: '/thumbnails/r1.png',
     group: 'rings',
     img: [
       {
@@ -45,6 +46,7 @@ const products = [
     id: '3',
     title: 'ring 2',
     model: '/rings/optimized2.glb',
+    thumbnail: '/thumbnails/r2.png',
     group: 'rings',
     img: [
       {
@@ -65,6 +67,7 @@ const products = [
     id: '4',
     title: 'ring 3',
     model: '/rings/optimized3.glb',
+    thumbnail: '/thumbnails/r3.png',
     group: 'rings',
     img: [
       {
@@ -85,7 +88,9 @@ const products = [
     id: '5',
     title: 'ring 4',
     model: '/rings/optimized4.glb',
+    thumbnail: '/thumbnails/r4.png',
     group: 'rings',
+
     img: [
       {
         url: '/bg.png',
@@ -105,6 +110,7 @@ const products = [
     id: '6',
     title: 'ring 5',
     model: '/rings/optimized5.glb',
+    thumbnail: '/thumbnails/r5.png',
     group: 'rings',
     img: [
       {
@@ -125,6 +131,17 @@ const products = [
 
 export default function CategoryPage() {
   const [activeProduct, setActiveProduct] = useState(products[0]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <main className='min-h-screen w-full bg-[#fdfcf9] relative'>
@@ -180,16 +197,28 @@ export default function CategoryPage() {
               >
                 {/* 3D Model */}
                 <div className='w-full aspect-square bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-300'>
-                  <Canvas
-                    camera={{ position: [0, 0, 4], fov: 35 }}
-                    className='w-full h-full'
-                  >
-                    <ambientLight intensity={0.6} />
-                    <directionalLight position={[10, 10, 5]} intensity={1} />
-                    <OrbitControls enableRotate />
-                    <Environment files='../final.hdr' />
-                    <ModelRenderer modelPath={product.model} />
-                  </Canvas>
+                  {isMobile ? (
+                    // Auto thumbnail (using product.model name as fallback src)
+                    <Image
+                      src={`${product.thumbnail}`}
+                      alt={product.title}
+                      width={400}
+                      height={400}
+                      className='object-contain'
+                    />
+                  ) : (
+                    <Canvas
+                      frameloop='demand'
+                      camera={{ position: [0, 0, 4], fov: 35 }}
+                      className='w-full h-full'
+                    >
+                      <ambientLight intensity={0.6} />
+                      <directionalLight position={[10, 10, 5]} intensity={1} />
+                      <OrbitControls enableRotate />
+                      <Environment files='../final.hdr' />
+                      <ModelRenderer modelPath={product.model} />
+                    </Canvas>
+                  )}
                 </div>
 
                 {/* Product Info */}
