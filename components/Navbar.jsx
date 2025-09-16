@@ -30,12 +30,12 @@ function Navbar() {
       {/* Logo */}
       <a href='/'>
         <div className='flex items-center gap-3'>
-          <Image src='/logo4.png' alt='logo' width={45} height={45} />
-          <h1
+          <Image src='/croppedlogo.png' alt='logo' width={70} height={70} />
+          {/* <h1
             className={`${cormorant.className} text-2xl font-bold tracking-wide text-[#2a1d12]`}
           >
             The Vault
-          </h1>
+          </h1> */}
         </div>
       </a>
 
