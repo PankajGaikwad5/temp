@@ -19,7 +19,7 @@ function Navbar() {
     { href: '/products/bracelets', label: 'Bracelets' },
     { href: '/products/rings', label: 'Rings' },
     { href: '/products/pendants', label: 'Pendants' },
-    { href: '/products', label: 'Products' },
+    { href: '/products', label: 'Collection' },
     { href: '/catalogue', label: 'Catalogue' },
     { href: '/about-us', label: 'About' },
     { href: '/contact-us', label: 'Contact Us' },

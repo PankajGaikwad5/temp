@@ -155,7 +155,7 @@ function ModelRenderer({ modelPath }) {
   return <primitive object={model} />;
 }
 
-// Preload Models
-useGLTF.preload('/optimized/bracelet.glb');
-useGLTF.preload('/rings/optimized1.glb');
-useGLTF.preload('/rings/optimized3.glb');
+// // Preload Models
+// useGLTF.preload('/optimized/bracelet.glb');
+// useGLTF.preload('/rings/optimized1.glb');
+// useGLTF.preload('/rings/optimized3.glb');

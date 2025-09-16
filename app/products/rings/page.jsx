@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, useGLTF } from '@react-three/drei';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import * as THREE from 'three';
 
 import { Inter, Cormorant_Garamond } from 'next/font/google';
 import Navbar from '@/components/Navbar';
@@ -178,9 +179,9 @@ export default function CategoryPage() {
                 onClick={() => setActiveProduct(product)}
               >
                 {/* 3D Model */}
-                <div className='w-full h-[260px] bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.03] transition-transform duration-300'>
+                <div className='w-full aspect-square bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-300'>
                   <Canvas
-                    camera={{ position: [0, 1, 5], fov: 40 }}
+                    camera={{ position: [0, 0, 4], fov: 35 }}
                     className='w-full h-full'
                   >
                     <ambientLight intensity={0.6} />
@@ -233,7 +234,15 @@ export default function CategoryPage() {
 function ModelRenderer({ modelPath }) {
   const { scene } = useGLTF(modelPath);
   const model = scene.clone(true);
-  model.scale.set(6, 6, 6);
+
+  // normalize model size
+  const box = new THREE.Box3().setFromObject(model);
+  const size = box.getSize(new THREE.Vector3()).length();
+  const center = box.getCenter(new THREE.Vector3());
+
+  model.position.sub(center); // center model
+  const scaleFactor = 2.5 / size; // adjust "2.5" to make models larger/smaller
+  model.scale.setScalar(scaleFactor);
 
   model.traverse((child) => {
     if (child.isMesh) {
