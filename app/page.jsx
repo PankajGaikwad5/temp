@@ -97,7 +97,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <Image src='./logo4.png' width={400} height={400} alt='big logo' />
+        <Image src='./logo4.png' width={300} height={300} alt='big logo' />
 
         <nav
           className={`${montserrat.className} hidden md:flex gap-10 text-sm text-gray-600`}
