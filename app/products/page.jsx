@@ -37,19 +37,19 @@ export default function ProductsPage() {
 
       {/* Hero Section */}
       <section
-        className='relative w-full h-[60vh] flex items-center justify-center bg-fixed bg-center bg-cover'
-        style={{ backgroundImage: "url('../ringbg.png')" }}
+        className='relative w-full h-[90vh] flex items-center justify-center bg-fixed bg-center bg-cover'
+        style={{ backgroundImage: "url('../productbg.png')" }}
       >
-        <div className='absolute inset-0 bg-white/10 backdrop-blur-sm border border-white/20 shadow-inner' />
+        <div className='absolute inset-0 bg-black/20 backdrop-blur-sm border border-white/20 shadow-inner' />
         <div className='relative z-10 text-center max-w-3xl px-6'>
           <h1
-            className={`${cormorant.className} text-6xl md:text-7xl font-bold tracking-[0.08em] bg-gradient-to-r from-[#d4af37] via-[#c5a572] to-[#d4af37] bg-clip-text text-transparent animate-shimmer`}
+            className={`${cormorant.className} text-6xl md:text-7xl 2xl:text-[6rem] font-bold tracking-[0.08em] bg-gradient-to-r from-[#d4af37] via-[#c5a572] to-[#d4af37] bg-clip-text text-transparent animate-shimmer`}
           >
             Products
           </h1>
-          <div className='mt-6 h-[3px] w-28 mx-auto bg-gradient-to-r from-[#d4af37] to-[#c5a572] rounded-full' />
+          <div className='mt-2 h-[3px] w-28 mx-auto bg-gradient-to-r from-[#d4af37] to-[#c5a572] rounded-full' />
           <p
-            className={`${inter.className} mt-8 text-lg md:text-xl text-gray-800 leading-relaxed`}
+            className={`${inter.className} mt-8 text-lg md:text-xl 2xl:text-2xl text-gray-200 leading-relaxed`}
           >
             Explore our crafted collection of timeless pieces.
           </p>
@@ -111,7 +111,7 @@ export default function ProductsPage() {
                     {product.title}
                   </h3>
                   <p
-                    className={`${inter.className} mt-1 text-lg text-sm text-gray-500`}
+                    className={`${inter.className} mt-1 md:text-lg text-sm text-gray-500`}
                   >
                     Crafted with elegance and precision.
                   </p>

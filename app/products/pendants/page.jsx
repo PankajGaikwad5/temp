@@ -212,7 +212,7 @@ export default function CategoryPage() {
       {/* Hero Section */}
       <section
         className='relative w-full h-screen flex items-center justify-center bg-fixed bg-center bg-cover'
-        style={{ backgroundImage: "url('../ringbg.png')" }}
+        style={{ backgroundImage: "url('/pendantbg.png')" }}
       >
         {/* Glassmorphism Overlay */}
         <div className='absolute inset-0 bg-black/10 backdrop-blur-sm border border-white/20 shadow-inner' />
@@ -241,7 +241,7 @@ export default function CategoryPage() {
           Our Exclusive Collection
         </h2>
 
-        <div className='max-w-7xl 2xl:max-w-none mx-auto px-6'>
+        <div className='max-w-7xl  mx-auto px-6'>
           <div
             className='grid gap-5 justify-center'
             style={{
