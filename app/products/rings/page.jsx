@@ -151,7 +151,7 @@ export default function CategoryPage() {
       {/* Hero Section */}
       <section
         className='relative w-full h-screen flex items-center justify-center bg-fixed bg-center bg-cover'
-        style={{ backgroundImage: "url('../ringbgc.png')" }}
+        style={{ backgroundImage: "url('../ringbg.png')" }}
       >
         {/* Glassmorphism Overlay */}
         <div className='absolute inset-0 bg-black/10 backdrop-blur-sm border border-white/20 shadow-inner' />
