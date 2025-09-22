@@ -24,7 +24,7 @@ const products = [
     id: '7',
     title: 'pendant 1',
     model: '/newpendants/optimized1.glb',
-    thumbnail: '/thumbnails/p1.png',
+    thumbnail: '/pngs/p1.png',
     group: 'pendants',
     img: [
       {
@@ -45,7 +45,7 @@ const products = [
     id: '8',
     title: 'pendant 2',
     model: '/newpendants/optimized2.glb',
-    thumbnail: '/thumbnails/p2.png',
+    thumbnail: '/pngs/p2.png',
     group: 'pendants',
     img: [
       {
@@ -66,7 +66,7 @@ const products = [
     id: '9',
     title: 'pendant 3',
     model: '/newpendants/optimized3.glb',
-    thumbnail: '/thumbnails/p3.png',
+    thumbnail: '/pngs/p3.png',
     group: 'pendants',
     img: [
       {
@@ -87,7 +87,7 @@ const products = [
     id: '10',
     title: 'pendant 4',
     model: '/newpendants/optimized4.glb',
-    thumbnail: '/thumbnails/p4.png',
+    thumbnail: '/pngs/p4.png',
     group: 'pendants',
     img: [
       {
@@ -108,7 +108,7 @@ const products = [
     id: '11',
     title: 'pendant 5',
     model: '/newpendants/optimized5.glb',
-    thumbnail: '/thumbnails/p5.png',
+    thumbnail: '/pngs/p5.png',
     group: 'pendants',
     img: [
       {
@@ -129,7 +129,7 @@ const products = [
     id: '12',
     title: 'pendant 6',
     model: '/newpendants/optimized6.glb',
-    thumbnail: '/thumbnails/p6.png',
+    thumbnail: '/pngs/p6.png',
     group: 'pendants',
     img: [
       {
@@ -150,7 +150,7 @@ const products = [
     id: '13',
     title: 'pendant 7',
     model: '/newpendants/optimized7.glb',
-    thumbnail: '/thumbnails/p7.png',
+    thumbnail: '/pngs/p7.png',
     group: 'pendants',
     img: [
       {
@@ -171,7 +171,7 @@ const products = [
     id: '14',
     title: 'pendant 8',
     model: '/newpendants/optimized8.glb',
-    thumbnail: '/thumbnails/p8.png',
+    thumbnail: '/pngs/p8.png',
     group: 'pendants',
     img: [
       {

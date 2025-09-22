@@ -24,7 +24,7 @@ const products = [
     id: '1',
     title: 'bracelet',
     model: '/optimized/bracelet.glb',
-    thumbnail: '/thumbnails/b1.png',
+    thumbnail: '/pngs/b1.png',
     group: 'bracelet',
     img: [
       {

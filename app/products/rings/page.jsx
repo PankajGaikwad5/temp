@@ -25,7 +25,7 @@ const products = [
     id: '2',
     title: 'ring 1',
     model: '/rings/optimized1.glb',
-    thumbnail: '/thumbnails/r1.png',
+    thumbnail: '/pngs/r1.png',
     group: 'rings',
     img: [
       {
@@ -46,7 +46,7 @@ const products = [
     id: '3',
     title: 'ring 2',
     model: '/rings/optimized2.glb',
-    thumbnail: '/thumbnails/r2.png',
+    thumbnail: '/pngs/r2.png',
     group: 'rings',
     img: [
       {
@@ -67,7 +67,7 @@ const products = [
     id: '4',
     title: 'ring 3',
     model: '/rings/optimized3.glb',
-    thumbnail: '/thumbnails/r3.png',
+    thumbnail: '/pngs/r3.png',
     group: 'rings',
     img: [
       {
@@ -88,7 +88,7 @@ const products = [
     id: '5',
     title: 'ring 4',
     model: '/rings/optimized4.glb',
-    thumbnail: '/thumbnails/r4.png',
+    thumbnail: '/pngs/r4.png',
     group: 'rings',
 
     img: [
@@ -110,7 +110,7 @@ const products = [
     id: '6',
     title: 'ring 5',
     model: '/rings/optimized5.glb',
-    thumbnail: '/thumbnails/r5.png',
+    thumbnail: '/pngs/r5.png',
     group: 'rings',
     img: [
       {
