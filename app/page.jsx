@@ -210,7 +210,7 @@ export default function HomePage() {
       </header>
 
       {/* 3D Canvas */}
-      <section className='relative w-full h-screen pt-20'>
+      <section className='relative w-full h-screen'>
         <Canvas
           camera={{ position: [0, 0, 6], fov: 45 }}
           style={{ width: '100%', height: '100%' }}
