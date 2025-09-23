@@ -87,7 +87,7 @@ export default function HomePage() {
   return (
     <main className='relative min-h-screen w-full bg-[#eeeeee] overflow-hidden text-gray-900'>
       {/* Header */}
-      <header className='fixed top-0 left-0 w-full z-50 bg-transparent px-6 sm:px-8 py-4 flex justify-center  items-start'>
+      <header className='fixed top-0 left-0 w-full z-50 bg-transparent px-6 sm:px-8 py-4 flex justify-between  items-start'>
         {/* Left hidden logo text */}
         <div className='flex opacity-0 items-center gap-4 '>
           <Image src='/logo4.png' alt='logo' width={64} height={64} />
@@ -112,7 +112,7 @@ export default function HomePage() {
 
         {/* Desktop nav */}
         <nav
-          className={`${montserrat.className} hidden md:flex gap-10 text-sm text-gray-600 pt-6`}
+          className={`${montserrat.className} hidden md:flex gap-5 text-sm text-gray-600 pt-6`}
         >
           <a
             href='/products/bracelets'
@@ -328,7 +328,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className='py-8 md:py-10 text-center text-xs md:text-sm text-gray-500 border-t border-[#eee] bg-[#fdfcf9]'>
+      <footer className='fixed bottom-0 py-2 text-center text-xs md:text-sm text-gray-500 flex justify-center items-center w-full'>
         <p>
           &copy; {new Date().getFullYear()} The Vault by Karan Desai. All rights
           reserved.
