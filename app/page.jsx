@@ -133,16 +133,10 @@ export default function HomePage() {
           <a href='/products' className='hover:text-[#5a4631] transition'>
             Collection
           </a>
-          <a
-            href='/products/about-us'
-            className='hover:text-[#5a4631] transition'
-          >
+          <a href='/about-us' className='hover:text-[#5a4631] transition'>
             About
           </a>
-          <a
-            href='/products/contact-us'
-            className='hover:text-[#5a4631] transition'
-          >
+          <a href='/contact-us' className='hover:text-[#5a4631] transition'>
             Contact Us
           </a>
         </nav>
