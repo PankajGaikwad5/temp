@@ -87,7 +87,7 @@ export default function HomePage() {
   return (
     <main className='relative min-h-screen w-full bg-[#eeeeee] overflow-hidden text-gray-900'>
       {/* Header */}
-      <header className='fixed top-0 left-0 w-full z-50 bg-transparent px-6 sm:px-8 py-4 flex justify-between  items-start'>
+      <header className='fixed top-0 left-0 w-full z-50 bg-transparent px-6 sm:px-8 py-4 flex md:justify-between  items-start'>
         {/* Left hidden logo text */}
         <div className='flex opacity-0 items-center gap-4 '>
           <Image src='/logo4.png' alt='logo' width={64} height={64} />
@@ -107,7 +107,7 @@ export default function HomePage() {
           width={300}
           height={300}
           alt='big logo'
-          className='w-[100px] sm:w-[200px] md:w-[200px] h-auto lg:ml-40'
+          className='w-[100px] sm:w-[200px] md:w-[200px] h-auto lg:ml-40 mr-20 md:mr-0'
         />
 
         {/* Desktop nav */}
@@ -242,16 +242,16 @@ export default function HomePage() {
         <div className='absolute bottom-8 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-10 z-20 max-w-[90%] min-w-[90%] md:min-w-min md:max-w-lg'>
           <div className='bg-white/95 backdrop-blur-sm rounded-2xl px-6 py-5 sm:px-8 sm:py-6 shadow-xl'>
             <h2
-              className={`${montserrat.className} text-2xl sm:text-3xl font-semibold text-[#5a4631] mb-2`}
+              className={`${montserrat.className} text-xl sm:text-3xl font-semibold text-[#5a4631] mb-1 md:mb-2`}
             >
               {models[selectedIndex].name}
             </h2>
             <h3
-              className={`${poppins.className} text-sm sm:text-md font-medium text-[#7c6a4b] mb-3`}
+              className={`${poppins.className} text-xs sm:text-md font-medium text-[#7c6a4b] mb-1 md:mb-3`}
             >
               {models[selectedIndex].subtitle}
             </h3>
-            <p className={`${poppins.className} text-sm text-gray-700`}>
+            <p className={`${poppins.className} text-xs text-gray-700`}>
               {models[selectedIndex].description}
             </p>
           </div>
