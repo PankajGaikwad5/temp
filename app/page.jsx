@@ -87,9 +87,9 @@ export default function HomePage() {
   return (
     <main className='relative min-h-screen w-full bg-[#eeeeee] overflow-hidden text-gray-900'>
       {/* Header */}
-      <header className='fixed top-0 left-0 w-full z-50 bg-transparent px-6 sm:px-8 py-4 flex justify-between items-start'>
+      <header className='fixed top-0 left-0 w-full z-50 bg-transparent px-6 sm:px-8 py-4 flex justify-center  items-start'>
         {/* Left hidden logo text */}
-        <div className='flex opacity-0 items-center gap-4'>
+        <div className='flex opacity-0 items-center gap-4 '>
           <Image src='/logo4.png' alt='logo' width={64} height={64} />
           <div>
             <h1
@@ -107,7 +107,7 @@ export default function HomePage() {
           width={300}
           height={300}
           alt='big logo'
-          className='w-[200px] sm:w-[260px] md:w-[300px] h-auto lg:ml-40'
+          className='w-[100px] sm:w-[200px] md:w-[200px] h-auto lg:ml-40'
         />
 
         {/* Desktop nav */}
@@ -328,9 +328,11 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className='py-8 text-center mt-20 w-full text-gray-600 text-sm select-none'>
-        &copy; {new Date().getFullYear()} The Vault by Karan Desai. All rights
-        reserved.
+      <footer className='py-8 md:py-10 text-center text-xs md:text-sm text-gray-500 border-t border-[#eee] bg-[#fdfcf9]'>
+        <p>
+          &copy; {new Date().getFullYear()} The Vault by Karan Desai. All rights
+          reserved.
+        </p>
       </footer>
     </main>
   );
