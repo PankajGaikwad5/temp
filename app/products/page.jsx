@@ -38,7 +38,7 @@ export default function ProductsPage() {
       {/* Hero Section */}
       <section
         className='relative w-full h-[90vh] flex items-center justify-center bg-fixed bg-center bg-cover'
-        style={{ backgroundImage: "url('../productbg.png')" }}
+        style={{ backgroundImage: "url('../productbg.webp')" }}
       >
         <div className='absolute inset-0 bg-black/40 backdrop-blur-sm border border-white/20 shadow-inner' />
         <div className='relative z-10 text-center max-w-3xl px-6'>

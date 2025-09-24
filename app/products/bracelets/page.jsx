@@ -65,7 +65,7 @@ export default function CategoryPage() {
       {/* Hero Section */}
       <section
         className='relative w-full h-screen flex items-center justify-center bg-fixed bg-center bg-cover'
-        style={{ backgroundImage: "url('/braceletbg.png')" }}
+        style={{ backgroundImage: "url('/braceletbg.webp')" }}
       >
         {/* Glassmorphism Overlay */}
         <div className='absolute inset-0 bg-black/20 backdrop-blur-sm border border-white/20 shadow-inner' />
