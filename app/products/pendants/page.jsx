@@ -211,9 +211,14 @@ export default function CategoryPage() {
 
       {/* Hero Section */}
       <section
-        className='relative w-full h-screen flex items-center justify-center bg-fixed bg-center bg-cover'
-        style={{ backgroundImage: "url('/pendantbg.webp')" }}
+        className='relative w-full h-screen flex items-center justify-center bg-fixed bg-center bg-cover object-cover'
+        // style={{ backgroundImage: "url('/pendantbg.webp')" }}
       >
+        <img
+          src='/pendantbg.webp'
+          className='w-full h-full fixed bg-fixed bg-cover object-cover left-0 top-0 '
+          alt=''
+        />
         {/* Glassmorphism Overlay */}
         <div className='absolute inset-0 bg-black/10 backdrop-blur-sm border border-white/20 shadow-inner' />
 
@@ -234,7 +239,7 @@ export default function CategoryPage() {
       </section>
 
       {/* Product Grid */}
-      <section className='py-24 px-10'>
+      <section className='py-24 px-10 bg-[#fdfcf9] relative'>
         <h2
           className={`${cormorant.className} text-4xl font-semibold text-center text-[#2a1d12] mb-16`}
         >
@@ -275,7 +280,12 @@ export default function CategoryPage() {
                     >
                       <ambientLight intensity={0.6} />
                       <directionalLight position={[10, 10, 5]} intensity={1} />
-                      <OrbitControls enableRotate />
+                      <OrbitControls
+                        enableRotate
+                        maxDistance={6}
+                        minDistance={3}
+                        zoomSpeed={2}
+                      />
                       <Environment files='../final.hdr' />
                       <ModelRenderer modelPath={product.model} />
                     </Canvas>

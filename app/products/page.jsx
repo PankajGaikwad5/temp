@@ -37,19 +37,24 @@ export default function ProductsPage() {
 
       {/* Hero Section */}
       <section
-        className='relative w-full h-[90vh] flex items-center justify-center bg-fixed bg-center bg-cover'
-        style={{ backgroundImage: "url('../productbg.webp')" }}
+        className='relative w-full h-[90vh] flex items-center justify-center bg-fixed bg-center bg-cover '
+        // style={{ backgroundImage: "url('../productbg.webp')" }}
       >
-        <div className='absolute inset-0 bg-black/40 backdrop-blur-sm border border-white/20 shadow-inner' />
-        <div className='relative z-10 text-center max-w-3xl px-6'>
+        <img
+          src='/productbg.webp'
+          className='w-full h-full fixed bg-fixed bg-cover object-cover left-0 top-0 '
+          alt=''
+        />
+        <div className='absolute inset-0 bg-black/40 backdrop-blur-[2px] border border-white/20 shadow-inner' />
+        <div className='relative z-10 text-center max-w-3xl px-2 md:px-6'>
           <h1
-            className={`${cormorant.className} text-6xl md:text-7xl 2xl:text-[6rem] font-bold tracking-[0.08em] bg-gradient-to-r from-[#d4af37] via-[#c5a572] to-[#d4af37] bg-clip-text text-transparent animate-shimmer`}
+            className={`${cormorant.className} text-5xl md:text-7xl 2xl:text-[6rem] font-bold tracking-[0.08em] bg-gradient-to-r from-[#d4af37] via-[#c5a572] to-[#d4af37] bg-clip-text text-transparent animate-shimmer`}
           >
             Collection
           </h1>
-          <div className='mt-2 h-[3px] w-28 mx-auto bg-gradient-to-r from-[#d4af37] to-[#c5a572] rounded-full' />
+          <div className='md:mt-2 h-[3px] w-28 mx-auto bg-gradient-to-r from-[#d4af37] to-[#c5a572] rounded-full' />
           <p
-            className={`${inter.className} mt-8 text-lg md:text-xl 2xl:text-2xl text-gray-200 leading-relaxed`}
+            className={`${inter.className} mt-4 md:mt-6 text-base md:text-xl 2xl:text-2xl text-gray-200 leading-relaxed`}
           >
             Explore our crafted collection of timeless pieces.
           </p>
@@ -57,9 +62,9 @@ export default function ProductsPage() {
       </section>
 
       {/* Product Grid */}
-      <section className='py-24 px-6'>
+      <section className='py-24 px-4 md:px-6 relative bg-[#fdfcf9]'>
         <h2
-          className={`${cormorant.className} text-4xl font-semibold text-center text-[#2a1d12] mb-16`}
+          className={`${cormorant.className} text-3xl md:text-4xl font-semibold text-center text-[#2a1d12] mb-16`}
         >
           Our Exclusive Collection
         </h2>
@@ -96,7 +101,12 @@ export default function ProductsPage() {
                     >
                       <ambientLight intensity={0.6} />
                       <directionalLight position={[10, 10, 5]} intensity={1} />
-                      <OrbitControls enableRotate />
+                      <OrbitControls
+                        enableRotate
+                        maxDistance={6}
+                        minDistance={2}
+                        zoomSpeed={2}
+                      />
                       <Environment files='../final.hdr' />
                       <ModelRenderer modelPath={product.model} />
                     </Canvas>

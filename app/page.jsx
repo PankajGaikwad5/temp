@@ -107,12 +107,12 @@ export default function HomePage() {
           width={300}
           height={300}
           alt='big logo'
-          className='w-[100px] sm:w-[200px] md:w-[200px] xl:w-[400px] h-auto lg:ml-40 mr-20 md:mr-0'
+          className='w-[100px] sm:w-[200px] md:w-[200px] 2xl:w-[300px] h-auto lg:ml-40 mr-20 md:mr-0'
         />
 
         {/* Desktop nav */}
         <nav
-          className={`${montserrat.className} hidden md:flex gap-5 xl:gap-8 text-sm uppercase xl:text-lg text-gray-600 pt-6`}
+          className={`${montserrat.className} hidden md:flex gap-5 3xl:gap-8 text-sm uppercase 3xl:text-lg text-gray-600 pt-6`}
         >
           <a
             href='/products/bracelets'
@@ -233,20 +233,20 @@ export default function HomePage() {
         </Canvas>
 
         {/* Info card */}
-        <div className='absolute bottom-8 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-10 z-20 max-w-[90%] min-w-[90%] md:min-w-min md:max-w-lg xl:max-w-4xl'>
-          <div className='bg-white/95 backdrop-blur-sm rounded-2xl px-6 py-5 sm:px-8 sm:py-6 xl:py-10 shadow-xl'>
+        <div className='absolute bottom-8 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-10 z-20 max-w-[90%] min-w-[90%] md:min-w-min md:max-w-lg 3xl:max-w-4xl'>
+          <div className='bg-white/95 backdrop-blur-sm rounded-2xl px-6 py-5 sm:px-8 sm:py-6 3xl:py-10 shadow-xl'>
             <h2
-              className={`${montserrat.className} text-xl sm:text-3xl xl:text-4xl font-semibold text-[#5a4631] mb-1 md:mb-2 xl:mb-3`}
+              className={`${montserrat.className} text-xl sm:text-3xl 3xl:text-4xl font-semibold text-[#5a4631] mb-1 md:mb-2 3xl:mb-3`}
             >
               {models[selectedIndex].name}
             </h2>
             <h3
-              className={`${poppins.className} text-xs sm:text-md xl:text-xl font-medium text-[#7c6a4b] mb-1 md:mb-3 xl:mb-4`}
+              className={`${poppins.className} text-xs sm:text-md 3xl:text-xl font-medium text-[#7c6a4b] mb-1 md:mb-3 3xl:mb-4`}
             >
               {models[selectedIndex].subtitle}
             </h3>
             <p
-              className={`${poppins.className} text-xs xl:text-xl text-gray-700`}
+              className={`${poppins.className} text-xs 3xl:text-xl text-gray-700`}
             >
               {models[selectedIndex].description}
             </p>

@@ -202,7 +202,7 @@ export default function ProductDetailClient({ product }) {
           </h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-6xl mx-auto'>
             {/* Large 3D Viewer */}
-            <div className='bg-[#f9f9f9] rounded-2xl shadow-md p-3 md:p-4 flex flex-col justify-center'>
+            <div className='bg-[#ebe9e4] rounded-2xl shadow-md p-3 md:p-4 flex flex-col justify-center'>
               <div className='relative aspect-square rounded-xl overflow-hidden'>
                 <BraceletScene
                   rotation={[0, 0, 0]}
