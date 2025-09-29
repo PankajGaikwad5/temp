@@ -228,7 +228,8 @@ export default function HomePage() {
           <FloatingAstronauts
             astronautModelPath='optimizedyoda.glb'
             count={50}
-            scale={0.05}
+            scale={isMobile ? 0.03 : 0.05}
+            radius={isMobile ? 4 : 10}
           />
         </Canvas>
 

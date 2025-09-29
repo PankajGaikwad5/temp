@@ -6,7 +6,7 @@ import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Individual floating astronaut with unique behavior
-function FloatingAstronaut({ modelPath, scale = 0.05 }) {
+function FloatingAstronaut({ modelPath, scale = 0.05, radius = 15 }) {
   const meshRef = useRef();
   const { scene } = useGLTF(modelPath);
   const clonedScene = useMemo(() => scene?.clone(), [scene]);
@@ -15,9 +15,9 @@ function FloatingAstronaut({ modelPath, scale = 0.05 }) {
   const params = useMemo(
     () => ({
       startPos: [
-        (Math.random() - 0.5) * 25,
-        (Math.random() - 0.5) * 20,
-        (Math.random() - 0.5) * 20,
+        (Math.random() - 0.5) * radius * 1.5,
+        (Math.random() - 0.5) * radius * 1.5,
+        (Math.random() - 0.5) * radius * 1.5,
       ],
       // Super slow drift velocities (realistic space movement)
       driftVel: new THREE.Vector3(
@@ -50,7 +50,7 @@ function FloatingAstronaut({ modelPath, scale = 0.05 }) {
       // burstInterval: 5000 + Math.random() * 10000, // random 5-15 seconds
       burstStrength: 0.01 + Math.random() * 0.02,
     }),
-    []
+    [radius] // ✅ radius is now reactive
   );
 
   useFrame(({ clock }) => {
@@ -94,17 +94,17 @@ function FloatingAstronaut({ modelPath, scale = 0.05 }) {
     }
 
     // Occasional "jetpack burst" - sudden direction change
-    if (t - params.lastBurst > params.burstInterval) {
-      params.driftVel.add(
-        new THREE.Vector3(
-          (Math.random() - 0.5) * params.burstStrength,
-          (Math.random() - 0.5) * params.burstStrength,
-          (Math.random() - 0.5) * params.burstStrength
-        )
-      );
-      params.lastBurst = t;
-      params.burstInterval = 5000 + Math.random() * 10000; // reset interval
-    }
+    // if (t - params.lastBurst > params.burstInterval) {
+    //   params.driftVel.add(
+    //     new THREE.Vector3(
+    //       (Math.random() - 0.5) * params.burstStrength,
+    //       (Math.random() - 0.5) * params.burstStrength,
+    //       (Math.random() - 0.5) * params.burstStrength
+    //     )
+    //   );
+    //   params.lastBurst = t;
+    //   params.burstInterval = 5000 + Math.random() * 10000; // reset interval
+    // }
 
     // Different rotation behaviors for each astronaut
     if (params.rotType === 0) {
@@ -129,7 +129,7 @@ function FloatingAstronaut({ modelPath, scale = 0.05 }) {
     }
 
     // Soft boundary bounce (not wrap)
-    const bounds = 15;
+    const bounds = radius;
     if (Math.abs(meshRef.current.position.x) > bounds) {
       params.driftVel.x *= -0.3; // gentle bounce
     }
@@ -155,6 +155,7 @@ export default function FloatingAstronauts({
   astronautModelPath = '/optimizedyoda.glb',
   count = 5,
   scale = 0.05,
+  radius = 15, // ✅ New prop with default value
 }) {
   return (
     <group name='floating-astronauts'>
@@ -163,6 +164,7 @@ export default function FloatingAstronauts({
           key={i}
           modelPath={astronautModelPath}
           scale={scale + (Math.random() - 0.5) * 0.03} // more size variation
+          radius={radius} // ✅ Pass radius down
         />
       ))}
     </group>

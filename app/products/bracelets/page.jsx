@@ -129,7 +129,7 @@ export default function CategoryPage() {
                     <Canvas
                       frameloop='demand'
                       camera={{ position: [0, 0, 4], fov: 85 }}
-                      className='w-full h-full'
+                      className='w-full h-full select-none'
                     >
                       <ambientLight intensity={0.6} />
                       <directionalLight position={[10, 10, 5]} intensity={1} />
