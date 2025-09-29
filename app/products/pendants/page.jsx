@@ -320,7 +320,7 @@ export default function CategoryPage() {
       </section>
 
       {/* Footer */}
-      <footer className='py-10 text-center text-sm text-gray-500 border-t border-[#eee] bg-[#fdfcf9]'>
+      <footer className=' relative py-10 text-center text-sm text-gray-500 border-t border-[#eee] bg-[#fdfcf9]'>
         <p>
           &copy; {new Date().getFullYear()} The Vault by Karan Desai. All rights
           reserved.

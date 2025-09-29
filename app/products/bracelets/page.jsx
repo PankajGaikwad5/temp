@@ -65,8 +65,13 @@ export default function CategoryPage() {
       {/* Hero Section */}
       <section
         className='relative w-full h-screen flex items-center justify-center bg-fixed bg-center bg-cover'
-        style={{ backgroundImage: "url('/braceletbg.webp')" }}
+        // style={{ backgroundImage: "url('/braceletbg.webp')" }}
       >
+        <img
+          src='/braceletbg.webp'
+          className='w-full h-full fixed bg-fixed bg-cover object-cover left-0 top-0 '
+          alt=''
+        />
         {/* Glassmorphism Overlay */}
         <div className='absolute inset-0 bg-black/20 backdrop-blur-sm border border-white/20 shadow-inner' />
 
@@ -87,7 +92,7 @@ export default function CategoryPage() {
       </section>
 
       {/* Product Grid */}
-      <section className='py-24 px-10'>
+      <section className='py-24 px-10 bg-[#fdfcf9] relative'>
         <h2
           className={`${cormorant.className} text-4xl font-semibold text-center text-[#2a1d12] mb-16`}
         >
@@ -168,7 +173,7 @@ export default function CategoryPage() {
       </section>
 
       {/* Footer */}
-      <footer className='py-10 text-center text-sm text-gray-500 border-t border-[#eee] bg-[#fdfcf9]'>
+      <footer className='relative py-10 text-center text-sm text-gray-500 border-t border-[#eee] bg-[#fdfcf9]'>
         <p>
           &copy; {new Date().getFullYear()} The Vault by Karan Desai. All rights
           reserved.
@@ -204,6 +209,4 @@ function ModelRenderer({ modelPath }) {
   return <primitive object={model} />;
 }
 
-useGLTF.preload('/bracelet2.glb');
-useGLTF.preload('/ring.glb');
-useGLTF.preload('/pendant2.glb');
+useGLTF.preload('/optimized/bracelet.glb');
