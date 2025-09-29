@@ -159,7 +159,7 @@ export default function CategoryPage() {
           alt=''
         />
         {/* Glassmorphism Overlay */}
-        <div className='absolute inset-0 bg-black/20 backdrop-blur-sm border border-white/20 shadow-inner' />
+        <div className='absolute inset-0 bg-black/20 backdrop-blur-[1px] border border-white/20 shadow-inner' />
 
         {/* Content */}
         <div className='relative z-10 text-center max-w-3xl px-6'>
