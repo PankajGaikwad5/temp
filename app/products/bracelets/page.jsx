@@ -128,7 +128,12 @@ export default function CategoryPage() {
                     >
                       <ambientLight intensity={0.6} />
                       <directionalLight position={[10, 10, 5]} intensity={1} />
-                      <OrbitControls enableRotate />
+                      <OrbitControls
+                        enableRotate
+                        maxDistance={6}
+                        minDistance={1}
+                        zoomSpeed={2}
+                      />
                       <Environment files='../final.hdr' />
                       <ModelRenderer modelPath={product.model} />
                     </Canvas>
