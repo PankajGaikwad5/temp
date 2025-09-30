@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Poppins, Montserrat } from 'next/font/google';
 import { Canvas } from '@react-three/fiber';
 import Link from 'next/link';
+import gsap from 'gsap';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600'] });
@@ -46,11 +47,30 @@ export default function HomePage() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const lastInteractionRef = useRef(Date.now());
+  const infoRef = useRef(null);
+  const controlRef = useRef(null);
+  const navRef = useRef(null);
 
   const AUTO_PLAY_DELAY = 3000;
   const AUTO_PLAY_INTERVAL = 5000;
 
   useEffect(() => {
+    gsap.fromTo(
+      infoRef.current,
+      { x: -200, opacity: 0 },
+      { x: 0, opacity: 1, duration: 2, ease: 'power3.out', delay: 1 }
+    );
+    gsap.fromTo(
+      controlRef.current,
+      { y: 200, opacity: 0 },
+      { y: 0, opacity: 1, duration: 2, ease: 'power3.out', delay: 1.5 }
+    );
+    gsap.fromTo(
+      navRef.current,
+      { y: -200, opacity: 0 },
+      { y: 0, opacity: 1, duration: 2, ease: 'power3.out', delay: 1.5 }
+    );
+
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -88,7 +108,10 @@ export default function HomePage() {
   return (
     <main className='relative min-h-screen w-full bg-[#eeeeee] overflow-hidden text-gray-900'>
       {/* Header */}
-      <header className='fixed top-0 left-0 w-full z-50 bg-transparent px-6 sm:px-8 py-4 flex md:justify-between  items-start'>
+      <header
+        className='fixed top-0 left-0 w-full z-50 bg-transparent px-6 sm:px-8 py-4 flex md:justify-between  items-start'
+        ref={navRef}
+      >
         {/* Left hidden logo text */}
         <div className='flex opacity-0 items-center gap-4 '>
           <Image src='/logo4.png' alt='logo' width={64} height={64} />
@@ -235,7 +258,10 @@ export default function HomePage() {
         </Canvas>
 
         {/* Info card */}
-        <div className='absolute bottom-8 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-10 z-20 max-w-[90%] min-w-[90%] md:min-w-min md:max-w-lg 3xl:max-w-4xl'>
+        <div
+          className='absolute bottom-8 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-10 z-20 max-w-[90%] min-w-[90%] md:min-w-min md:max-w-lg 3xl:max-w-4xl'
+          ref={infoRef}
+        >
           <Link href={`${models[selectedIndex].link}`}>
             <div className='bg-white/95 backdrop-blur-sm rounded-2xl px-6 py-5 sm:px-8 sm:py-6 3xl:py-10 shadow-xl'>
               <h2
@@ -258,7 +284,10 @@ export default function HomePage() {
         </div>
 
         {/* Controls */}
-        <div className='hidden md:flex right-1/2 translate-x-1/2 sm:translate-x-0 sm:right-10 bottom-8 z-50 absolute flex-col items-center sm:items-end gap-4'>
+        <div
+          className='hidden md:flex right-1/2 translate-x-1/2 sm:translate-x-0 sm:right-10 bottom-8 z-50 absolute flex-col items-center sm:items-end gap-4'
+          ref={controlRef}
+        >
           <div className='bg-white/95 rounded-2xl px-3 py-2 sm:px-4 sm:py-3 shadow-lg flex items-center gap-2 sm:gap-3'>
             <button
               aria-label='previous'

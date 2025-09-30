@@ -1,6 +1,6 @@
 'use client';
 
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import {
   Environment,
   ContactShadows,
@@ -23,6 +23,8 @@ export default function BraceletScene({
         shadows
         dpr={[1, 2]}
         style={{ width: '100%', height: '100%' }}
+        className='bg-cover'
+        style={!interactive && { backgroundImage: "url('../modelbg.png')" }}
         gl={{
           antialias: true,
           alpha: true,

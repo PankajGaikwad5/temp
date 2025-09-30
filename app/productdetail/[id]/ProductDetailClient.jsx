@@ -8,6 +8,11 @@ import Image from 'next/image';
 import { Inter, Cormorant_Garamond } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import SizeGuide from '@/components/SizeGuide';
+import { data } from '@/components/data';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Environment, useGLTF, OrbitControls } from '@react-three/drei';
+import { ModelRenderer } from '../../products/page';
+import MonsterCardsViewer from '@/components/MonsterCardsViewer';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500'] });
 const cormorant = Cormorant_Garamond({
@@ -19,18 +24,37 @@ export default function ProductDetailClient({ product }) {
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const { scrollYProgress } = useScroll();
 
-  const rotationX = useTransform(scrollYProgress, [0, 0.7], [-29, 33]);
-  const rotationY = useTransform(scrollYProgress, [0, 0.7], [35, -32]);
-  const rotationZ = useTransform(scrollYProgress, [0, 0.7], [-18, 19]);
+  const [activeProduct, setActiveProduct] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const rotationX = useTransform(scrollYProgress, [0, 1], [-29, 80]); // X rotates more
+  const rotationY = useTransform(scrollYProgress, [0, 1], [35, -70]); // Y rotates more
+  const rotationZ = useTransform(scrollYProgress, [0, 1], [-18, 50]); // Z rotates more
 
   const [rotation, setRotation] = useState([-29, 35, -18]);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
 
+  const [newdata, setNewdata] = useState([]);
+
+  const [cardsOpen, setCardsOpen] = useState(false);
+  // const newdata = data
+  //   .filter((item) => item.id !== product.id)
+  //   .sort(() => Math.random() - 0.5)
+  //   .slice(0, 4);
+
   // use product images
   const galleryImages = product.img.map((i) => i.url);
   const modelPath = product.model;
+
+  useEffect(() => {
+    const filteredArray = data
+      .filter((item) => item.id !== product.id)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 4);
+    setNewdata(filteredArray);
+  }, []);
 
   // update rotation from scroll
   useEffect(() => {
@@ -55,11 +79,33 @@ export default function ProductDetailClient({ product }) {
   useEffect(() => {
     if (!isFullscreen) return;
     const handleKey = (e) => {
-      if (e.key === 'Escape') setIsFullscreen(false);
+      if (e.key === 'Escape') {
+        setIsFullscreen(false);
+      }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [isFullscreen]);
+  useEffect(() => {
+    if (!cardsOpen) return;
+    const handleKey = (e) => {
+      if (e.key === 'Escape') {
+        setCardsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [cardsOpen]);
+  useEffect(() => {
+    if (!sizeGuideOpen) return;
+    const handleKey = (e) => {
+      if (e.key === 'Escape') {
+        setSizeGuideOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [sizeGuideOpen]);
 
   // Close image modal / navigate with arrows
   useEffect(() => {
@@ -76,6 +122,15 @@ export default function ProductDetailClient({ product }) {
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [imageModalOpen, galleryImages.length]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div className='min-h-screen bg-[#eeeeee] relative'>
@@ -246,12 +301,18 @@ export default function ProductDetailClient({ product }) {
               ))}
             </div>
           </div>
-          <div className='flex justify-center mt-6 md:mt-8'>
+          <div className='flex justify-center mt-6 md:mt-8 gap-4'>
             <button
               onClick={() => setSizeGuideOpen(true)}
               className='bg-[#722F37] text-white px-5 md:px-6 py-2 md:py-3 rounded-full font-semibold hover:bg-[#581f26] transition text-sm md:text-base'
             >
               Find Your Size
+            </button>
+            <button
+              onClick={() => setCardsOpen(true)}
+              className='bg-[#722F37] text-white px-5 md:px-6 py-2 md:py-3 rounded-full font-semibold hover:bg-[#581f26] transition text-sm md:text-base'
+            >
+              Know your Monster
             </button>
           </div>
 
@@ -270,6 +331,85 @@ export default function ProductDetailClient({ product }) {
               </div>
             </div>
           )}
+        </section>
+
+        {/* You may also like section */}
+        <section className={`w-full  bg-white  gap-4 py-10 relative px-6`}>
+          <h2 className=' md:text-4xl font-bold text-[#722F37] mb-6 md:mb-8 text-center'>
+            You might also like
+          </h2>
+          <div className='max-w-7xl mx-auto'>
+            <div
+              className='grid gap-4 2xl:gap-6
+                 grid-cols-[repeat(auto-fit,minmax(300px,1fr))]'
+            >
+              {newdata.map((product) => (
+                <div
+                  key={product.id}
+                  className='relative bg-white rounded-2xl shadow-md hover:shadow-xl 
+             transition-all cursor-pointer overflow-hidden border border-[#f2ebe2]
+             group'
+                  onClick={() => setActiveProduct(product)}
+                >
+                  {/* If mobile → show static image, else show 3D model */}
+                  <div className='w-full aspect-square bg-gradient-to-b from-[#faf7f2] to-[#f1ede6] flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-300'>
+                    {isMobile ? (
+                      // Auto thumbnail (using product.model name as fallback src)
+                      <Image
+                        src={`${product.thumbnail}`}
+                        alt={product.title}
+                        width={400}
+                        height={400}
+                        className='object-contain'
+                      />
+                    ) : (
+                      <Canvas
+                        frameloop='demand'
+                        camera={{ position: [0, 0, 4], fov: 35 }}
+                        className='w-full h-full select-none'
+                      >
+                        <ambientLight intensity={0.6} />
+                        <directionalLight
+                          position={[10, 10, 5]}
+                          intensity={1}
+                        />
+                        <OrbitControls
+                          enableRotate
+                          maxDistance={6}
+                          minDistance={2}
+                          zoomSpeed={2}
+                        />
+                        <Environment files='../final.hdr' />
+                        <ModelRenderer modelPath={product.model} />
+                      </Canvas>
+                    )}
+                  </div>
+
+                  {/* Product Info */}
+                  <div className='p-5 text-center'>
+                    <h3
+                      className={`${cormorant.className} text-2xl font-semibold text-[#2a1d12] capitalize`}
+                    >
+                      {product.title}
+                    </h3>
+                    <p
+                      className={`${inter.className} mt-1 md:text-lg text-sm text-gray-500`}
+                    >
+                      Crafted with elegance and precision.
+                    </p>
+                    <a href={`productdetail/${product.id}`}>
+                      <button
+                        className='mt-4 px-5 py-2 border border-[#d4af37] text-[#2a1d12] rounded-full text-sm md:text-lg font-medium 
+                    hover:bg-[#d4af37] hover:text-white transition-all'
+                      >
+                        View Product
+                      </button>
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* Footer */}
@@ -329,6 +469,12 @@ export default function ProductDetailClient({ product }) {
           </div>
         </div>
       )}
+
+      <MonsterCardsViewer
+        cards={product.cards}
+        open={cardsOpen}
+        onClose={() => setCardsOpen(false)}
+      />
 
       {/* Fullscreen 3D Viewer */}
       {isFullscreen && (

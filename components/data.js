@@ -19,6 +19,32 @@ export const data = [
         url: '/ringbg.png',
       },
     ],
+    cards: [
+      {
+        url: '/cards/1.webp',
+      },
+      {
+        url: '/cards/2.webp',
+      },
+      {
+        url: '/cards/3.webp',
+      },
+      {
+        url: '/cards/4.webp',
+      },
+      {
+        url: '/cards/5.webp',
+      },
+      {
+        url: '/cards/6.webp',
+      },
+      {
+        url: '/cards/7.webp',
+      },
+      {
+        url: '/cards/8.webp',
+      },
+    ],
   },
   {
     id: '2',
@@ -38,6 +64,11 @@ export const data = [
       },
       {
         url: '/ringbg.png',
+      },
+    ],
+    cards: [
+      {
+        url: '/cards/2.webp',
       },
     ],
   },
@@ -61,6 +92,11 @@ export const data = [
         url: '/ringbg.png',
       },
     ],
+    cards: [
+      {
+        url: '/cards/2.webp',
+      },
+    ],
   },
   {
     id: '4',
@@ -82,6 +118,14 @@ export const data = [
         url: '/ringbg.png',
       },
     ],
+    cards: [
+      {
+        url: '/cards/3.webp',
+      },
+      {
+        url: '/cards/2.webp',
+      },
+    ],
   },
   {
     id: '5',
@@ -89,7 +133,6 @@ export const data = [
     model: '/rings/optimized4.glb',
     thumbnail: '/pngs/r4.png',
     group: 'rings',
-
     img: [
       {
         url: '/bg.png',
@@ -102,6 +145,11 @@ export const data = [
       },
       {
         url: '/ringbg.png',
+      },
+    ],
+    cards: [
+      {
+        url: '/cards/2.webp',
       },
     ],
   },
@@ -125,12 +173,24 @@ export const data = [
         url: '/ringbg.png',
       },
     ],
+    cards: [
+      {
+        url: '/cards/6.webp',
+      },
+      {
+        url: '/cards/2.webp',
+      },
+      {
+        url: '/cards/3.webp',
+      },
+    ],
   },
   {
     id: '7',
     title: 'pendant 1',
     model: '/newpendants/optimized1.glb',
     thumbnail: '/pngs/p1.png',
+    // cards: ['/cards/p1.webp'],
     group: 'pendants',
     img: [
       {
@@ -144,6 +204,11 @@ export const data = [
       },
       {
         url: '/ringbg.png',
+      },
+    ],
+    cards: [
+      {
+        url: '/cards/1.webp',
       },
     ],
   },
@@ -167,6 +232,11 @@ export const data = [
         url: '/ringbg.png',
       },
     ],
+    cards: [
+      {
+        url: '/cards/2.webp',
+      },
+    ],
   },
   {
     id: '9',
@@ -186,6 +256,11 @@ export const data = [
       },
       {
         url: '/ringbg.png',
+      },
+    ],
+    cards: [
+      {
+        url: '/cards/3.webp',
       },
     ],
   },
@@ -209,6 +284,11 @@ export const data = [
         url: '/ringbg.png',
       },
     ],
+    cards: [
+      {
+        url: '/cards/4.webp',
+      },
+    ],
   },
   {
     id: '11',
@@ -228,6 +308,11 @@ export const data = [
       },
       {
         url: '/ringbg.png',
+      },
+    ],
+    cards: [
+      {
+        url: '/cards/5.webp',
       },
     ],
   },
@@ -251,6 +336,11 @@ export const data = [
         url: '/ringbg.png',
       },
     ],
+    cards: [
+      {
+        url: '/cards/6.webp',
+      },
+    ],
   },
   {
     id: '13',
@@ -272,6 +362,11 @@ export const data = [
         url: '/ringbg.png',
       },
     ],
+    cards: [
+      {
+        url: '/cards/7.webp',
+      },
+    ],
   },
   {
     id: '14',
@@ -291,6 +386,11 @@ export const data = [
       },
       {
         url: '/ringbg.png',
+      },
+    ],
+    cards: [
+      {
+        url: '/cards/8.webp',
       },
     ],
   },

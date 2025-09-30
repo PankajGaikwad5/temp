@@ -97,7 +97,8 @@ export default function ProductsPage() {
                     <Canvas
                       frameloop='demand'
                       camera={{ position: [0, 0, 4], fov: 35 }}
-                      className='w-full h-full select-none'
+                      className='w-full h-full select-none bg-cover'
+                      style={{ backgroundImage: "url('../modelbg.png')" }}
                     >
                       <ambientLight intensity={0.6} />
                       <directionalLight position={[10, 10, 5]} intensity={1} />
@@ -154,7 +155,7 @@ export default function ProductsPage() {
 // -------------------
 // Model Renderer
 // -------------------
-function ModelRenderer({ modelPath }) {
+export function ModelRenderer({ modelPath }) {
   const { scene } = useGLTF(modelPath);
   const model = scene.clone(true);
 
