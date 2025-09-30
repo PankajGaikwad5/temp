@@ -71,7 +71,7 @@ export default function MonsterCardsViewer({ cards = [], open, onClose }) {
           {cards.map((card, idx) => (
             <div
               key={idx}
-              className='relative flex-shrink-0 w-80 sm:w-56 md:w-52 lg:w-72 xl:w-96 2xl:w-1/4 aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl bg-white cursor-pointer'
+              className='relative flex-shrink-0 w-80 sm:w-56 md:w-52 lg:w-72 xl:w-96 2xl:w-[27rem] aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl bg-white cursor-pointer'
             >
               <Image
                 src={card.url}

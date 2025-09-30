@@ -24,7 +24,8 @@ export default function BraceletScene({
         dpr={[1, 2]}
         style={
           ({ width: '100%', height: '100%' },
-          !interactive && { backgroundImage: "url('../modelbg.png')" })
+          // !interactive && { backgroundImage: "url('../modelbg.png')" }
+        )
         }
         className='bg-cover'
         // style={!interactive && { backgroundImage: "url('../modelbg.png')" }}
@@ -51,7 +52,11 @@ export default function BraceletScene({
         <Environment files={hdr} />
 
         {/* Model */}
-        <BraceletModel modelPath={model} rotation={rotation} />
+        <BraceletModel
+          modelPath={model}
+          rotation={rotation}
+          // color={'#dea193'}
+        />
 
         {/* Ground shadow */}
         <ContactShadows

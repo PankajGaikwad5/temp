@@ -8,6 +8,7 @@ export default function BraceletModel({
   modelPath = '/optimized/bracelet.glb',
   rotation = [0, 0, 0],
   position = [0, 0, 0],
+  color, // New prop
 }) {
   const groupRef = useRef(null);
   const { scene } = useGLTF(modelPath);
@@ -23,6 +24,16 @@ export default function BraceletModel({
 
     const modelClone = scene.clone();
 
+    // Apply color if provided
+    if (color) {
+      modelClone.traverse((child) => {
+        if (child.isMesh) {
+          child.material.color.set(color);
+          child.material.needsUpdate = true;
+        }
+      });
+    }
+
     // Compute bounding box
     const box = new THREE.Box3().setFromObject(modelClone);
     const size = new THREE.Vector3();
@@ -36,7 +47,7 @@ export default function BraceletModel({
     setScale(calculatedScale);
 
     groupRef.current.add(modelClone);
-  }, [scene]);
+  }, [scene, color]); // Re-run if color changes
 
   return (
     <group
