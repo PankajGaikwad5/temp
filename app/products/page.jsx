@@ -155,7 +155,7 @@ export default function ProductsPage() {
 // -------------------
 // Model Renderer
 // -------------------
-export function ModelRenderer({ modelPath }) {
+function ModelRenderer({ modelPath }) {
   const { scene } = useGLTF(modelPath);
   const model = scene.clone(true);
 

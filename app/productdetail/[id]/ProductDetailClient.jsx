@@ -11,7 +11,7 @@ import SizeGuide from '@/components/SizeGuide';
 import { data } from '@/components/data';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, useGLTF, OrbitControls } from '@react-three/drei';
-import { ModelRenderer } from '../../products/page';
+import { ModelRenderer } from '@/components/ModelRenderer';
 import MonsterCardsViewer from '@/components/MonsterCardsViewer';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500'] });
