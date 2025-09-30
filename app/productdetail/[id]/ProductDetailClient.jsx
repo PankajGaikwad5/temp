@@ -397,7 +397,7 @@ export default function ProductDetailClient({ product }) {
                     >
                       Crafted with elegance and precision.
                     </p>
-                    <a href={`productdetail/${product.id}`}>
+                    <a href={`/productdetail/${product.id}`}>
                       <button
                         className='mt-4 px-5 py-2 border border-[#d4af37] text-[#2a1d12] rounded-full text-sm md:text-lg font-medium 
                     hover:bg-[#d4af37] hover:text-white transition-all'
