@@ -22,11 +22,7 @@ export default function BraceletScene({
       <Canvas
         shadows
         dpr={[1, 2]}
-        style={
-          ({ width: '100%', height: '100%' },
-          // !interactive && { backgroundImage: "url('../modelbg.png')" }
-        )
-        }
+        style={{ width: '100%', height: '100%' }}
         className='bg-cover'
         // style={!interactive && { backgroundImage: "url('../modelbg.png')" }}
         gl={{
