@@ -6,6 +6,7 @@ import {
   ContactShadows,
   PerspectiveCamera,
   OrbitControls,
+  Float,
 } from '@react-three/drei';
 import BraceletModel from './BraceletModel';
 
@@ -39,23 +40,21 @@ export default function BraceletScene({
           near={0.1}
           far={1000}
         />
-
         {/* Lighting */}
         <ambientLight intensity={0.4} />
         <directionalLight position={[10, 10, 5]} intensity={1} />
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
-
         {/* Environment */}
         <Environment files={hdr} />
-
-        {/* Model */}
-        <BraceletModel
-          modelPath={model}
-          rotation={rotation}
-          color={color}
-          // color={'#dea193'}
-        />
-
+        {/* Model */}\
+        <Float>
+          <BraceletModel
+            modelPath={model}
+            rotation={rotation}
+            color={color}
+            // color={'#dea193'}
+          />
+        </Float>
         {/* Ground shadow */}
         <ContactShadows
           position={[0, -3, 0]}
@@ -64,7 +63,6 @@ export default function BraceletScene({
           blur={2}
           far={4}
         />
-
         {/* OrbitControls for interactive instances */}
         {interactive && (
           <OrbitControls
