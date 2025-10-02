@@ -24,6 +24,16 @@ export default function ProductDetailClient({ product }) {
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const { scrollYProgress } = useScroll();
 
+  const [selectedColor, setSelectedColor] = useState('#FFCE80');
+
+  const colorOptions = [
+    { name: 'Original', value: '#FFCE80' },
+    { name: 'White Gold', value: '#d1d1d7' },
+    { name: 'Rose Gold', value: '#dea193' },
+    { name: 'Platinum', value: '#e5e4e2' },
+    { name: 'Silver', value: '#c1c4c7' },
+  ];
+
   const [activeProduct, setActiveProduct] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -140,7 +150,11 @@ export default function ProductDetailClient({ product }) {
       {/* Fixed 3D Scene */}
       {!isFullscreen && (
         <div className='fixed inset-0 z-10 pointer-events-none'>
-          <BraceletScene rotation={rotation} model={modelPath} />
+          <BraceletScene
+            rotation={rotation}
+            model={modelPath}
+            color={selectedColor}
+          />
         </div>
       )}
 
@@ -263,6 +277,7 @@ export default function ProductDetailClient({ product }) {
                   rotation={[0, 0, 0]}
                   interactive={true}
                   model={modelPath}
+                  color={selectedColor}
                   className='pointer-events-auto w-full h-full'
                 />
                 <button
@@ -271,6 +286,23 @@ export default function ProductDetailClient({ product }) {
                 >
                   Fullscreen
                 </button>
+              </div>
+              {/* Color Option Buttons */}
+              <div className='flex flex-wrap justify-center gap-3 mt-4'>
+                {colorOptions.map((opt) => (
+                  <button
+                    key={opt.name}
+                    onClick={() => setSelectedColor(opt.value)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition
+                    ${
+                      selectedColor === opt.value
+                        ? 'bg-[#722F37] text-white'
+                        : 'bg-white border border-[#722F37] text-[#722F37] hover:bg-[#f8f4f4]'
+                    }`}
+                  >
+                    {opt.name}
+                  </button>
+                ))}
               </div>
               <p className='mt-3 text-xs md:text-sm text-[#722F37]/80 text-center'>
                 Drag to rotate • Scroll to zoom

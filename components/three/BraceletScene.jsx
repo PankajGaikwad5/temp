@@ -16,6 +16,7 @@ export default function BraceletScene({
   enableZoom = true,
   hdr = '/final.hdr',
   model = '/optimized/bracelet.glb',
+  color,
 }) {
   return (
     <div className={`w-full h-full ${className}`}>
@@ -51,6 +52,7 @@ export default function BraceletScene({
         <BraceletModel
           modelPath={model}
           rotation={rotation}
+          color={color}
           // color={'#dea193'}
         />
 
