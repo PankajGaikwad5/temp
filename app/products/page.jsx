@@ -2,10 +2,11 @@
 
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, useGLTF } from '@react-three/drei';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { data } from '@/components/data';
 import * as THREE from 'three';
+import gsap from 'gsap';
 
 import { Inter, Cormorant_Garamond } from 'next/font/google';
 import Navbar from '@/components/Navbar';
@@ -19,6 +20,34 @@ const cormorant = Cormorant_Garamond({
 export default function ProductsPage() {
   const [activeProduct, setActiveProduct] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+
+  const bgImg = useRef(null);
+  const heroText = useRef(null);
+
+  useEffect(() => {
+    gsap.fromTo(
+      bgImg.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 2, ease: 'power3.out', delay: 1 }
+    );
+    gsap.fromTo(
+      heroText.current,
+      { y: 200, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 2,
+        ease: 'power3.out',
+        delay: 1.5,
+        stagger: 1,
+      }
+    );
+    //  gsap.fromTo(
+    //    navRef.current,
+    //    { y: -200, opacity: 0 },
+    //    { y: 0, opacity: 1, duration: 2, ease: 'power3.out', delay: 1.5 }
+    //  );
+  }, []);
 
   // detect screen size
   useEffect(() => {
@@ -37,7 +66,7 @@ export default function ProductsPage() {
 
       {/* Hero Section */}
       <section
-        className='relative w-full h-[90vh] flex items-center justify-center bg-fixed bg-center bg-cover '
+        className='relative w-full h-[96vh] flex items-center justify-center bg-fixed bg-center bg-cover '
         // style={{ backgroundImage: "url('../productbg.webp')" }}
       >
         <img
@@ -45,8 +74,14 @@ export default function ProductsPage() {
           className='w-full h-full fixed bg-fixed bg-cover object-cover left-0 top-0 '
           alt=''
         />
-        <div className='absolute inset-0 bg-black/40 backdrop-blur-[2px] border border-white/20 shadow-inner' />
-        <div className='relative z-10 text-center max-w-3xl px-2 md:px-6'>
+        <div
+          ref={bgImg}
+          className='absolute inset-0 bg-black/40 backdrop-blur-[2px] border border-white/20 shadow-inner'
+        />
+        <div
+          className='relative z-10 text-center max-w-3xl px-2 md:px-6'
+          ref={heroText}
+        >
           <h1
             className={`${cormorant.className} text-5xl md:text-7xl 2xl:text-[6rem] font-bold tracking-[0.08em] bg-gradient-to-r from-[#d4af37] via-[#c5a572] to-[#d4af37] bg-clip-text text-transparent animate-shimmer`}
           >

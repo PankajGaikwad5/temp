@@ -2,8 +2,9 @@
 
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, useGLTF } from '@react-three/drei';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
+import gsap from 'gsap';
 
 import { Inter, Cormorant_Garamond } from 'next/font/google';
 import Navbar from '@/components/Navbar';
@@ -194,6 +195,34 @@ export default function CategoryPage() {
   const [activeProduct, setActiveProduct] = useState(products[0]);
   const [isMobile, setIsMobile] = useState(false);
 
+  const bgImg = useRef(null);
+  const heroText = useRef(null);
+
+  useEffect(() => {
+    gsap.fromTo(
+      bgImg.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 2, ease: 'power3.out', delay: 1 }
+    );
+    gsap.fromTo(
+      heroText.current,
+      { y: 200, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 2,
+        ease: 'power3.out',
+        delay: 1.5,
+        stagger: 1,
+      }
+    );
+    //  gsap.fromTo(
+    //    navRef.current,
+    //    { y: -200, opacity: 0 },
+    //    { y: 0, opacity: 1, duration: 2, ease: 'power3.out', delay: 1.5 }
+    //  );
+  }, []);
+
   // detect screen size
   useEffect(() => {
     const handleResize = () => {
@@ -220,10 +249,16 @@ export default function CategoryPage() {
           alt=''
         />
         {/* Glassmorphism Overlay */}
-        <div className='absolute inset-0 bg-black/10 backdrop-blur-sm border border-white/20 shadow-inner' />
+        <div
+          className='absolute inset-0 bg-black/10 backdrop-blur-sm border border-white/20 shadow-inner'
+          ref={bgImg}
+        />
 
         {/* Content */}
-        <div className='relative z-10 text-center max-w-3xl px-6'>
+        <div
+          className='relative z-10 text-center max-w-3xl px-6'
+          ref={heroText}
+        >
           <h1
             className={`${cormorant.className} text-6xl md:text-7xl font-bold tracking-[0.08em] bg-gradient-to-r from-[#c5ab57] via-[#bebebd] to-[#c9a636] bg-clip-text text-transparent animate-shimmer`}
           >
