@@ -303,7 +303,7 @@ export default function HomePage() {
 
         {/* Info card */}
         <div
-          className='absolute bottom-8 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-10 z-20 max-w-[90%] min-w-[90%] md:min-w-min md:max-w-lg 3xl:max-w-4xl'
+          className='absolute bottom-36 md:bottom-8 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-10 z-20 max-w-[90%] min-w-[90%] md:min-w-min md:max-w-lg 3xl:max-w-4xl'
           ref={infoRef}
         >
           <Link href={`${models[selectedIndex].link}`}>
