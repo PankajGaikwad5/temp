@@ -177,11 +177,12 @@ function SceneInner({
       <Environment files='/final.hdr' />
 
       <OrbitControls
+        enableDamping={true}
         enableRotate={false}
         enablePan={false}
         maxDistance={20}
         minDistance={8}
-        zoomSpeed={2}
+        dampingFactor={0.1}
       />
 
       {/* group with models placed on a circle - now with scale support */}

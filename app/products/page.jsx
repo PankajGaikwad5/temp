@@ -134,6 +134,7 @@ export default function ProductsPage() {
                       camera={{ position: [0, 0, 4], fov: 35 }}
                       className='w-full h-full select-none bg-cover'
                       style={{ backgroundImage: "url('../modelbg.png')" }}
+                      onWheel={(e) => e.stopPropagation()}
                     >
                       <ambientLight intensity={0.6} />
                       <directionalLight position={[10, 10, 5]} intensity={1} />

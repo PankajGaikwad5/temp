@@ -399,6 +399,7 @@ export default function ProductDetailClient({ product }) {
                         frameloop='demand'
                         camera={{ position: [0, 0, 4], fov: 35 }}
                         className='w-full h-full select-none'
+                        onWheel={(e) => e.stopPropagation()}
                       >
                         <ambientLight intensity={0.6} />
                         <directionalLight

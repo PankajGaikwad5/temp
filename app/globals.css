@@ -118,6 +118,10 @@
   }
 }
 
+body {
+  scroll-behavior: smooth;
+}
+
 .animate-twinkle {
   animation: twinkle 3s ease-in-out infinite;
 }
