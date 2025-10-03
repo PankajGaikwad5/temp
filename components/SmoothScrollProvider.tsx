@@ -10,7 +10,8 @@ export default function SmoothScrollProvider({
 }) {
   useEffect(() => {
     const lenis = new Lenis({
-      smooth: true,
+      wheelMultiplier: 1.5,
+      touchMultiplier: 2,
       lerp: 0.1, // easing (0 <-> 1)
       duration: 1.2, // scroll speed
     });
