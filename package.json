@@ -44,6 +44,7 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "@react-three/drei": "^9.92.2",
     "@react-three/fiber": "^8.12.1",
+    "@studio-freight/lenis": "^1.0.42",
     "@tabler/icons-react": "^3.35.0",
     "@types/node": "20.6.2",
     "@types/react": "18.2.22",
