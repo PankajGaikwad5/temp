@@ -67,6 +67,6 @@ export default function ThreeModel({
   );
 }
 
-useGLTF.preload('/optimized/bracelet.glb');
-useGLTF.preload('/optimized/ring2.glb');
-useGLTF.preload('/optimized/ring.glb');
+// useGLTF.preload('/optimized/bracelet.glb');
+// useGLTF.preload('/optimized/ring2.glb');
+// useGLTF.preload('/optimized/ring.glb');

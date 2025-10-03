@@ -8,11 +8,22 @@ import { Poppins, Montserrat } from 'next/font/google';
 import { Canvas } from '@react-three/fiber';
 import Link from 'next/link';
 import gsap from 'gsap';
+import { Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600'] });
 
 export default function HomePage() {
+  const navLinks = [
+    { href: '/products/bracelets', label: 'Bracelets' },
+    { href: '/products/rings', label: 'Rings' },
+    { href: '/products/pendants', label: 'Pendants' },
+    { href: '/products', label: 'Collection' },
+    { href: '/catalogue', label: 'Catalogue' },
+    { href: '/about-us', label: 'About' },
+    { href: '/contact-us', label: 'Contact Us' },
+  ];
   const models = useMemo(
     () => [
       {
@@ -106,7 +117,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className='relative min-h-screen w-full bg-[#eeeeee] overflow-hidden text-gray-900'>
+    <main className='relative min-h-screen max-h-screen w-full bg-[#eeeeee] overflow-hidden text-gray-900'>
       {/* Header */}
       <header
         className='fixed top-0 left-0 w-full z-50 bg-transparent px-6 sm:px-8 py-4 flex md:justify-between  items-start'
@@ -136,7 +147,7 @@ export default function HomePage() {
 
         {/* Desktop nav */}
         <nav
-          className={`${montserrat.className} hidden md:flex gap-5 3xl:gap-8 text-sm uppercase 3xl:text-lg text-gray-600 pt-6`}
+          className={`${montserrat.className} hidden md:flex gap-5 3xl:gap-8 text-sm uppercase 3xl:text-lg text-gray-600 pt-6 z-50`}
         >
           <a
             href='/products/bracelets'
@@ -166,19 +177,52 @@ export default function HomePage() {
         </nav>
 
         {/* Mobile menu button */}
-        <button
+        <div className='md:hidden'>
+          <button
+            onClick={() => setMobileNavOpen(!mobileNavOpen)}
+            className='p-2 rounded-md hover:bg-gray-100 transition'
+          >
+            {mobileNavOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+        {/* <button
           onClick={() => setMobileNavOpen(true)}
           className='md:hidden flex flex-col gap-1.5 focus:outline-none'
         >
           <span className='block w-6 h-0.5 bg-[#5a4631]'></span>
           <span className='block w-6 h-0.5 bg-[#5a4631]'></span>
           <span className='block w-6 h-0.5 bg-[#5a4631]'></span>
-        </button>
+        </button> */}
+        {/* Mobile Menu with animation */}
+        <AnimatePresence>
+          {mobileNavOpen && (
+            <motion.div
+              key='mobile-menu'
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className='absolute top-full left-0 w-full bg-white/95 backdrop-blur-md border-t border-[#eee] flex flex-col items-center gap-6 py-6 md:hidden shadow-lg'
+            >
+              {navLinks.map((link) => (
+                <motion.a
+                  key={link.href}
+                  href={link.href}
+                  className='text-[#2a1d12] text-lg font-medium hover:text-[#c5a572] transition duration-300'
+                  onClick={() => setMobileNavOpen(false)}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  {link.label}
+                </motion.a>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Mobile nav drawer */}
-        {mobileNavOpen && (
+        {/* {mobileNavOpen && (
           <div className='fixed inset-0 bg-black/40 z-50'>
-            <div className='absolute top-0 right-0 w-3/4 max-w-xs h-full bg-white shadow-lg flex flex-col p-6'>
+            <div className='absolute top-0 right-0 w-3/4 max-w-xs z-50 h-full bg-white shadow-lg flex flex-col p-6'>
               <button
                 onClick={() => setMobileNavOpen(false)}
                 className='self-end mb-6 text-gray-600 hover:text-[#5a4631]'
@@ -230,7 +274,7 @@ export default function HomePage() {
               </nav>
             </div>
           </div>
-        )}
+        )} */}
       </header>
 
       {/* 3D Canvas */}
