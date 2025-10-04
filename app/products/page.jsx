@@ -150,7 +150,7 @@ export default function ProductsPage() {
                   )}
                 </div>
 
-                {/* Product Info */}
+                {/*Product Info*/}
                 <div className='p-5 text-center'>
                   <h3
                     className={`${cormorant.className} text-2xl font-semibold text-[#2a1d12] capitalize`}
