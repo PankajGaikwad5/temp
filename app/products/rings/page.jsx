@@ -9,6 +9,7 @@ import gsap from 'gsap';
 
 import { Inter, Cormorant_Garamond } from 'next/font/google';
 import Navbar from '@/components/Navbar';
+import Buttons from '@/components/Buttons';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500'] });
 const cormorant = Cormorant_Garamond({
@@ -227,7 +228,7 @@ export default function CategoryPage() {
               gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
             }}
           >
-            {products.map((product) => (
+            {products.map((product, index) => (
               <div
                 key={product.id}
                 className='relative bg-white rounded-3xl shadow-md hover:shadow-xl 
@@ -279,14 +280,15 @@ export default function CategoryPage() {
                   >
                     A timeless piece of ellegance
                   </p>
-                  <a href={`/productdetail/${product.id}`}>
+                  {/* <a href={`/productdetail/${product.id}`}>
                     <button
                       className='mt-5 px-6 py-2 border border-[#d4af37]  md:text-xl text-[#2a1d12] rounded-full text-sm font-medium 
                     hover:bg-[#d4af37] hover:text-white transition-all'
                     >
                       View Product
                     </button>
-                  </a>
+                  </a> */}
+                  <Buttons product={product} index={index} />
                 </div>
               </div>
             ))}

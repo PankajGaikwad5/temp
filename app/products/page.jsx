@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { data } from '@/components/data';
 import * as THREE from 'three';
 import gsap from 'gsap';
+import Buttons from '@/components/Buttons';
 
 import { Inter, Cormorant_Garamond } from 'next/font/google';
 import Navbar from '@/components/Navbar';
@@ -21,11 +22,10 @@ export default function ProductsPage() {
   const [activeProduct, setActiveProduct] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  const overlayRefs = useRef([]);
-
   const bgImg = useRef(null);
   const heroText = useRef(null);
 
+  const overlayRefs = useRef([]);
   const handleMouseEnter = (index) => {
     if (window.innerWidth < 768) return;
     const el = overlayRefs.current[index];
@@ -195,30 +195,7 @@ export default function ProductsPage() {
                   >
                     Crafted with elegance and precision.
                   </p>
-                  <a
-                    href={`productdetail/${product.id}`}
-                    className='relative inline-block'
-                    onMouseEnter={() => handleMouseEnter(index)}
-                    onMouseLeave={() => handleMouseLeave(index)}
-                  >
-                    <button
-                      className='mt-4 px-5 py-2 border border-[#d4af37] text-[#2a1d12] hover:text-white rounded-full text-sm md:text-lg font-medium 
-      relative overflow-hidden z-0 transition-all duration-500'
-                    >
-                      {/* Overlay behind text */}
-                      <span
-                        className='absolute inset-0 bg-[#d4af37] clip-path transition-all duration-200 z-[-1]'
-                        ref={(el) => {
-                          overlayRefs.current[index] = el;
-                        }}
-                        style={{
-                          clipPath:
-                            'polygon(0 100%, 100% 100%, 100% 100%, 0 100%)',
-                        }}
-                      />
-                      View Product
-                    </button>
-                  </a>
+                  <Buttons product={product} index={index} />
                 </div>
               </div>
             ))}

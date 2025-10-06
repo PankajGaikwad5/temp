@@ -141,7 +141,7 @@ export default function CategoryPage() {
               gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
             }}
           >
-            {products.map((product) => (
+            {products.map((product, index) => (
               <div
                 key={product.id}
                 className='relative bg-white rounded-3xl shadow-md hover:shadow-xl 
