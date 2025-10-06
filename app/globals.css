@@ -83,6 +83,10 @@
   }
 }
 
+@utility clip-path {
+  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+}
+
 /* Aurora background */
 /* .aurora {
   background: conic-gradient(from 180deg at 50% 50%, #fceabb, #f8b500, #cbb4d4, #e0c3fc, #fceabb);

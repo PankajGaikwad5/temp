@@ -21,8 +21,41 @@ export default function ProductsPage() {
   const [activeProduct, setActiveProduct] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
+  const overlayRefs = useRef([]);
+
   const bgImg = useRef(null);
   const heroText = useRef(null);
+
+  const handleMouseEnter = (index) => {
+    if (window.innerWidth < 768) return;
+    const el = overlayRefs.current[index];
+    if (!el) return;
+
+    gsap.killTweensOf(el);
+    gsap.fromTo(
+      el,
+      {
+        clipPath: 'polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)',
+      },
+      {
+        clipPath: 'polygon(0 100%, 100% 100%, 100% 0, 0 0)',
+        duration: 0.15,
+        ease: 'power2.out',
+      }
+    );
+  };
+  const handleMouseLeave = (index) => {
+    if (window.innerWidth < 768) return;
+    const el = overlayRefs.current[index];
+    if (!el) return;
+
+    gsap.killTweensOf(el);
+    gsap.to(el, {
+      clipPath: 'polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)',
+      duration: 0.2,
+      ease: 'power2.in',
+    });
+  };
 
   useEffect(() => {
     gsap.fromTo(
@@ -109,7 +142,7 @@ export default function ProductsPage() {
             className='grid gap-4 
                  grid-cols-[repeat(auto-fit,minmax(300px,1fr))]'
           >
-            {data.map((product) => (
+            {data.map((product, index) => (
               <div
                 key={product.id}
                 className='relative bg-white rounded-2xl shadow-md hover:shadow-xl 
@@ -162,11 +195,27 @@ export default function ProductsPage() {
                   >
                     Crafted with elegance and precision.
                   </p>
-                  <a href={`productdetail/${product.id}`}>
+                  <a
+                    href={`productdetail/${product.id}`}
+                    className='relative inline-block'
+                    onMouseEnter={() => handleMouseEnter(index)}
+                    onMouseLeave={() => handleMouseLeave(index)}
+                  >
                     <button
-                      className='mt-4 px-5 py-2 border border-[#d4af37] text-[#2a1d12] rounded-full text-sm md:text-lg font-medium 
-                    hover:bg-[#d4af37] hover:text-white transition-all'
+                      className='mt-4 px-5 py-2 border border-[#d4af37] text-[#2a1d12] hover:text-white rounded-full text-sm md:text-lg font-medium 
+      relative overflow-hidden z-0 transition-all duration-500'
                     >
+                      {/* Overlay behind text */}
+                      <span
+                        className='absolute inset-0 bg-[#d4af37] clip-path transition-all duration-200 z-[-1]'
+                        ref={(el) => {
+                          overlayRefs.current[index] = el;
+                        }}
+                        style={{
+                          clipPath:
+                            'polygon(0 100%, 100% 100%, 100% 100%, 0 100%)',
+                        }}
+                      />
                       View Product
                     </button>
                   </a>
