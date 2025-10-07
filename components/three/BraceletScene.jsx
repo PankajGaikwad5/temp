@@ -25,7 +25,6 @@ export default function BraceletScene({
     <div className={`w-full h-full ${className}`}>
       <Canvas
         shadows
-        dpr={[1, 2]}
         style={{ width: '100%', height: '100%' }}
         className='bg-cover'
         // style={!interactive && { backgroundImage: "url('../modelbg.png')" }}
