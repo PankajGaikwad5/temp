@@ -9,6 +9,7 @@ import {
   Float,
 } from '@react-three/drei';
 import BraceletModel from './BraceletModel';
+import { useMediaQuery } from 'react-responsive';
 
 export default function BraceletScene({
   rotation = [0, 0, 0],
@@ -19,6 +20,7 @@ export default function BraceletScene({
   model = '/optimized/bracelet.glb',
   color,
 }) {
+  const isMobile = useMediaQuery({ maxWidth: 853 });
   return (
     <div className={`w-full h-full ${className}`}>
       <Canvas
@@ -27,11 +29,16 @@ export default function BraceletScene({
         style={{ width: '100%', height: '100%' }}
         className='bg-cover'
         // style={!interactive && { backgroundImage: "url('../modelbg.png')" }}
+        // gl={{
+        //   antialias: true,
+        //   alpha: true,
+        //   powerPreference: 'high-performance',
+        // }}
         gl={{
-          antialias: true,
-          alpha: true,
-          powerPreference: 'high-performance',
+          antialias: !isMobile,
+          powerPreference: !isMobile ? 'low-power' : 'high-performance',
         }}
+        dpr={isMobile ? [1, 1.4] : [1, 2]}
         onWheel={(e) => e.stopPropagation()}
       >
         <PerspectiveCamera
