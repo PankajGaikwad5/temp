@@ -34,10 +34,11 @@ const Buttons = ({ product, index }) => {
       ease: 'power2.in',
     });
   };
+  console.log(product.id);
 
   return (
     <a
-      href={`productdetail/${product.id}`}
+      href={`/productdetail/${product.id}`}
       className='relative inline-block'
       onMouseEnter={() => handleMouseEnter(index)}
       onMouseLeave={() => handleMouseLeave(index)}
