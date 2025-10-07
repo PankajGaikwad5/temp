@@ -35,7 +35,7 @@ export default function BraceletScene({
         // }}
         gl={{
           antialias: !isMobile,
-          powerPreference: !isMobile ? 'low-power' : 'high-performance',
+          powerPreference: !isMobile ? 'default' : 'high-performance',
         }}
         dpr={isMobile ? [1, 1.4] : [1, 2]}
         onWheel={(e) => e.stopPropagation()}
