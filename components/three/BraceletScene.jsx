@@ -37,7 +37,7 @@ export default function BraceletScene({
           antialias: !isMobile,
           powerPreference: !isMobile ? 'default' : 'high-performance',
         }}
-        dpr={isMobile ? [1, 1.4] : [1, 2]}
+        // dpr={isMobile ? [1, 1.4] : [1, 2]}
         onWheel={(e) => e.stopPropagation()}
       >
         <PerspectiveCamera
