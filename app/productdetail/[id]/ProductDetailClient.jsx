@@ -28,10 +28,10 @@ export default function ProductDetailClient({ product }) {
 
   const colorOptions = [
     { name: 'Original', value: '#FFCE80' },
-    { name: 'White Gold', value: '#d1d1d7' },
+    { name: 'White Gold', value: '#fffef0' },
     { name: 'Rose Gold', value: '#FFB397' },
     { name: 'Platinum', value: '#e5e4e2' },
-    { name: 'Silver', value: '#c1c4c7' },
+    { name: 'Silver', value: '#e2e5e6' },
   ];
 
   const [activeProduct, setActiveProduct] = useState(null);
@@ -512,7 +512,7 @@ export default function ProductDetailClient({ product }) {
       {/* Fullscreen 3D Viewer */}
       {isFullscreen && (
         <div
-          className='fixed inset-0 z-[100] bg-transparent flex items-center justify-center backdrop-blur-3xl'
+          className='fixed inset-0 z-[100] bg-transparent flex items-center justify-center backdrop-blur-2xl flex-col'
           role='dialog'
           aria-modal='true'
         >
@@ -536,6 +536,23 @@ export default function ProductDetailClient({ product }) {
               model={modelPath}
               className='pointer-events-auto w-full h-full'
             />
+          </div>
+          {/* Color Option Buttons */}
+          <div className='flex flex-wrap justify-center gap-3 mt-4 relative bottom-16 md:bottom-10'>
+            {colorOptions.map((opt) => (
+              <button
+                key={opt.name}
+                onClick={() => setSelectedColor(opt.value)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition
+                    ${
+                      selectedColor === opt.value
+                        ? 'bg-[#722F37] text-white'
+                        : 'bg-white border border-[#722F37] text-[#722F37] hover:bg-[#f8f4f4]'
+                    }`}
+              >
+                {opt.name}
+              </button>
+            ))}
           </div>
         </div>
       )}
