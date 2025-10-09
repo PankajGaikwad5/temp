@@ -28,7 +28,7 @@ export default function ProductDetailClient({ product }) {
 
   const colorOptions = [
     { name: 'Original', value: '#FFCE80' },
-    { name: 'White Gold', value: '#fffef0' },
+    { name: 'White Gold', value: '#F8FFF8' },
     { name: 'Rose Gold', value: '#FFB397' },
     { name: 'Platinum', value: '#e5e4e2' },
     { name: 'Silver', value: '#e2e5e6' },
