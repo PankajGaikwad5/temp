@@ -117,7 +117,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className='relative min-h-screen max-h-screen w-full bg-[#eeeeee] overflow-hidden text-gray-900'>
+    <main className='relative min-h-screen max-h-screen w-full bg-gradient-to-br from-[#FAF8F6] via-[#EADFD6] to-[#C9B6AA] overflow-hidden text-gray-900'>
       {/* Header */}
       <header
         className='fixed top-0 left-0 w-full z-50 bg-transparent px-6 sm:px-8 py-4 flex md:justify-between  items-start'
