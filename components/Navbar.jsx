@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500'] });
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
+  weight: ['300', '400', '600', '700'],
 });
 
 function Navbar() {
@@ -41,7 +41,7 @@ function Navbar() {
 
       {/* Desktop Nav */}
       <nav
-        className={`${inter.className} hidden md:flex gap-5 lg:gap-6 text-xs uppercase text-[#2a1d12]`}
+        className={`${inter.className} hidden md:flex gap-5 lg:gap-6 text-xs 2xl:text-base font-light uppercase text-[#2a1d12]`}
       >
         {navLinks.map((link) => (
           <a
