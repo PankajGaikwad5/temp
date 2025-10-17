@@ -41,7 +41,7 @@ function Navbar() {
 
       {/* Desktop Nav */}
       <nav
-        className={`${inter.className} hidden md:flex gap-5 lg:gap-6 text-xs 2xl:text-base font-light uppercase text-[#2a1d12]`}
+        className={`${inter.className} hidden md:flex gap-5 lg:gap-6 text-xs 2xl:text-sm font-light uppercase text-[#2a1d12]`}
       >
         {navLinks.map((link) => (
           <a

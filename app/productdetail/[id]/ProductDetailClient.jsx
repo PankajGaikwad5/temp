@@ -35,7 +35,7 @@ export default function ProductDetailClient({ product }) {
   ];
 
   const CUSTOM_ROTATIONS = {
-    hero: [-6.5, 35.0, 18.0],
+    hero: [-30, 35, -35],
     transition: [-28.0, 95.0, 6.0],
     features: [14.0, 170.0, 32.0],
     gallery: [-4.0, 300.0, 44.0],
