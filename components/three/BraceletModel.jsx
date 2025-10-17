@@ -8,7 +8,7 @@ export default function BraceletModel({
   modelPath = '/optimized/bracelet.glb',
   rotation = [0, 0, 0],
   position = [0, 0, 0],
-  color, // New prop
+  color,
 }) {
   const groupRef = useRef(null);
   const { scene } = useGLTF(modelPath);
@@ -17,14 +17,12 @@ export default function BraceletModel({
   useEffect(() => {
     if (!scene || !groupRef.current) return;
 
-    // Clear previous children
     while (groupRef.current.children.length > 0) {
       groupRef.current.remove(groupRef.current.children[0]);
     }
 
     const modelClone = scene.clone();
 
-    // Apply color if provided
     if (color) {
       modelClone.traverse((child) => {
         if (child.isMesh) {
@@ -34,31 +32,27 @@ export default function BraceletModel({
       });
     }
 
-    // Compute bounding box
     const box = new THREE.Box3().setFromObject(modelClone);
     const size = new THREE.Vector3();
     box.getSize(size);
     const maxDim = Math.max(size.x, size.y, size.z);
-
-    // Desired target size in units
     const targetSize = 3;
     const calculatedScale = targetSize / maxDim;
 
     setScale(calculatedScale);
-
     groupRef.current.add(modelClone);
-  }, [scene, color]); // Re-run if color changes
+  }, [scene, color]);
 
-  return (
-    <group
-      ref={groupRef}
-      position={position}
-      scale={scale}
-      rotation={[
+  useEffect(() => {
+    if (groupRef.current) {
+      groupRef.current.rotation.order = 'XYZ';
+      groupRef.current.rotation.set(
         THREE.MathUtils.degToRad(rotation[0]),
         THREE.MathUtils.degToRad(rotation[1]),
-        THREE.MathUtils.degToRad(rotation[2]),
-      ]}
-    />
-  );
+        THREE.MathUtils.degToRad(rotation[2])
+      );
+    }
+  }, [rotation]);
+
+  return <group ref={groupRef} position={position} scale={scale} />;
 }

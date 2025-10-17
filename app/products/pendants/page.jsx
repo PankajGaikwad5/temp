@@ -330,26 +330,20 @@ export default function CategoryPage() {
                 </div>
 
                 {/* Product Info */}
-                <div className='p-6 text-center'>
-                  <h3
-                    className={`${cormorant.className} text-xl capitalize font-semibold text-[#2a1d12]`}
-                  >
-                    {product.title}
-                  </h3>
-                  <p
-                    className={`${inter.className} mt-2 text-sm text-gray-500`}
-                  >
-                    A timeless piece of ellegance
-                  </p>
-                  {/* <a href={`/productdetail/${product.id}`}>
-                    <button
-                      className='mt-5 px-6 py-2 border border-[#d4af37] text-[#2a1d12] rounded-full text-sm font-medium 
-                    hover:bg-[#d4af37] hover:text-white transition-all'
+                <div className='px-4 py-2 flex flex-col '>
+                  <a href={`/productdetail/${product.id}`}>
+                    <h3
+                      className={`${cormorant.className} text-2xl font-bold text-[#2a1d12] capitalize`}
                     >
-                      View Product
-                    </button>
-                  </a> */}
-                  <Buttons product={product} index={index} />
+                      {product.title}
+                    </h3>
+                    <p
+                      className={`${inter.className}  md:text-lg text-sm text-gray-500`}
+                    >
+                      Crafted with elegance and precision.
+                    </p>
+                    {/* <Buttons product={product} index={index} /> */}
+                  </a>
                 </div>
               </div>
             ))}

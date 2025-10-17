@@ -34,14 +34,55 @@ export default function ProductDetailClient({ product }) {
     { name: 'Silver', value: '#e2e5e6' },
   ];
 
+  const CUSTOM_ROTATIONS = {
+    hero: [-6.5, 35.0, 18.0],
+    transition: [-28.0, 95.0, 6.0],
+    features: [14.0, 170.0, 32.0],
+    gallery: [-4.0, 300.0, 44.0],
+  };
+
   const [activeProduct, setActiveProduct] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  const rotationX = useTransform(scrollYProgress, [0, 1], [-29, 80]); // X rotates more
-  const rotationY = useTransform(scrollYProgress, [0, 1], [35, -70]); // Y rotates more
-  const rotationZ = useTransform(scrollYProgress, [0, 1], [-18, 50]); // Z rotates more
+  // const rotationX = useTransform(scrollYProgress, [0, 1], [-29, 80]); // X rotates more
+  // const rotationY = useTransform(scrollYProgress, [0, 1], [35, -70]); // Y rotates more
+  // const rotationZ = useTransform(scrollYProgress, [0, 1], [-18, 50]); // Z rotates more
 
-  const [rotation, setRotation] = useState([-29, 35, -18]);
+  const rotationX = useTransform(
+    scrollYProgress,
+    [0, 0.25, 0.5, 0.75, 1],
+    [
+      CUSTOM_ROTATIONS.hero[0],
+      CUSTOM_ROTATIONS.transition[0],
+      CUSTOM_ROTATIONS.features[0],
+      CUSTOM_ROTATIONS.gallery[0],
+      CUSTOM_ROTATIONS.gallery[0],
+    ]
+  );
+  const rotationY = useTransform(
+    scrollYProgress,
+    [0, 0.25, 0.5, 0.75, 1],
+    [
+      CUSTOM_ROTATIONS.hero[1],
+      CUSTOM_ROTATIONS.transition[1],
+      CUSTOM_ROTATIONS.features[1],
+      CUSTOM_ROTATIONS.gallery[1],
+      CUSTOM_ROTATIONS.gallery[1],
+    ]
+  );
+  const rotationZ = useTransform(
+    scrollYProgress,
+    [0, 0.25, 0.5, 0.75, 1],
+    [
+      CUSTOM_ROTATIONS.hero[2],
+      CUSTOM_ROTATIONS.transition[2],
+      CUSTOM_ROTATIONS.features[2],
+      CUSTOM_ROTATIONS.gallery[2],
+      CUSTOM_ROTATIONS.gallery[2],
+    ]
+  );
+
+  const [rotation, setRotation] = useState([-30, 35, -35]);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
@@ -149,11 +190,15 @@ export default function ProductDetailClient({ product }) {
 
       {/* Fixed 3D Scene */}
       {!isFullscreen && (
-        <div className='fixed inset-0 z-10 pointer-events-none'>
+        <div
+          className='fixed inset-0 z-10 pointer-events-none bg-cover'
+          // style={{ backgroundImage: "url('../gbg.jpeg')" }}
+        >
           <BraceletScene
             rotation={rotation}
             model={modelPath}
             color={selectedColor}
+            interactive={true}
           />
         </div>
       )}
@@ -185,7 +230,7 @@ export default function ProductDetailClient({ product }) {
         </section>
 
         {/* Transition Section */}
-        <section className='min-h-screen flex items-center justify-center px-4 md:px-8 lg:px-16'>
+        <section className='min-h-screen flex items-center justify-center px-4 md:px-8 lg:px-16 backdrop-blur-[4px]'>
           <ScrollSection className='text-center max-w-4xl' delay={0}>
             <div className='p-8 md:p-12 rounded-3xl'>
               <h2 className='text-3xl md:text-5xl lg:text-7xl font-bold text-[#722F37] mb-6 md:mb-8 leading-tight'>
@@ -202,7 +247,7 @@ export default function ProductDetailClient({ product }) {
         </section>
 
         {/* Features Section */}
-        <section className='min-h-screen flex flex-col md:flex-row items-center justify-between px-4 md:px-8 lg:px-16 space-y-8 md:space-y-0'>
+        <section className='min-h-screen flex flex-col md:flex-row items-center justify-between px-4 md:px-8 lg:px-16 space-y-8 md:space-y-0 backdrop-blur-[4px]'>
           <ScrollSection className='w-full md:w-1/3 max-w-md' delay={0}>
             <div className='p-6 md:p-8 rounded-2xl text-center md:text-left'>
               <h3 className='text-2xl md:text-3xl font-bold text-[#722F37] mb-4 md:mb-6'>
@@ -233,7 +278,10 @@ export default function ProductDetailClient({ product }) {
 
           <div className='hidden md:block w-1/3'></div>
 
-          <ScrollSection className='w-full md:w-1/3 max-w-md' delay={0.2}>
+          <ScrollSection
+            className='w-full md:w-1/3 max-w-md backdrop-blur-[4px]'
+            delay={0.2}
+          >
             <div className='p-6 md:p-8 rounded-2xl text-center md:text-left'>
               <h3 className='text-2xl md:text-3xl font-bold text-[#722F37] mb-4 md:mb-6'>
                 Lifetime
@@ -282,7 +330,7 @@ export default function ProductDetailClient({ product }) {
                 />
                 <button
                   onClick={() => setIsFullscreen(true)}
-                  className='absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs md:text-sm font-semibold text-[#722F37] shadow hover:bg-white'
+                  className='absolute top-3 right-3 bg-white/90 backdrop-blur-[4px] rounded-full px-3 py-1 text-xs md:text-sm font-semibold text-[#722F37] shadow hover:bg-white'
                 >
                   Fullscreen
                 </button>

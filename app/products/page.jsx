@@ -145,7 +145,7 @@ export default function ProductsPage() {
             {data.map((product, index) => (
               <div
                 key={product.id}
-                className='relative bg-white rounded-2xl shadow-md hover:shadow-xl 
+                className='relative  rounded-2xl shadow-md hover:shadow-xl 
              transition-all cursor-pointer overflow-hidden border border-[#f2ebe2]
              group'
                 onClick={() => setActiveProduct(product)}
@@ -166,7 +166,7 @@ export default function ProductsPage() {
                       frameloop='demand'
                       camera={{ position: [0, 0, 4], fov: 35 }}
                       className='w-full h-full select-none bg-cover'
-                      style={{ backgroundImage: "url('../modelbg.png')" }}
+                      // style={{ backgroundImage: "url('../modelbg.png')" }}
                       onWheel={(e) => e.stopPropagation()}
                     >
                       <ambientLight intensity={0.6} />
@@ -184,18 +184,20 @@ export default function ProductsPage() {
                 </div>
 
                 {/*Product Info*/}
-                <div className='p-5 text-center'>
-                  <h3
-                    className={`${cormorant.className} text-2xl font-semibold text-[#2a1d12] capitalize`}
-                  >
-                    {product.title}
-                  </h3>
-                  <p
-                    className={`${inter.className} mt-1 md:text-lg text-sm text-gray-500`}
-                  >
-                    Crafted with elegance and precision.
-                  </p>
-                  <Buttons product={product} index={index} />
+                <div className='px-4 py-2 flex flex-col '>
+                  <a href={`/productdetail/${product.id}`}>
+                    <h3
+                      className={`${cormorant.className} text-2xl font-bold text-[#2a1d12] capitalize`}
+                    >
+                      {product.title}
+                    </h3>
+                    <p
+                      className={`${inter.className}  md:text-lg text-sm text-gray-500`}
+                    >
+                      Crafted with elegance and precision.
+                    </p>
+                    {/* <Buttons product={product} index={index} /> */}
+                  </a>
                 </div>
               </div>
             ))}
