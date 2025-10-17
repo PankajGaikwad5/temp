@@ -26,7 +26,7 @@ function Navbar() {
   ];
 
   return (
-    <header className='fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-[#eee] px-5 md:px-10 py-5 flex justify-between items-center shadow-sm'>
+    <header className='fixed top-0 left-0 w-full z-50 bg-white/20 backdrop-blur-md border-b border-[#eee] px-5 md:px-10 py-5 flex justify-between items-center shadow-sm'>
       {/* Logo */}
       <a href='/'>
         <div className='flex items-center gap-3'>

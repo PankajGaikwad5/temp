@@ -191,7 +191,7 @@ export default function ProductDetailClient({ product }) {
       {/* Fixed 3D Scene */}
       {!isFullscreen && (
         <div
-          className='fixed inset-0 z-10 pointer-events-none bg-cover'
+          className='fixed inset-0 z-10 pointer-events-none bg-cover bg-gradient-to-br from-[#FFF7F0] via-[#FFD7A6] to-[#722F37]'
           // style={{ backgroundImage: "url('../gbg.jpeg')" }}
         >
           <BraceletScene
