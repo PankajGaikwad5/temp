@@ -17,6 +17,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
+      <head>
+        <meta
+          name='google-site-verification'
+          content='Q2JdPP5T_TVL9xIA98ozuSkGZd2J7ao-WOEwK4HpvHM'
+        />
+      </head>
       <body className={inter.className}>
         {/* {children} */}
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
