@@ -35,7 +35,7 @@ export const metadata = {
     siteName: 'The Vault by Karan Desai',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/logo4.png',
         width: 1200,
         height: 630,
         alt: 'The Vault by Karan Desai Jewelry Collection',
@@ -49,7 +49,7 @@ export const metadata = {
     title: 'The Vault by Karan Desai',
     description:
       'Discover timeless jewelry crafted with precision — from bracelets to pendants, every piece defines elegance.',
-    images: ['/og-image.jpg'],
+    images: ['/logo4.png'],
   },
   alternates: {
     canonical: 'https://thevaultkarandesai.com/',
