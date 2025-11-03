@@ -81,7 +81,7 @@ export default function HomePage() {
       />
 
       <main
-        className={`${poppins.className} relative min-h-screen bg-gradient-to-br from-[#FAF8F6] via-[#EADFD6] to-[#C9B6AA] text-gray-900 overflow-hidden`}
+        className={`${poppins.className} relative min-h-screen bg-[#eeeeee] text-gray-900 overflow-hidden`}
       >
         {/* Hero section (SEO friendly static text visible immediately) */}
         <section className='text-center pt-24 md:pt-36 px-6 md:px-10 hidden'>
