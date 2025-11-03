@@ -35,7 +35,7 @@ export default function ProductDetailClient({ product }) {
   ];
 
   const CUSTOM_ROTATIONS = {
-    hero: [-30, 35, -35],
+    hero: [33, 0, 33],
     transition: [-28.0, 95.0, 6.0],
     features: [14.0, 170.0, 32.0],
     gallery: [-4.0, 300.0, 44.0],
@@ -82,7 +82,7 @@ export default function ProductDetailClient({ product }) {
     ]
   );
 
-  const [rotation, setRotation] = useState([-30, 35, -35]);
+  const [rotation, setRotation] = useState([33, 0, 33]);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
@@ -229,88 +229,90 @@ export default function ProductDetailClient({ product }) {
           </ScrollSection>
         </section>
 
-        {/* Transition Section */}
-        <section className='min-h-screen flex items-center justify-center px-4 md:px-8 lg:px-16 backdrop-blur-[4px]'>
-          <ScrollSection className='text-center max-w-4xl' delay={0}>
-            <div className='p-8 md:p-12 rounded-3xl'>
-              <h2 className='text-3xl md:text-5xl lg:text-7xl font-bold text-[#722F37] mb-6 md:mb-8 leading-tight'>
-                Exquisite
-                <br />
-                Craftsmanship
-              </h2>
-              <p className='text-lg md:text-xl text-[#722F37] leading-relaxed max-w-2xl mx-auto'>
-                Every curve, every detail, meticulously designed to capture
-                light and attention. This isn't just jewelry—it's wearable art.
-              </p>
-            </div>
-          </ScrollSection>
-        </section>
+        <div className='flex flex-col backdrop-blur-sm'>
+          {/* Transition Section */}
+          <section className='min-h-screen flex items-center justify-center px-4 md:px-8 lg:px-16 '>
+            <ScrollSection className='text-center max-w-4xl' delay={0}>
+              <div className='p-8 md:p-12 rounded-3xl'>
+                <h2 className='text-3xl md:text-5xl lg:text-7xl font-bold text-[#722F37] mb-6 md:mb-8 leading-tight'>
+                  Exquisite
+                  <br />
+                  Craftsmanship
+                </h2>
+                <p className='text-lg md:text-xl text-[#722F37] leading-relaxed max-w-2xl mx-auto'>
+                  Every curve, every detail, meticulously designed to capture
+                  light and attention. This isn't just jewelry—it's wearable
+                  art.
+                </p>
+              </div>
+            </ScrollSection>
+          </section>
 
-        {/* Features Section */}
-        <section className='min-h-screen flex flex-col md:flex-row items-center justify-between px-4 md:px-8 lg:px-16 space-y-8 md:space-y-0 backdrop-blur-[4px]'>
-          <ScrollSection className='w-full md:w-1/3 max-w-md' delay={0}>
-            <div className='p-6 md:p-8 rounded-2xl text-center md:text-left'>
-              <h3 className='text-2xl md:text-3xl font-bold text-[#722F37] mb-4 md:mb-6'>
-                Sustainable
-                <br />
-                Luxury
-              </h3>
-              <p className='text-base md:text-lg text-[#722F37] leading-relaxed mb-4 md:mb-6'>
-                Ethically sourced materials and responsible manufacturing
-                processes ensure beauty without compromise.
-              </p>
-              <ul className='space-y-2 md:space-y-3 text-[#722F37]'>
-                <li className='flex items-center justify-center md:justify-start'>
-                  <span className='w-2 h-2 bg-green-400 rounded-full mr-3'></span>
-                  Conflict-free gemstones
-                </li>
-                <li className='flex items-center justify-center md:justify-start'>
-                  <span className='w-2 h-2 bg-green-400 rounded-full mr-3'></span>
-                  Recycled precious metals
-                </li>
-                <li className='flex items-center justify-center md:justify-start'>
-                  <span className='w-2 h-2 bg-green-400 rounded-full mr-3'></span>
-                  Carbon-neutral shipping
-                </li>
-              </ul>
-            </div>
-          </ScrollSection>
+          {/* Features Section */}
+          <section className='min-h-screen flex flex-col md:flex-row items-center justify-between px-4 md:px-8 lg:px-16 space-y-8 md:space-y-0 '>
+            <ScrollSection className='w-full md:w-1/3 max-w-md' delay={0}>
+              <div className='p-6 md:p-8 rounded-2xl text-center md:text-left'>
+                <h3 className='text-2xl md:text-3xl font-bold text-[#722F37] mb-4 md:mb-6'>
+                  Sustainable
+                  <br />
+                  Luxury
+                </h3>
+                <p className='text-base md:text-lg text-[#722F37] leading-relaxed mb-4 md:mb-6'>
+                  Ethically sourced materials and responsible manufacturing
+                  processes ensure beauty without compromise.
+                </p>
+                <ul className='space-y-2 md:space-y-3 text-[#722F37]'>
+                  <li className='flex items-center justify-center md:justify-start'>
+                    <span className='w-2 h-2 bg-green-400 rounded-full mr-3'></span>
+                    Conflict-free gemstones
+                  </li>
+                  <li className='flex items-center justify-center md:justify-start'>
+                    <span className='w-2 h-2 bg-green-400 rounded-full mr-3'></span>
+                    Recycled precious metals
+                  </li>
+                  <li className='flex items-center justify-center md:justify-start'>
+                    <span className='w-2 h-2 bg-green-400 rounded-full mr-3'></span>
+                    Carbon-neutral shipping
+                  </li>
+                </ul>
+              </div>
+            </ScrollSection>
 
-          <div className='hidden md:block w-1/3'></div>
+            <div className='hidden md:block w-1/3'></div>
 
-          <ScrollSection
-            className='w-full md:w-1/3 max-w-md backdrop-blur-[4px]'
-            delay={0.2}
-          >
-            <div className='p-6 md:p-8 rounded-2xl text-center md:text-left'>
-              <h3 className='text-2xl md:text-3xl font-bold text-[#722F37] mb-4 md:mb-6'>
-                Lifetime
-                <br />
-                Guarantee
-              </h3>
-              <p className='text-base md:text-lg text-[#722F37] leading-relaxed mb-4 md:mb-6'>
-                We stand behind our craftsmanship with comprehensive lifetime
-                warranty and expert maintenance services.
-              </p>
-              <div className='space-y-3 md:space-y-4'>
-                <div className='flex items-center justify-between text-sm'>
-                  <span className='text-gray-400'>Warranty Coverage</span>
-                  <span className='text-[#722F37] font-semibold'>Lifetime</span>
-                </div>
-                <div className='flex items-center justify-between text-sm'>
-                  <span className='text-gray-400'>Free Cleaning</span>
-                  <span className='text-[#722F37] font-semibold'>Annual</span>
-                </div>
-                <div className='flex items-center justify-between text-sm'>
-                  <span className='text-gray-400'>Repair Service</span>
-                  <span className='text-[#722F37] font-semibold'>
-                    Complimentary
-                  </span>
+            <ScrollSection className='w-full md:w-1/3 max-w-md ' delay={0.2}>
+              <div className='p-6 md:p-8 rounded-2xl text-center md:text-left'>
+                <h3 className='text-2xl md:text-3xl font-bold text-[#722F37] mb-4 md:mb-6'>
+                  Lifetime
+                  <br />
+                  Guarantee
+                </h3>
+                <p className='text-base md:text-lg text-[#722F37] leading-relaxed mb-4 md:mb-6'>
+                  We stand behind our craftsmanship with comprehensive lifetime
+                  warranty and expert maintenance services.
+                </p>
+                <div className='space-y-3 md:space-y-4'>
+                  <div className='flex items-center justify-between text-sm'>
+                    <span className='text-gray-400'>Warranty Coverage</span>
+                    <span className='text-[#722F37] font-semibold'>
+                      Lifetime
+                    </span>
+                  </div>
+                  <div className='flex items-center justify-between text-sm'>
+                    <span className='text-gray-400'>Free Cleaning</span>
+                    <span className='text-[#722F37] font-semibold'>Annual</span>
+                  </div>
+                  <div className='flex items-center justify-between text-sm'>
+                    <span className='text-gray-400'>Repair Service</span>
+                    <span className='text-[#722F37] font-semibold'>
+                      Complimentary
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </ScrollSection>
-        </section>
+            </ScrollSection>
+          </section>
+        </div>
 
         {/* Product Gallery Section */}
         <section className='px-4 md:px-8 lg:px-16 py-12 md:py-16 bg-white'>
@@ -330,7 +332,7 @@ export default function ProductDetailClient({ product }) {
                 />
                 <button
                   onClick={() => setIsFullscreen(true)}
-                  className='absolute top-3 right-3 bg-white/90 backdrop-blur-[4px] rounded-full px-3 py-1 text-xs md:text-sm font-semibold text-[#722F37] shadow hover:bg-white'
+                  className='absolute top-3 right-3 bg-white/90  rounded-full px-3 py-1 text-xs md:text-sm font-semibold text-[#722F37] shadow hover:bg-white'
                 >
                   Fullscreen
                 </button>
