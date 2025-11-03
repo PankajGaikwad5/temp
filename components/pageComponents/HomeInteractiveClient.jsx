@@ -154,7 +154,7 @@ export default function HomePage() {
 
         {/* Desktop nav */}
         <nav
-          className={`${montserrat.className} hidden md:flex gap-5 3xl:gap-8 text-sm uppercase 3xl:text-lg text-gray-600 pt-6`}
+          className={`${montserrat.className} hidden md:flex gap-5 3xl:gap-8 text-xs 2xl:text-sm uppercase 3xl:text-lg text-gray-600 pt-6`}
         >
           {navLinks.map((link) => (
             <a
