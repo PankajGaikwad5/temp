@@ -19,6 +19,7 @@ export default function BraceletScene({
   hdr = '/final.hdr',
   model = '/optimized/bracelet.glb',
   color,
+  particleDelay,
 }) {
   const isMobile = useMediaQuery({ maxWidth: 853 });
   return (
@@ -56,6 +57,7 @@ export default function BraceletScene({
         {/* Model */}\
         <Float>
           <BraceletModel
+            particleDelay={particleDelay}
             modelPath={model}
             rotation={rotation}
             color={color}

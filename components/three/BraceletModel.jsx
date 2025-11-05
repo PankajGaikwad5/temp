@@ -10,7 +10,7 @@ export default function BraceletModel({
   rotation = [0, 0, 0],
   position = [0, 0, 0],
   color,
-  particleDelay = 1, // Delay in seconds before particles form the model
+  particleDelay = 0.5, // Delay in seconds before particles form the model
 }) {
   const groupRef = useRef(null);
   const meshRef = useRef(null);

@@ -584,6 +584,7 @@ export default function ProductDetailClient({ product }) {
               interactive={true}
               model={modelPath}
               color={selectedColor}
+              particleDelay={0.01}
               className='pointer-events-auto w-full h-full'
             />
           </div>
