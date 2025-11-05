@@ -1,5 +1,4 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import { useScroll, useTransform } from 'framer-motion';
 import BraceletScene from '@/components/three/BraceletScene';
@@ -584,6 +583,7 @@ export default function ProductDetailClient({ product }) {
               rotation={[0, 0, 0]}
               interactive={true}
               model={modelPath}
+              color={selectedColor}
               className='pointer-events-auto w-full h-full'
             />
           </div>
