@@ -42,16 +42,17 @@ function applyGold(obj) {
   obj.traverse(c => {
     if (!c.isMesh) return
     c.castShadow = c.receiveShadow = true
-    ;[].concat(c.material).forEach(m => {
-      if (m.isMeshStandardMaterial || m.isMeshPhysicalMaterial) {
-        m.metalness = Math.max(m.metalness, 0.92)
-        m.roughness = Math.min(m.roughness, 0.2)
-        m.color.set(0xd4aa6a)
-        m.envMapIntensity = 2.8; m.needsUpdate = true
-      } else {
-        c.material = new THREE.MeshPhysicalMaterial({ color: 0xd4aa6a, metalness: 0.95, roughness: 0.16, envMapIntensity: 2.8 })
-      }
-    })
+    // Always replace with a fresh gold material — prevents shared-material
+    // pollution between cached models and stops the HDR env map from
+    // overriding our color after it loads asynchronously.
+    const mats = [].concat(c.material)
+    const newMats = mats.map(() => new THREE.MeshPhysicalMaterial({
+      color: 0xd4aa6a,
+      metalness: 0.88,
+      roughness: 0.22,
+      envMapIntensity: 1.4,
+    }))
+    c.material = Array.isArray(c.material) ? newMats : newMats[0]
   })
 }
 
@@ -162,6 +163,8 @@ function useThreeScene(containerRef, onProgress, onLoaded) {
         const envMap = pmrem.fromEquirectangular(hdr).texture
         scene.environment = envMap
         hdr.dispose(); pmrem.dispose()
+        // Re-assert gold after HDR loads — env map can shift perceived color
+        if (s.activeGroup) applyGold(s.activeGroup)
       })
       // Ground + glow ring
       const ground = new THREE.Mesh(new THREE.PlaneGeometry(20,20), new THREE.ShadowMaterial({ opacity: 0.1 }))
@@ -300,7 +303,7 @@ export default function HeroPage() {
       </div>
 
       {/* ── Nav ── */}
-      <nav className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-[52px] xl:px-[72px] h-[72px] xl:h-[84px] bg-ivory/70 backdrop-blur-lg border-b border-gold/20">
+      <nav className="fixed top-0 inset-x-0 z-50 flex items-center justify-between h-[72px] xl:h-[84px]" style={{ padding: "0 clamp(32px, 4vw, 100px)" }} bg-ivory/70 backdrop-blur-lg border-b border-gold/20">
         <ul className="flex gap-8 list-none">
           {CATS.map((c, i) => (
             <li key={c.key}>
@@ -313,8 +316,8 @@ export default function HeroPage() {
         </ul>
 
         <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none">
-          <span className="text-crimson text-[13px] xl:text-[15px] tracking-[0.38em] uppercase font-semibold leading-tight">The&nbsp;&nbsp;Vault</span>
-          <span className="font-serif italic text-ink-soft text-[9px] xl:text-[11px] tracking-[0.2em] mt-0.5">by Karan Desai</span>
+          <span className="text-crimson tracking-[0.38em] uppercase font-semibold leading-tight" style={{ fontSize: "clamp(12px, 0.9vw, 16px)" }}>The&nbsp;&nbsp;Vault</span>
+          <span className="font-serif italic text-ink-soft tracking-[0.2em] mt-0.5" style={{ fontSize: "clamp(9px, 0.7vw, 12px)" }}>by Karan Desai</span>
         </div>
 
         <div className="flex items-center gap-7">
@@ -333,19 +336,19 @@ export default function HeroPage() {
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 50%, transparent 38%, rgba(248,245,240,.4) 70%, rgba(248,245,240,.88) 100%)' }} />
 
         {/* Counter — left */}
-        <div className="absolute bottom-20 xl:bottom-24 right-[60px] xl:right-[80px] z-10 flex flex-col items-end gap-1 opacity-[0.45] pointer-events-none">
-          <span className="text-[54px] xl:text-[72px] font-extralight text-ink leading-none tracking-[-0.04em]">
+        <div className="absolute bottom-[5vh] right-[clamp(40px,4.5vw,120px)] z-10 flex flex-col items-end gap-1 opacity-[0.45] pointer-events-none">
+          <span className="font-extralight text-ink leading-none tracking-[-0.04em]" style={{ fontSize: "clamp(48px, 5vw, 96px)" }}>
             {cat.counter}<span className="text-base font-normal text-ink-soft align-super tracking-[0.02em]">/03</span>
           </span>
           <div className="w-5 h-px bg-gold" />
-          <span className="text-[8px] tracking-[0.3em] uppercase text-ink-soft font-medium">Collection</span>
+          <span className="tracking-[0.3em] uppercase text-ink-soft font-medium" style={{ fontSize: "clamp(8px, 0.6vw, 11px)" }}>Collection</span>
         </div>
 
         {/* Category tabs — right */}
-        <div className="absolute top-1/2 right-[60px] xl:right-[80px] -translate-y-1/2 z-10 flex flex-col gap-1">
+        <div className="absolute top-1/2 right-[clamp(40px,4.5vw,120px)] -translate-y-1/2 z-10 flex flex-col gap-1">
           {CATS.map((c, i) => (
             <button key={c.key} onClick={() => switchCat(i)} className="flex items-center flex-row-reverse gap-3 py-2.5 group">
-              <span className={`text-[10px] xl:text-[11px] tracking-[0.22em] uppercase font-medium whitespace-nowrap transition-colors duration-300 ${i === catIdx ? 'text-gold-dark' : 'text-ink-soft group-hover:text-ink'}`}>
+              <span style={{ fontSize: "clamp(10px, 0.75vw, 13px)" }} className={`tracking-[0.22em] uppercase font-medium whitespace-nowrap transition-colors duration-300 ${i === catIdx ? 'text-gold-dark' : 'text-ink-soft group-hover:text-ink'}`}>
                 {c.overlay}
               </span>
               <span className={`h-px transition-all duration-300 ${i === catIdx ? 'w-[52px] bg-gold' : 'w-7 bg-ink-soft group-hover:w-9'}`} />
@@ -358,20 +361,20 @@ export default function HeroPage() {
 
         {/* Hero text — bottom left */}
         <div className={`absolute bottom-20 xl:bottom-24 left-[60px] xl:left-[80px] z-10 max-w-[440px] xl:max-w-[540px] hero-text ${textVisible ? 'visible' : ''}`}>
-          <p className="flex items-center gap-3 text-[10px] xl:text-[11px] tracking-[0.3em] uppercase text-gold font-medium mb-3.5 xl:mb-5">
+          <p className="flex items-center gap-3 tracking-[0.3em] uppercase text-gold font-medium mb-[1.2vw]" style={{ fontSize: "clamp(10px, 0.85vw, 14px)" }}>
             <span className="block w-6 h-px bg-gold flex-shrink-0" />
             {cat.eyebrow}
           </p>
-          <h1 className="font-light text-ink mb-5 leading-[0.97] tracking-[-0.02em] text-[clamp(40px,5.2vw,88px)]">
+          <h1 className="font-light text-ink mb-5 leading-[0.97] tracking-[-0.02em] text-[clamp(38px,5vw,96px)]">
             {cat.title[0]}
             <em className="font-serif font-light text-gold-dark text-[1.18em] tracking-[0.01em] block" style={{ fontStyle: 'italic' }}>
               {cat.title[1]}
             </em>
           </h1>
-          <p className="text-[13px] xl:text-[15px] leading-[1.75] text-ink-soft max-w-[320px] xl:max-w-[400px] mb-8 xl:mb-10">{cat.desc}</p>
+          <p className="leading-[1.8] text-ink-soft mb-[2vw]" style={{ fontSize: "clamp(13px, 1.05vw, 17px)", maxWidth: "clamp(280px, 24vw, 480px)" }}>{cat.desc}</p>
           <div className="flex items-center gap-7">
-            <a href="#" className="text-[10px] xl:text-[11px] tracking-[0.2em] uppercase font-semibold text-ivory bg-ink px-[30px] xl:px-[38px] py-[14px] xl:py-[16px] hover:bg-gold-dark transition-colors">{cat.cta}</a>
-            <a href="#" className="flex items-center gap-2.5 text-[10px] xl:text-[11px] tracking-[0.2em] uppercase font-medium text-ink-mid hover:text-gold-dark transition-colors group">
+            <a href="#" className="tracking-[0.2em] uppercase font-semibold text-ivory bg-ink hover:bg-gold-dark transition-colors" style={{ fontSize: "clamp(10px, 0.8vw, 13px)", padding: "clamp(12px,1vw,18px) clamp(24px,2vw,42px)" }}>{cat.cta}</a>
+            <a href="#" className="flex items-center gap-2.5 tracking-[0.2em] uppercase font-medium text-ink-mid hover:text-gold-dark transition-colors group" style={{ fontSize: "clamp(10px, 0.8vw, 13px)" }}>
               Explore
               <span className="relative inline-block w-5 h-px bg-current group-hover:w-8 transition-[width] duration-200">
                 <span className="absolute right-0 -top-[3px] w-1.5 h-1.5 border-r border-t border-current rotate-45" />
