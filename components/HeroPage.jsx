@@ -303,7 +303,7 @@ export default function HeroPage() {
       </div>
 
       {/* ── Nav ── */}
-      <nav className="fixed top-0 inset-x-0 z-50 flex items-center justify-between h-[72px] xl:h-[84px]" style={{ padding: "0 clamp(32px, 4vw, 100px)" }} bg-ivory/70 backdrop-blur-lg border-b border-gold/20">
+      <nav className="fixed top-0 inset-x-0 z-50 flex items-center justify-between h-[72px] xl:h-[84px] bg-ivory/70 backdrop-blur-lg border-b border-gold/20" style={{ padding: "0 clamp(32px, 4vw, 100px)" }} >
         <ul className="flex gap-8 list-none">
           {CATS.map((c, i) => (
             <li key={c.key}>
