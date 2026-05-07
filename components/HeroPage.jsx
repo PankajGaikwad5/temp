@@ -4,18 +4,19 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 const CATS = [
-  { key: 'bracelets', file: '/optimized/bracelet.glb', overlay: 'Bracelets', counter: '01',
+  { key: 'bracelets', file: '/bracelet.glb', overlay: 'Bracelets', counter: '01',
     eyebrow: 'Elegance on your wrist', title: ['Wrist', 'Sculptures'],
     desc: 'Crafted with precision and passion — each bracelet is a timeless piece that defines your elegance. Handmade in 18k gold.',
     cta: 'Shop Bracelets' },
-  { key: 'rings', file: '/optimized/ring.glb', overlay: 'Rings', counter: '02',
+  { key: 'rings', file: '/ring.glb', overlay: 'Rings', counter: '02',
     eyebrow: 'A perfect circle of devotion', title: ['Eternal', 'Rings'],
     desc: 'Symbols of commitment, artistry, and legacy. Each ring is a masterwork set in precious metal and stone.',
     cta: 'Shop Rings' },
-  { key: 'pendants', file: '/optimized/pendant.glb', overlay: 'Pendants', counter: '03',
+  { key: 'pendants', file: '/pendant.glb', overlay: 'Pendants', counter: '03',
     eyebrow: 'Worn close to the heart', title: ['Heart', 'Pendants'],
     desc: 'Delicate pendants that tell a story. Suspended in gold, held forever — wear what matters most.',
     cta: 'Shop Pendants' },
@@ -27,7 +28,7 @@ function fitToView(obj, cam) {
   const size = box.getSize(new THREE.Vector3())
   obj.position.sub(box.getCenter(new THREE.Vector3()))
   const maxDim = Math.max(size.x, size.y, size.z)
-  let z = (maxDim / 2 / Math.tan((cam.fov * Math.PI) / 360)) * 1.5
+  let z = (maxDim / 2 / Math.tan((cam.fov * Math.PI) / 360)) * 7
   const vw = typeof window !== 'undefined' ? window.innerWidth : 1440
   if (vw < 640) z *= 1.8
   else if (vw < 1024) z *= 1.35
@@ -81,9 +82,7 @@ function loadGLB(index, s, onProgress) {
     if (s.decoder) loader.setMeshoptDecoder(s.decoder)
     loader.load(
       CATS[index].file,
-      gltf => { fitToView(gltf.scene, s.camera);
-        //  applyGold(gltf.scene);
-          s.models[key] = gltf.scene; resolve(gltf.scene) },
+      gltf => { fitToView(gltf.scene, s.camera); applyGold(gltf.scene); s.models[key] = gltf.scene; resolve(gltf.scene) },
       xhr  => { onProgress?.(xhr.total ? (xhr.loaded / xhr.total) * 92 : 50) },
       reject
     )
@@ -142,18 +141,18 @@ function useThreeScene(containerRef, onProgress, onLoaded) {
 
       const scene  = new THREE.Scene()
       const camera = new THREE.PerspectiveCamera(36, el.clientWidth / el.clientHeight, 0.01, 1000)
-      camera.position.set(0, 0, 12)
+      camera.position.set(0, 0.5, 12)
       Object.assign(s, { renderer, scene, camera, models: {}, activeGroup: null, floatTime: 0, transitioning: false, currentCat: 0 })
 
       // Lights
-      // scene.add(new THREE.AmbientLight(0xfff8f0, 1.3))
-      // const key = new THREE.DirectionalLight(0xfff3d0, 3.8)
-      // key.position.set(3, 6, 5); key.castShadow = true; key.shadow.mapSize.set(2048, 2048); scene.add(key)
-      // ;[[-4,2,3,0xe8eeff,1.3],[-2,3,-5,0xfff8e0,2.2]].forEach(([x,y,z,c,i]) => {
-      //   const l = new THREE.DirectionalLight(c, i); l.position.set(x,y,z); scene.add(l)
-      // })
-      // const bounce = new THREE.PointLight(0xffd070, 1.6, 14); bounce.position.set(0,-3,2); scene.add(bounce)
-      // const topL   = new THREE.PointLight(0xfffcf0, 1.1, 10); topL.position.set(0,8,0);   scene.add(topL)
+      scene.add(new THREE.AmbientLight(0xfff8f0, 1.3))
+      const key = new THREE.DirectionalLight(0xfff3d0, 3.8)
+      key.position.set(3, 6, 5); key.castShadow = true; key.shadow.mapSize.set(2048, 2048); scene.add(key)
+      ;[[-4,2,3,0xe8eeff,1.3],[-2,3,-5,0xfff8e0,2.2]].forEach(([x,y,z,c,i]) => {
+        const l = new THREE.DirectionalLight(c, i); l.position.set(x,y,z); scene.add(l)
+      })
+      const bounce = new THREE.PointLight(0xffd070, 1.6, 14); bounce.position.set(0,-3,2); scene.add(bounce)
+      const topL   = new THREE.PointLight(0xfffcf0, 1.1, 10); topL.position.set(0,8,0);   scene.add(topL)
 
 
       // HDR environment map
@@ -179,16 +178,32 @@ function useThreeScene(containerRef, onProgress, onLoaded) {
         s.raf = requestAnimationFrame(loop)
         const dt = clock.getDelta()
         s.floatTime += dt
-        if (s.activeGroup) {
+        if (s.activeGroup && !s.userInteracting?.()) {
           s.activeGroup.rotation.y += dt * 0.32
           s.activeGroup.position.y  = Math.sin(s.floatTime * 0.6) * 0.09
           s.activeGroup.rotation.z  = Math.sin(s.floatTime * 0.38) * 0.016
         }
         s.glowRing.material.opacity = 0.045 + Math.sin(s.floatTime * 1.15) * 0.03
         s.glowRing.rotation.z += dt * 0.06
+        if (s.controls) s.controls.update()
         renderer.render(scene, camera)
       }
       loop()
+
+      // OrbitControls — zoom + rotate, no pan
+      const controls = new OrbitControls(camera, renderer.domElement)
+      controls.enablePan = false
+      controls.enableDamping = true
+      controls.dampingFactor = 0.06
+      controls.minDistance = 0.5
+      controls.maxDistance = 50
+      controls.autoRotate = false
+      s.controls = controls
+      // Pause model auto-spin while user is interacting
+      let userInteracting = false
+      controls.addEventListener('start', () => { userInteracting = true })
+      controls.addEventListener('end',   () => { setTimeout(() => { userInteracting = false }, 800) })
+      s.userInteracting = () => userInteracting
 
       // Resize
       const onResize = () => {
@@ -220,6 +235,7 @@ function useThreeScene(containerRef, onProgress, onLoaded) {
       window.removeEventListener('resize', s.onResize)
       s.renderer?.dispose()
       try { if (s.renderer?.domElement && el.contains(s.renderer.domElement)) el.removeChild(s.renderer.domElement) } catch {}
+      s.controls?.dispose()
       s.renderer = null
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
@@ -311,16 +327,13 @@ export default function HeroPage() {
 
       {/* ── Hero ── */}
       <section className="relative w-screen h-screen min-h-[700px] overflow-hidden">
-        <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[44%] z-[2] font-serif italic text-ivory-dark pointer-events-none select-none whitespace-nowrap leading-none transition-opacity duration-500 text-[clamp(80px,12vw,160px)]">
-          {cat.overlay}
-        </p>
 
         <div ref={containerRef} className="absolute inset-0 w-full h-full" />
 
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 50%, transparent 38%, rgba(248,245,240,.4) 70%, rgba(248,245,240,.88) 100%)' }} />
 
         {/* Counter — left */}
-        <div className="absolute top-1/2 left-[60px] -translate-y-1/2 z-10 flex flex-col gap-1 opacity-[0.55] pointer-events-none">
+        <div className="absolute bottom-20 right-[60px] z-10 flex flex-col items-end gap-1 opacity-[0.45] pointer-events-none">
           <span className="text-[54px] font-extralight text-ink leading-none tracking-[-0.04em]">
             {cat.counter}<span className="text-base font-normal text-ink-soft align-super tracking-[0.02em]">/03</span>
           </span>
