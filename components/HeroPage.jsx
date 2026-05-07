@@ -8,15 +8,15 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 const CATS = [
-  { key: 'bracelets', file: '/bracelet.glb', overlay: 'Bracelets', counter: '01',
+  { key: 'bracelets', file: '/optimized/bracelet.glb', overlay: 'Bracelets', counter: '01',
     eyebrow: 'Elegance on your wrist', title: ['Wrist', 'Sculptures'],
     desc: 'Crafted with precision and passion — each bracelet is a timeless piece that defines your elegance. Handmade in 18k gold.',
     cta: 'Shop Bracelets' },
-  { key: 'rings', file: '/ring.glb', overlay: 'Rings', counter: '02',
+  { key: 'rings', file: '/optimized/ring.glb', overlay: 'Rings', counter: '02',
     eyebrow: 'A perfect circle of devotion', title: ['Eternal', 'Rings'],
     desc: 'Symbols of commitment, artistry, and legacy. Each ring is a masterwork set in precious metal and stone.',
     cta: 'Shop Rings' },
-  { key: 'pendants', file: '/pendant.glb', overlay: 'Pendants', counter: '03',
+  { key: 'pendants', file: '/optimized/pendant.glb', overlay: 'Pendants', counter: '03',
     eyebrow: 'Worn close to the heart', title: ['Heart', 'Pendants'],
     desc: 'Delicate pendants that tell a story. Suspended in gold, held forever — wear what matters most.',
     cta: 'Shop Pendants' },
