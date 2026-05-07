@@ -4,7 +4,7 @@ import { useScroll, useTransform } from 'framer-motion';
 import BraceletScene from '@/components/three/BraceletScene';
 import ScrollSection from '@/components/ScrollSection';
 import Image from 'next/image';
-import { Inter, Cormorant_Garamond } from 'next/font/google';
+import { Inter, Cormorant_Garamond } from '@/lib/fonts';
 import Navbar from '@/components/Navbar';
 import SizeGuide from '@/components/SizeGuide';
 import { data } from '@/components/data';

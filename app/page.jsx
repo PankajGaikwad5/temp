@@ -1,7 +1,7 @@
 // app/page.js
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { Poppins, Montserrat } from 'next/font/google';
+import { Poppins, Montserrat } from '@/lib/fonts';
 import Link from 'next/link';
 
 // Load client carousel lazily (no SSR)

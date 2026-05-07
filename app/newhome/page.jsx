@@ -3,7 +3,7 @@
 import { Suspense, Component } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Environment } from '@react-three/drei';
-import { Inter } from 'next/font/google';
+import { Inter } from '@/lib/fonts';
 
 const inter = Inter({ subsets: ['latin'], weight: ['900'] });
 

@@ -20,6 +20,10 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
+         ivory: { DEFAULT: '#f8f5f0', dark: '#ede8e0' },
+        gold:  { DEFAULT: '#c9a96e', light: '#e2c98a', dark: '#9a7a44' },
+        ink:   { DEFAULT: '#1a1008', mid: '#4a3a28', soft: '#7a6a58' },
+        crimson: '#8b1c3a',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -60,6 +64,10 @@ const config: Config = {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
+      },
+      fontFamily: {
+        sans:  ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+        serif: ['"Cormorant Garamond"', 'serif'],
       },
       keyframes: {
         'accordion-down': {

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { motion } from 'framer-motion';
-import { Inter, Cormorant_Garamond } from 'next/font/google';
+import { Inter, Cormorant_Garamond } from '@/lib/fonts';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 

@@ -6,7 +6,7 @@ import {
   Cormorant_Garamond,
   Poppins,
   Montserrat,
-} from 'next/font/google';
+} from '@/lib/fonts';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 

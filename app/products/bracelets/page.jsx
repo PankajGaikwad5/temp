@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import gsap from 'gsap';
 
-import { Inter, Cormorant_Garamond } from 'next/font/google';
+import { Inter, Cormorant_Garamond } from '@/lib/fonts';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500'] });
 const cormorant = Cormorant_Garamond({

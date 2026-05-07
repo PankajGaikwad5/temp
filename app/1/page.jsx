@@ -5,7 +5,7 @@ import OverlayInfo from '@/components/OverlayInfo';
 import { useState, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import FloatingAstronauts from '../../components/FloatingModel';
-import { Poppins, Montserrat } from 'next/font/google';
+import { Poppins, Montserrat } from '@/lib/fonts';
 
 export default function HomePage() {
   // Provide data for each model (name, copy, and model path)

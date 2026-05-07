@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import BraceletScene from '../../components/three/BraceletScene';
 import ScrollSection from '../../components/ScrollSection';
 import Image from 'next/image';
-import { Inter, Cormorant_Garamond } from 'next/font/google';
+import { Inter, Cormorant_Garamond } from '@/lib/fonts';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500'] });
 const cormorant = Cormorant_Garamond({

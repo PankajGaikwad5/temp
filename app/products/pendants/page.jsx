@@ -6,7 +6,7 @@ import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
 
-import { Inter, Cormorant_Garamond } from 'next/font/google';
+import { Inter, Cormorant_Garamond } from '@/lib/fonts';
 import Navbar from '@/components/Navbar';
 import Buttons from '@/components/Buttons';
 

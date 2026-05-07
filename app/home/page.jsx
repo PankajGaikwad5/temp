@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useMemo } from 'react';
 import ModelCarouselScene from '@/components/ModelCarouselScene';
 import FloatingAstronauts from '../../components/FloatingModel';
 import Image from 'next/image';
-import { Poppins, Montserrat } from 'next/font/google';
+import { Poppins, Montserrat } from '@/lib/fonts';
 import { Canvas } from '@react-three/fiber';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700'] });

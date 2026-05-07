@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Inter, Cormorant_Garamond } from 'next/font/google';
+import { Inter, Cormorant_Garamond } from '@/lib/fonts';
 import Navbar from '@/components/Navbar';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500'] });
