@@ -8,15 +8,15 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 const CATS = [
-  { key: 'bracelets', file: '/optimized/bracelet.glb', overlay: 'Bracelets', counter: '01',
+  { key: 'bracelets', file: '/bracelet.glb', overlay: 'Bracelets', counter: '01',
     eyebrow: 'Elegance on your wrist', title: ['Wrist', 'Sculptures'],
     desc: 'Crafted with precision and passion — each bracelet is a timeless piece that defines your elegance. Handmade in 18k gold.',
     cta: 'Shop Bracelets' },
-  { key: 'rings', file: '/optimized/ring.glb', overlay: 'Rings', counter: '02',
+  { key: 'rings', file: '/ring.glb', overlay: 'Rings', counter: '02',
     eyebrow: 'A perfect circle of devotion', title: ['Eternal', 'Rings'],
     desc: 'Symbols of commitment, artistry, and legacy. Each ring is a masterwork set in precious metal and stone.',
     cta: 'Shop Rings' },
-  { key: 'pendants', file: '/optimized/pendant.glb', overlay: 'Pendants', counter: '03',
+  { key: 'pendants', file: '/pendant.glb', overlay: 'Pendants', counter: '03',
     eyebrow: 'Worn close to the heart', title: ['Heart', 'Pendants'],
     desc: 'Delicate pendants that tell a story. Suspended in gold, held forever — wear what matters most.',
     cta: 'Shop Pendants' },
@@ -28,7 +28,7 @@ function fitToView(obj, cam) {
   const size = box.getSize(new THREE.Vector3())
   obj.position.sub(box.getCenter(new THREE.Vector3()))
   const maxDim = Math.max(size.x, size.y, size.z)
-  let z = (maxDim / 2 / Math.tan((cam.fov * Math.PI) / 360)) * 7
+  let z = (maxDim / 2 / Math.tan((cam.fov * Math.PI) / 360)) * 6
   const vw = typeof window !== 'undefined' ? window.innerWidth : 1440
   if (vw < 640) z *= 1.8
   else if (vw < 1024) z *= 1.35
@@ -46,7 +46,7 @@ function applyGold(obj) {
       if (m.isMeshStandardMaterial || m.isMeshPhysicalMaterial) {
         m.metalness = Math.max(m.metalness, 0.92)
         m.roughness = Math.min(m.roughness, 0.2)
-        if (m.color.r > 0.6 && m.color.g > 0.5) m.color.set(0xd4aa6a)
+        m.color.set(0xd4aa6a)
         m.envMapIntensity = 2.8; m.needsUpdate = true
       } else {
         c.material = new THREE.MeshPhysicalMaterial({ color: 0xd4aa6a, metalness: 0.95, roughness: 0.16, envMapIntensity: 2.8 })
