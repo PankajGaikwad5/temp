@@ -9,7 +9,20 @@
       "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3001/6\" -UseBasicParsing -TimeoutSec 20)",
       "PowerShell(try { Invoke-WebRequest -Uri \"http://localhost:3001/6\" -UseBasicParsing -TimeoutSec 60 | Select-Object StatusCode } catch { $_.Exception.Message })",
       "PowerShell(Get-ChildItem \"e:\\\\projects\\\\jwlery\\\\temp\\\\public\\\\p\\\\\" | Sort-Object { [int]\\($_.BaseName\\) } | Select-Object Name, @{n='KB';e={[math]::Round\\($_.Length/1KB\\)}})",
-      "PowerShell(Get-ChildItem \"e:\\\\projects\\\\jwlery\\\\temp\\\\public\\\\p\\\\\" | Sort-Object { [int]\\($_.BaseName\\) } | ForEach-Object { \"$\\($_.Name\\) = $\\([math]::Round\\($_.Length/1KB\\)\\)KB\" })"
+      "PowerShell(Get-ChildItem \"e:\\\\projects\\\\jwlery\\\\temp\\\\public\\\\p\\\\\" | Sort-Object { [int]\\($_.BaseName\\) } | ForEach-Object { \"$\\($_.Name\\) = $\\([math]::Round\\($_.Length/1KB\\)\\)KB\" })",
+      "Bash(mkdir -p \"e:/projects/jwlery/temp/app/luxury-pdp/[id]\")",
+      "Bash(mkdir -p \"e:/projects/jwlery/temp/app/luxury-pdp/[id]/components\")",
+      "WebFetch(domain:www.cartier.com)",
+      "WebFetch(domain:int.cartier.com)",
+      "Bash(Get-ChildItem -Recurse \"e:\\\\projects\\\\jwlery\\\\temp\\\\app\\\\luxury-pdp\")",
+      "Bash(Select-Object FullName)",
+      "Bash(rm \"e:/projects/jwlery/temp/app/luxury-pdp/[id]/components/LuxuryCraftsmanship.jsx\" \"e:/projects/jwlery/temp/app/luxury-pdp/[id]/components/LuxuryGallery.jsx\" \"e:/projects/jwlery/temp/app/luxury-pdp/[id]/components/LuxuryMaterialSelector.jsx\" \"e:/projects/jwlery/temp/app/luxury-pdp/[id]/components/LuxuryModelViewer.jsx\" \"e:/projects/jwlery/temp/app/luxury-pdp/[id]/components/LuxuryNav.jsx\" \"e:/projects/jwlery/temp/app/luxury-pdp/[id]/components/LuxurySizeSelector.jsx\")",
+      "Bash(rm \"e:/projects/jwlery/temp/app/luxury-pdp/[id]/components/LuxuryViewer.jsx\" \"e:/projects/jwlery/temp/app/luxury-pdp/[id]/components/SizeGuideModal.jsx\")"
+    ],
+    "additionalDirectories": [
+      "e:\\projects\\jwlery\\temp\\app\\luxury-pdp",
+      "e:\\projects\\jwlery\\temp\\app\\luxury-pdp\\[id]",
+      "e:\\projects\\jwlery\\temp\\app\\luxury-pdp\\[id]\\components"
     ]
   }
 }
