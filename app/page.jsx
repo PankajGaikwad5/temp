@@ -189,8 +189,8 @@ export default function RootHomePage() {
     if (!wipeRef.current || !wipeWordRef.current) return;
 
     wipeWordRef.current.textContent = name;
-    wipeRef.current.style.backgroundColor = name === 'Statement' ? 'var(--ivory)' : 'var(--noir)';
-    wipeWordRef.current.style.color = name === 'Statement' ? '#1c1813' : 'var(--gold-soft)';
+    wipeRef.current.style.backgroundColor = name === 'Statement' ? '#ece6d8' : '#0c0b0a';
+    wipeWordRef.current.style.color = name === 'Statement' ? '#1c1813' : '#e7cf8f';
     wipeRef.current.style.opacity = '1';
     wipeRef.current.style.pointerEvents = 'auto'; // Prevent clicking while page changes
 
@@ -209,12 +209,12 @@ export default function RootHomePage() {
     const lp = lpRef.current;
     const dp = dpRef.current;
     const isActive = (side === 'L' && lp?.classList.contains('active')) ||
-                     (side === 'R' && dp?.classList.contains('active'));
+      (side === 'R' && dp?.classList.contains('active'));
 
     if (isMobile && !isActive) {
       e.stopPropagation();
       e.preventDefault();
-      
+
       // Toggle active states on mobile
       lp.classList.toggle('active', side === 'L');
       lp.classList.toggle('dim', side === 'R');
@@ -231,364 +231,7 @@ export default function RootHomePage() {
   };
 
   return (
-    <div className={`vault-landing ${fraunces.variable} ${spaceGrotesk.variable}`}>
-      <style dangerouslySetInnerHTML={{ __html: `
-        .vault-landing {
-          --ivory: #ece6d8;
-          --ink-soft: #1c1813;
-          --noir: #0c0b0a;
-          --gold: #c9a64e;
-          --gold-soft: #e7cf8f;
-          background: var(--noir);
-          height: 100vh;
-          width: 100vw;
-          overflow: hidden;
-          position: relative;
-        }
-
-        .vault-landing * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
-        #stage {
-          position: fixed;
-          inset: 0;
-          cursor: pointer;
-          user-select: none;
-          -webkit-user-select: none;
-          perspective: 1000px; /* Enable 3D depth perspective */
-        }
-
-        .panel {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          will-change: clip-path;
-        }
-
-        .light {
-          z-index: 1;
-          background: var(--ivory);
-          color: var(--ink-soft);
-          padding-left: 6vw;
-        }
-
-        .dark {
-          z-index: 2;
-          background: var(--noir);
-          color: #f2ede1;
-          align-items: flex-end;
-          padding-right: 6vw;
-          text-align: right;
-          clip-path: url(#seam);
-        }
-
-        .kicker {
-          font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
-          font-weight: 500;
-          font-size: 12px;
-          line-height: 1;
-          letter-spacing: .42em;
-          text-transform: uppercase;
-          opacity: .55;
-          margin-bottom: 18px;
-        }
-
-        .light .kicker {
-          color: #7a6a4a;
-        }
-
-        .dark .kicker {
-          color: var(--gold);
-        }
-
-        .title {
-          transition: transform .55s cubic-bezier(.16,1,.3,1), letter-spacing .55s;
-        }
-
-        .light .title {
-          font-family: var(--font-fraunces), 'Fraunces', serif;
-          font-weight: 300;
-          font-size: clamp(44px, 9vw, 128px);
-          line-height: .92;
-          letter-spacing: -.01em;
-          font-style: italic;
-        }
-
-        .dark .title {
-          font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
-          font-weight: 700;
-          font-size: clamp(40px, 8.4vw, 116px);
-          line-height: .9;
-          letter-spacing: -.03em;
-          text-transform: uppercase;
-        }
-
-        .sub {
-          margin-top: 20px;
-          max-width: 30ch;
-          opacity: .7;
-          font-size: 15px;
-          transition: opacity .5s, transform .5s;
-        }
-
-        .light .sub {
-          font-family: var(--font-fraunces), 'Fraunces', serif;
-          font-weight: 400;
-          font-size: 16px;
-          line-height: 1.5;
-          font-style: italic;
-          color: #5a4f3a;
-        }
-
-        .dark .sub {
-          font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 1.6;
-          color: #b9b1a2;
-        }
-
-        .enter {
-          margin-top: 30px;
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
-          font-weight: 500;
-          font-size: 13px;
-          line-height: 1;
-          letter-spacing: .18em;
-          text-transform: uppercase;
-          opacity: 0;
-          transform: translateY(8px);
-          transition: opacity .45s, transform .45s;
-        }
-
-        .dark .enter {
-          justify-content: flex-end;
-        }
-
-        .enter .arrow {
-          transition: transform .4s;
-        }
-
-        .light.active .title {
-          letter-spacing: .005em;
-        }
-
-        .light.active .enter {
-          opacity: 1;
-          transform: none;
-        }
-
-        .dark.active .enter {
-          opacity: 1;
-          transform: none;
-        }
-
-        .panel.active .enter .arrow {
-          transform: translateX(6px);
-        }
-
-        .panel.dim .sub {
-          opacity: .28;
-        }
-
-        .panel.dim .title {
-          opacity: .78;
-        }
-
-        .seed {
-          position: absolute;
-          bottom: 7vh;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
-          font-weight: 500;
-          font-size: 11px;
-          line-height: 1;
-          letter-spacing: .16em;
-          text-transform: uppercase;
-          opacity: .5;
-          transition: opacity .4s;
-        }
-
-        .seed .bead {
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-        }
-
-        .light .seed {
-          left: 6vw;
-          color: #6f6147;
-        }
-
-        .light .seed .bead {
-          background: radial-gradient(circle at 32% 28%, #3a352c, #0c0b0a);
-        }
-
-        .dark .seed {
-          right: 6vw;
-          flex-direction: row-reverse;
-          color: #a89a7e;
-        }
-
-        .dark .seed .bead {
-          background: radial-gradient(circle at 32% 28%, #fff8e6, #cdbf9a);
-        }
-
-        .panel.active .seed {
-          opacity: .85;
-        }
-
-        /* Dual-World Masked Pendant Styling */
-        .pendant-container {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 34vmin;
-          height: 34vmin;
-          transform: translate(-50%, -50%);
-          transform-style: preserve-3d;
-          pointer-events: none;
-          z-index: 4;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          will-change: transform;
-        }
-
-        .pendant-img {
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-          display: block;
-          user-select: none;
-          -webkit-user-drag: none;
-          will-change: filter;
-        }
-
-        /* Statement (Light side) Gold look: warm, soft, classy */
-        .statement-pendant .pendant-img {
-          filter: sepia(0.25) brightness(1.02) contrast(0.95) drop-shadow(0 15px 30px rgba(122, 106, 74, 0.28));
-        }
-
-        /* Streetwear (Dark side) Gold look: bold, high metallic contrast, deep shadow */
-        .streetwear-pendant .pendant-img {
-          filter: contrast(1.25) saturate(1.1) brightness(1.08) drop-shadow(0 20px 35px rgba(0, 0, 0, 0.7));
-        }
-
-        #halo {
-          position: absolute;
-          z-index: 3;
-          top: 50%;
-          left: 50%;
-          width: 46vmin;
-          height: 46vmin;
-          transform: translate(-50%, -50%);
-          pointer-events: none;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(201,166,78,.30), rgba(201,166,78,0) 62%);
-          filter: blur(6px);
-          transition: opacity .6s;
-          opacity: .9;
-        }
-
-        #seamline {
-          position: absolute;
-          inset: 0;
-          z-index: 3;
-          pointer-events: none;
-        }
-
-        #seamline path {
-          fill: none;
-          stroke: url(#seamGrad);
-          stroke-width: 1.4;
-          opacity: .7;
-          filter: drop-shadow(0 0 6px rgba(201,166,78,.5));
-        }
-
-        .caption {
-          position: absolute;
-          left: 50%;
-          bottom: 4.2vh;
-          transform: translateX(-50%);
-          z-index: 5;
-          font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
-          font-weight: 500;
-          font-size: 11px;
-          line-height: 1;
-          letter-spacing: .32em;
-          text-transform: uppercase;
-          color: var(--gold);
-          opacity: .55;
-          pointer-events: none;
-          transition: opacity .4s;
-          white-space: nowrap;
-        }
-
-        #stage.touched .caption {
-          opacity: 0;
-        }
-
-        #wipe {
-          position: absolute;
-          inset: 0;
-          z-index: 9;
-          pointer-events: none;
-          opacity: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: opacity 0.5s ease-in-out;
-        }
-
-        #wipe .word {
-          font-family: var(--font-fraunces), 'Fraunces', serif;
-          font-weight: 300;
-          font-size: clamp(40px, 10vw, 120px);
-          line-height: 1;
-          font-style: italic;
-          color: var(--gold-soft);
-        }
-
-         @media (max-width: 820px) {
-           .light {
-             padding: 0 7vw;
-             justify-content: flex-start;
-             padding-top: 8vh;
-           }
-           .dark {
-             padding: 0 7vw;
-             align-items: flex-start;
-             text-align: left;
-             justify-content: flex-end;
-             padding-bottom: 8vh;
-           }
-           .light .sub, .dark .sub {
-             max-width: 24ch;
-             font-size: 13px;
-           }
-           .seed {
-             display: none;
-           }
-           .pendant-container {
-             width: 48vw;
-             height: 48vw;
-             max-width: 190px;
-             max-height: 190px;
-           }
-         }
-      ` }} />
-
+    <div className={`bg-[#0c0b0a] h-screen w-screen overflow-hidden relative ${fraunces.variable} ${spaceGrotesk.variable}`}>
       <svg width="0" height="0" style={{ position: 'absolute' }}>
         <defs>
           <clipPath id="seam" clipPathUnits="userSpaceOnUse">
@@ -602,57 +245,89 @@ export default function RootHomePage() {
         </defs>
       </svg>
 
-      <div id="stage" ref={stageRef}>
+      <div id="stage" ref={stageRef} className="fixed inset-0 cursor-pointer select-none [perspective:1000px] group/stage">
         {/* Statement Side (Light Panel) */}
-        <section className="panel light" id="lp" ref={lpRef} onClick={(e) => handlePanelClick(e, 'Statement', 'L')}>
-          <div className="kicker">The Vault</div>
-          <h1 className="title">Statement</h1>
-          <p className="sub">Heirloom weight. Quiet authority. Pieces that speak once, and are remembered.</p>
-          <a className="enter">
-            Enter the floor <span className="arrow">&rarr;</span>
+        <section
+          className="group panel absolute inset-0 flex flex-col justify-center will-change-[clip-path] z-[1] bg-[#ece6d8] text-[#1c1813] pl-[6vw] max-[820px]:px-[7vw] max-[820px]:justify-start max-[820px]:pt-[8vh]"
+          id="lp"
+          ref={lpRef}
+          onClick={(e) => handlePanelClick(e, 'Statement', 'L')}
+        >
+          <div className="font-[var(--font-space-grotesk)] font-medium text-[12px] leading-none tracking-[0.42em] uppercase opacity-[0.55] mb-[18px] text-[#7a6a4a]">
+            The Vault
+          </div>
+          <h1 className="title font-[var(--font-fraunces)] font-light text-[clamp(44px,9vw,128px)] leading-[0.92] tracking-[-0.01em] italic transition-[transform,letter-spacing,opacity] duration-[550ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-[.active]:tracking-[0.005em] group-[.dim]:opacity-[0.78]">
+            Statement
+          </h1>
+          <p className="sub mt-[20px] max-w-[30ch] opacity-70 transition-[opacity,transform] duration-500 font-[var(--font-fraunces)] font-normal text-[16px] leading-[1.5] italic text-[#5a4f3a] group-[.dim]:opacity-[0.28] max-[820px]:max-w-[24ch] max-[820px]:text-[13px]">
+            Heirloom weight. Quiet authority. Pieces that speak once, and are remembered.
+          </p>
+          <a className="enter mt-[30px] inline-flex items-center gap-[10px] font-[var(--font-space-grotesk)] font-medium text-[13px] leading-none tracking-[0.18em] uppercase opacity-0 translate-y-[8px] transition-[opacity,transform] duration-[450ms] group-[.active]:opacity-100 group-[.active]:translate-y-0">
+            Enter the floor <span className="arrow transition-transform duration-400 group-[.active]:translate-x-[6px]">&rarr;</span>
           </a>
-          <div className="seed">
-            <span className="bead"></span>streetwear lives here too
+          <div className="seed absolute bottom-[7vh] flex items-center gap-[10px] font-[var(--font-space-grotesk)] font-medium text-[11px] leading-none tracking-[0.16em] uppercase opacity-50 transition-opacity duration-400 group-[.active]:opacity-[0.85] left-[6vw] text-[#6f6147] max-[820px]:hidden">
+            <span className="bead w-[30px] h-[30px] rounded-full bg-[radial-gradient(circle_at_32%_28%,#3a352c,#0c0b0a)]"></span>
+            streetwear lives here too
           </div>
 
           {/* Centered Statement Pendant Image */}
-          <div className="pendant-container statement-pendant" ref={lpPendantRef}>
-            <img src="/pngs/p1.png" className="pendant-img" alt="Statement Pendant" />
+          <div className="pendant-container absolute top-1/2 left-1/2 w-[34vmin] h-[34vmin] -translate-x-1/2 -translate-y-1/2 [transform-style:preserve-3d] pointer-events-none z-[4] flex items-center justify-center will-change-transform max-[820px]:w-[48vw] max-[820px]:h-[48vw] max-[820px]:max-w-[190px] max-[820px]:max-h-[190px]" ref={lpPendantRef}>
+            <img
+              src="/pngs/p1.png"
+              className="w-full h-full object-contain block select-none [-webkit-user-drag:none] will-change-[filter] filter-[sepia(0.25)_brightness(1.02)_contrast(0.95)_drop-shadow(0_15px_30px_rgba(122,106,74,0.28))]"
+              alt="Statement Pendant"
+            />
           </div>
         </section>
 
         {/* Streetwear Side (Dark Panel) */}
-        <section className="panel dark" id="dp" ref={dpRef} onClick={(e) => handlePanelClick(e, 'Streetwear', 'R')}>
-          <div className="kicker">The Vault</div>
-          <h1 className="title">Streetwear</h1>
-          <p className="sub">Loud metal, worn daily. Gold that moves with you and isn&rsquo;t precious about it.</p>
-          <a className="enter">
-            Enter the street <span className="arrow">&rarr;</span>
+        <section
+          className="group panel absolute inset-0 flex flex-col justify-center will-change-[clip-path] z-[2] bg-[#0c0b0a] text-[#f2ede1] items-end pr-[6vw] text-right [clip-path:url(#seam)] max-[820px]:px-[7vw] max-[820px]:items-start max-[820px]:text-left max-[820px]:justify-end max-[820px]:pb-[8vh]"
+          id="dp"
+          ref={dpRef}
+          onClick={(e) => handlePanelClick(e, 'Streetwear', 'R')}
+        >
+          <div className="font-[var(--font-space-grotesk)] font-medium text-[12px] leading-none tracking-[0.42em] uppercase opacity-[0.55] mb-[18px] text-[#c9a64e]">
+            The Vault
+          </div>
+          <h1 className="title font-[var(--font-space-grotesk)] font-bold text-[clamp(40px,8.4vw,116px)] leading-[0.9] tracking-[-0.03em] uppercase transition-[transform,letter-spacing,opacity] duration-[550ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-[.dim]:opacity-[0.78]">
+            Streetwear
+          </h1>
+          <p className="sub mt-[20px] max-w-[30ch] opacity-70 transition-[opacity,transform] duration-500 font-[var(--font-space-grotesk)] font-normal text-[14px] leading-[1.6] text-[#b9b1a2] group-[.dim]:opacity-[0.28] max-[820px]:max-w-[24ch] max-[820px]:text-[13px]">
+            Loud metal, worn daily. Gold that moves with you and isn&rsquo;t precious about it.
+          </p>
+          <a className="enter mt-[30px] inline-flex items-center gap-[10px] font-[var(--font-space-grotesk)] font-medium text-[13px] leading-none tracking-[0.18em] uppercase opacity-0 translate-y-[8px] transition-[opacity,transform] duration-[450ms] group-[.active]:opacity-100 group-[.active]:translate-y-0 justify-end">
+            Enter the street <span className="arrow transition-transform duration-400 group-[.active]:translate-x-[6px]">&rarr;</span>
           </a>
-          <div className="seed">
-            <span className="bead"></span>statement lives here too
+          <div className="seed absolute bottom-[7vh] flex items-center gap-[10px] font-[var(--font-space-grotesk)] font-medium text-[11px] leading-none tracking-[0.16em] uppercase opacity-50 transition-opacity duration-400 group-[.active]:opacity-[0.85] right-[6vw] flex-row-reverse text-[#a89a7e] max-[820px]:hidden">
+            <span className="bead w-[30px] h-[30px] rounded-full bg-[radial-gradient(circle_at_32%_28%,#fff8e6,#cdbf9a)]"></span>
+            statement lives here too
           </div>
 
           {/* Centered Streetwear Pendant Image (Clipped automatically by the parent panel's clip-path) */}
-          <div className="pendant-container streetwear-pendant" ref={dpPendantRef}>
-            <img src="/pngs/p3.png" className="pendant-img" alt="Streetwear Pendant" />
+          <div className="pendant-container absolute top-1/2 left-1/2 w-[34vmin] h-[34vmin] -translate-x-1/2 -translate-y-1/2 [transform-style:preserve-3d] pointer-events-none z-[4] flex items-center justify-center will-change-transform max-[820px]:w-[48vw] max-[820px]:h-[48vw] max-[820px]:max-w-[190px] max-[820px]:max-h-[190px]" ref={dpPendantRef}>
+            <img
+              src="/pngs/p3.png"
+              className="w-full h-full object-contain block select-none [-webkit-user-drag:none] will-change-[filter] filter-[contrast(1.25)_saturate(1.1)_brightness(1.08)_drop-shadow(0_20px_35px_rgba(0,0,0,0.7))]"
+              alt="Streetwear Pendant"
+            />
           </div>
         </section>
 
         {/* Dynamic Seam Line and Glow */}
-        <svg id="seamline">
-          <path id="seamLineP" ref={seamLinePRef} d="" />
+        <svg id="seamline" className="absolute inset-0 z-[3] pointer-events-none">
+          <path id="seamLineP" ref={seamLinePRef} className="fill-none [stroke:url(#seamGrad)] stroke-[1.4] opacity-70 filter-[drop-shadow(0_0_6px_rgba(201,166,78,0.5))]" d="" />
         </svg>
 
         {/* Visual Glow Aura behind the pendant */}
-        <div id="halo"></div>
+        <div id="halo" className="absolute z-[3] top-1/2 left-1/2 w-[46vmin] h-[46vmin] -translate-x-1/2 -translate-y-1/2 pointer-events-none rounded-full bg-[radial-gradient(circle,rgba(201,166,78,0.3),rgba(201,166,78,0)_62%)] blur-[6px] transition-opacity duration-600 opacity-90"></div>
 
         {/* Centered Instructions helper */}
-        <div className="caption">choose your side</div>
+        <div className="caption absolute left-1/2 bottom-[4.2vh] -translate-x-1/2 z-[5] font-[var(--font-space-grotesk)] font-medium text-[11px] leading-none tracking-[0.32em] uppercase text-[#c9a64e] opacity-55 pointer-events-none transition-opacity duration-400 whitespace-nowrap group-[.touched]/stage:opacity-0">choose your side</div>
 
         {/* Screen wipe overlay for navigation transition */}
-        <div id="wipe" ref={wipeRef}>
-          <span className="word" ref={wipeWordRef}></span>
+        <div id="wipe" ref={wipeRef} className="absolute inset-0 z-[9] pointer-events-none opacity-0 flex items-center justify-center transition-opacity duration-500 ease-in-out">
+          <span className="word font-[var(--font-fraunces)] font-light text-[clamp(40px,10vw,120px)] leading-none italic text-[#e7cf8f]" ref={wipeWordRef}></span>
         </div>
       </div>
     </div>

@@ -149,304 +149,22 @@ export default function StreetwearPage() {
   const activeProduct = products[activeIndex];
 
   return (
-    <div className={`streetwear-shop ${spaceGrotesk.variable} ${montserrat.variable}`}>
-      <style dangerouslySetInnerHTML={{ __html: `
-        .streetwear-shop {
-          --noir: #0a0a0b;
-          --coal: #121214;
-          --gold: #c9a64e;
-          --gold-soft: #e7cf8f;
-          --ash: #888890;
-          --border: rgba(255, 255, 255, 0.05);
-          background: radial-gradient(circle at center, #121214 0%, #080809 100%);
-          color: #ffffff;
-          height: 100vh;
-          width: 100vw;
-          overflow: hidden;
-          font-family: var(--font-space-grotesk), sans-serif;
-          position: relative;
-        }
-
-        /* Top Header Navbar */
-        .navbar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 40px 6vw;
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          z-index: 100;
-        }
-
-        .logo-group {
-          display: flex;
-          flex-direction: column;
-          text-decoration: none;
-        }
-
-        .brand-name {
-          font-family: var(--font-montserrat), sans-serif;
-          font-weight: 700;
-          font-size: 15px;
-          letter-spacing: 0.28em;
-          text-transform: uppercase;
-          color: #ffffff;
-          line-height: 1.2;
-        }
-
-        .brand-sub {
-          font-size: 9px;
-          letter-spacing: 0.4em;
-          text-transform: uppercase;
-          color: var(--gold);
-        }
-
-        .nav-links {
-          display: flex;
-          gap: 30px;
-          align-items: center;
-        }
-
-        .nav-link {
-          font-size: 10px;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: var(--ash);
-          text-decoration: none;
-          transition: color 0.3s;
-        }
-
-        .nav-link:hover, .nav-link.active {
-          color: #ffffff;
-        }
-
-        /* 3D WebGL Canvas container */
-        .interactive-stage {
-          position: absolute;
-          inset: 0;
-          z-index: 1;
-        }
-
-        /* UI Content overlay */
-        .content-overlay {
-          position: absolute;
-          inset: 0;
-          z-index: 10;
-          pointer-events: none;
-          display: flex;
-          align-items: center;
-          padding: 0 6vw;
-        }
-
-        /* Minimalist Specs Column */
-        .product-details {
-          pointer-events: auto;
-          display: flex;
-          flex-direction: column;
-          max-width: 340px;
-        }
-
-        .product-category {
-          font-size: 10px;
-          letter-spacing: 0.25em;
-          color: var(--gold);
-          text-transform: uppercase;
-          margin-bottom: 8px;
-        }
-
-        .product-name {
-          font-size: 38px;
-          font-weight: 500;
-          letter-spacing: -0.02em;
-          text-transform: uppercase;
-          line-height: 1.1;
-          margin-bottom: 16px;
-          color: #ffffff;
-        }
-
-        .product-description {
-          font-size: 13.5px;
-          line-height: 1.6;
-          color: var(--ash);
-          margin-bottom: 24px;
-        }
-
-        .product-meta {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          font-size: 12px;
-          color: #ffffff;
-          margin-bottom: 30px;
-        }
-
-        .product-meta .price {
-          font-weight: 700;
-        }
-
-        .product-meta .divider {
-          color: rgba(255, 255, 255, 0.15);
-        }
-
-        .product-meta .spec {
-          color: var(--ash);
-        }
-
-        .bag-btn {
-          align-self: flex-start;
-          background: #ffffff;
-          color: #000000;
-          border: none;
-          padding: 14px 28px;
-          font-size: 11px;
-          font-weight: 500;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: background 0.3s, color 0.3s;
-        }
-
-        .bag-btn:hover {
-          background: var(--gold);
-          color: #000000;
-        }
-
-        /* Horizontal floating dock platform wrapper */
-        .bottom-dock-wrapper {
-          position: absolute;
-          bottom: 40px;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 100;
-          pointer-events: auto;
-          display: flex;
-          justify-content: center;
-          width: auto;
-        }
-
-        /* Glassmorphic platform dock */
-        .bottom-dock {
-          background: rgba(15, 15, 17, 0.65);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.04);
-          border-radius: 24px;
-          padding: 12px 24px;
-          display: flex;
-          gap: 16px;
-          align-items: flex-end;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-        }
-
-        .dock-item {
-          width: 85px;
-          height: 85px;
-          position: relative;
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.03);
-          border-radius: 16px;
-          cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .dock-item::before {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 50%;
-          height: 3px;
-          background: var(--gold);
-          border-radius: 2px;
-          opacity: 0;
-          transition: opacity 0.3s;
-        }
-
-        .dock-item.active {
-          background: rgba(255, 255, 255, 0.05);
-          border-color: rgba(201, 166, 78, 0.3);
-          transform: scale(1.05);
-        }
-
-        .dock-item.active::before {
-          opacity: 1;
-        }
-
-        .dock-img-container {
-          width: 100%;
-          height: 100%;
-          padding: 10px;
-          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .dock-item:hover .dock-img-container {
-          transform: translateY(-8px) scale(1.08);
-        }
-
-        .dock-img {
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-          filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
-        }
-
-        /* Mobile layout styling */
-        @media (max-width: 820px) {
-          .navbar {
-            padding: 30px 6vw;
-          }
-          .content-overlay {
-            justify-content: flex-start;
-            align-items: flex-start;
-            padding: 12vh 6vw;
-          }
-          .product-details {
-            max-width: none;
-            width: 100%;
-          }
-          .product-name {
-            font-size: 30px;
-          }
-          .bottom-dock-wrapper {
-            bottom: 30px;
-            width: 90vw;
-          }
-          .bottom-dock {
-            padding: 8px 12px;
-            gap: 8px;
-            width: 100%;
-            overflow-x: auto;
-            justify-content: space-between;
-          }
-          .dock-item {
-            width: 65px;
-            height: 65px;
-            flex-shrink: 0;
-          }
-        }
-      ` }} />
-
+    <div className={`relative h-screen w-screen overflow-hidden text-white font-[var(--font-space-grotesk)] bg-[radial-gradient(circle_at_center,#121214_0%,#080809_100%)] ${spaceGrotesk.variable} ${montserrat.variable}`}>
       {/* Top Header Navbar */}
-      <header className="navbar">
-        <Link href="/" className="logo-group">
-          <span className="brand-name">THE VAULT</span>
-          <span className="brand-sub">by karan desai</span>
+      <header className="absolute top-0 left-0 w-full z-[100] flex justify-between items-center px-[6vw] py-[40px] max-[820px]:py-[30px]">
+        <Link href="/" className="flex flex-col no-underline">
+          <span className="font-[var(--font-montserrat)] font-bold text-[15px] tracking-[0.28em] uppercase text-white leading-[1.2]">THE VAULT</span>
+          <span className="text-[9px] tracking-[0.4em] uppercase text-[#c9a64e]">by karan desai</span>
         </Link>
-        <nav className="nav-links">
-          <Link href="/" className="nav-link">SPLIT VIEW</Link>
-          <Link href="/home" className="nav-link">STATEMENT</Link>
-          <Link href="/streetwear" className="nav-link active">STREETWEAR</Link>
+        <nav className="flex gap-[30px] items-center">
+          <Link href="/" className="text-[10px] tracking-[0.2em] uppercase text-[#888890] no-underline transition-colors duration-300 hover:text-white">SPLIT VIEW</Link>
+          <Link href="/home" className="text-[10px] tracking-[0.2em] uppercase text-[#888890] no-underline transition-colors duration-300 hover:text-white">STATEMENT</Link>
+          <Link href="/streetwear" className="text-[10px] tracking-[0.2em] uppercase text-white no-underline transition-colors duration-300 hover:text-white">STREETWEAR</Link>
         </nav>
       </header>
 
       {/* 3D WebGL Scene */}
-      <div className="interactive-stage">
+      <div className="absolute inset-0 z-[1]">
         <Canvas shadows gl={{ antialias: true, alpha: true }}>
           <PerspectiveCamera makeDefault position={[0, 0, 5]} fov={35} />
           
@@ -478,35 +196,39 @@ export default function StreetwearPage() {
       </div>
 
       {/* UI Details Column (Floating Transparent overlay) */}
-      <div className="content-overlay">
-        <div className="product-details" ref={textGroupRef}>
-          <span className="product-category">{activeProduct.tag}</span>
-          <h2 className="product-name">{activeProduct.title}</h2>
-          <p className="product-description">{activeProduct.desc}</p>
+      <div className="absolute inset-0 z-10 pointer-events-none flex items-center px-[6vw] max-[820px]:justify-start max-[820px]:items-start max-[820px]:pt-[12vh]">
+        <div className="pointer-events-auto flex flex-col max-w-[340px] max-[820px]:max-w-none max-[820px]:w-full" ref={textGroupRef}>
+          <span className="text-[10px] tracking-[0.25em] text-[#c9a64e] uppercase mb-[8px]">{activeProduct.tag}</span>
+          <h2 className="text-[38px] font-medium tracking-[-0.02em] uppercase leading-[1.1] mb-[16px] text-white max-[820px]:text-[30px]">{activeProduct.title}</h2>
+          <p className="text-[13.5px] leading-[1.6] text-[#888890] mb-[24px]">{activeProduct.desc}</p>
           
-          <div className="product-meta">
-            <span className="price">{activeProduct.price}</span>
-            <span className="divider">—</span>
-            <span className="spec">{activeProduct.karat} ({activeProduct.weight})</span>
+          <div className="flex items-center gap-[12px] text-[12px] text-white mb-[30px]">
+            <span className="font-bold">{activeProduct.price}</span>
+            <span className="text-white/15">—</span>
+            <span className="text-[#888890]">{activeProduct.karat} ({activeProduct.weight})</span>
           </div>
 
-          <button className="bag-btn" onClick={() => alert(`${activeProduct.title} added to bag.`)}>
+          <button className="self-start bg-white text-black border-none px-[28px] py-[14px] text-[11px] font-medium tracking-[0.2em] uppercase cursor-pointer transition-[background,color] duration-300 hover:bg-[#c9a64e] hover:text-black" onClick={() => alert(`${activeProduct.title} added to bag.`)}>
             Add to Bag
           </button>
         </div>
       </div>
 
       {/* Bottom Floating Glass Dock Platform (Visual thumbnail row) */}
-      <div className="bottom-dock-wrapper">
-        <div className="bottom-dock">
+      <div className="absolute bottom-[40px] left-1/2 -translate-x-1/2 z-[100] pointer-events-auto flex justify-center w-auto max-[820px]:bottom-[30px] max-[820px]:w-[90vw]">
+        <div className="bg-[#0f0f11]/65 backdrop-blur-[20px] border border-white/[0.04] rounded-[24px] px-[24px] py-[12px] flex gap-[16px] items-end shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)] max-[820px]:px-[12px] max-[820px]:py-[8px] max-[820px]:gap-[8px] max-[820px]:w-full max-[820px]:overflow-x-auto max-[820px]:justify-between">
           {products.map((p, idx) => (
             <div
-              className={`dock-item ${idx === activeIndex ? 'active' : ''}`}
+              className={`group relative rounded-[16px] cursor-pointer transition-all duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center justify-center before:content-[''] before:absolute before:bottom-0 before:left-1/2 before:-translate-x-1/2 before:w-1/2 before:h-[3px] before:bg-[#c9a64e] before:rounded-[2px] before:transition-opacity before:duration-300 max-[820px]:shrink-0 w-[85px] h-[85px] max-[820px]:w-[65px] max-[820px]:h-[65px] ${
+                idx === activeIndex
+                  ? 'bg-white/5 border border-[#c9a64e]/30 scale-[1.05] before:opacity-100'
+                  : 'bg-white/[0.02] border border-white/[0.03] scale-100 before:opacity-0 hover:border-white/10'
+              }`}
               key={p.id}
               onClick={() => setActiveIndex(idx)}
             >
-              <div className="dock-img-container">
-                <img src={p.image} className="dock-img" alt={p.title} />
+              <div className="w-full h-full p-[10px] transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-[8px] group-hover:scale-[1.08]">
+                <img src={p.image} className="w-full h-full object-contain filter-[drop-shadow(0_6px_12px_rgba(0,0,0,0.4))]" alt={p.title} />
               </div>
             </div>
           ))}
